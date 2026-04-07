@@ -7,6 +7,9 @@ set -e  # Exit on any error
 set -u  # Treat unset variables as error
 stack_folder=${0:a:h} # Get the absolute path of the stack folder
 
+# Ensure new interactive shells start without "Last login" banner
+touch ~/.hushlogin
+
 # Create symlink to dotfiles
 "$stack_folder/symlinks to dotfiles/generate.sh"
 
