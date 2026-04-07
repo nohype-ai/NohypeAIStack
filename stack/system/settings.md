@@ -9,6 +9,8 @@
 |  | Charging → Charge Limit | 80% | protects battery life when laptop is plugged in most of the time |
 | General | Software Update → Automatic Updates → Download new updates when available | Off | |
 |  | Software Update → Automatic Updates → Install macOS updates | Off | |
+|  | AirDrop & Continuity → Continuity → Allow Handoff between this Mac and your iCloud devices | Off | Removes iPhone stuff from Dock |
+|  | Sharing → Locassl hostname → Edit... | Laptop | Avoids broadcasting personal infos |
 | Accessibility | Zoom → Use scroll gesture with modifier keys to zoom | On | |
 | | Modifier key for scroll gesture | ⌘ Command | |
 | Appearance | Theme → Icon & widget style | Dark, Auto | |
