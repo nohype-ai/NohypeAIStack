@@ -1,0 +1,7 @@
+# the easiest folder to place this file in is ~/.config/ghostty/
+keybind = super+alt+arrow_right=next_tab
+keybind = super+alt+arrow_left=previous_tab
+theme = light:Gruvbox Light Hard,dark:Gruvbox Dark Hard
+font-size = 24
+tab-inherit-working-directory = false
+working-directory = ~/Desktop/Repos/nohype-ai

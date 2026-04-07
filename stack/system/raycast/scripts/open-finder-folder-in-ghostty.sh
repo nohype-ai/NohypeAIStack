@@ -2,7 +2,7 @@
 
 # Required parameters:
 # @raycast.schemaVersion 1
-# @raycast.title Open Finder Folder in Terminal
+# @raycast.title Open Finder Folder in Ghostty
 # @raycast.mode silent
 
 # Optional parameters:
@@ -12,5 +12,4 @@
 # @raycast.author nohype.ai
 # @raycast.authorURL nohype.ai
 
-osascript ~/.config/raycast/scripts/open-finder-folder-in-given-app.applescript terminal
-
+osascript ~/.config/raycast/scripts/open-finder-folder-in-given-app.applescript ghostty

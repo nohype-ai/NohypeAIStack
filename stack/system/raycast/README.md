@@ -37,15 +37,15 @@ It makes sense to build global navigation hot keys around the option key. The op
 | Listen | ⌥⇧L | YouTube Music URL |
 | Messenger | ⌥M | Telegram (Safari App) |
 | News | ⌥N | X Pro |
-| Outlook | ⌥O | Microsoft Outlook |
+|  | ⌥O |  |
 | Passwords | ⌥P | Passwords |
 | Reminders | ⌥R | Reminders |
 | System Settings | ⌥S | System Settings |
-| Teams | ⌥T | Microsoft Teams |
+|  | ⌥T |  |
 | Write | ⌥W | Typora |
 | Xcodes | ⌥X | Xcodes App |  
 | YouTube | ⌥Y | YouTube Subscriptions (Safari App) |
-| Terminal | ⌥⏎ | Terminal |
+| Terminal | ⌥⏎ | Ghostty |
 | Trash | ⌥⌫ | Open Trash |
 
 #### In Active Finder Folder
