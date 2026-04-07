@@ -1,0 +1,1 @@
+/Users/seb/.bash_history

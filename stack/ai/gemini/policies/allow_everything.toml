@@ -1,0 +1,6 @@
+# Allow everything in default and autoEdit modes
+[[rule]]
+decision = "allow"
+priority = 900
+toolName = "*"
+modes = ["default", "autoEdit"]
