@@ -7,4 +7,4 @@
 * [Routers](routers.md)
 * [Stack Candidates](stack%20candidates.md)
 * [To Do](to%20do.md)
-* [VSCode based IDE free tiers](VSCode%20based%20IDE%20free%20tiers.md)
+* [VS Code based IDE free tiers](VSCode%20based%20IDE%20free%20tiers.md)

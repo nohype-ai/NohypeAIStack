@@ -6,7 +6,7 @@ This stack does not yet involve local inference but still focusses on scaling up
 
 ## Agent Clients
 
-Native macOS apps that offer GUI frontends to agents – natively or via ACP. But no bloated VSCode forks.
+Native macOS apps that offer GUI frontends to agents – natively or via ACP. But no bloated VS Code forks.
 
 - [Zed](https://dashboard.zed.dev) (via GitHub account)
   - login unlocks tab completions ("edit predictions")

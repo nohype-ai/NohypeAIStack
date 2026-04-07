@@ -43,7 +43,7 @@ brew "gemini-cli"              # https://geminicli.com
 #cask "openclaw"  install seems broken currently
 #brew "openclaw-cli"           # https://openclaw.ai
 
-# Bloated VSCode-Based IDEs
+# Bloated VS Code Based IDEs
 #cask "cursor"                  # https://cursor.com
 #cask "antigravity"             # https://antigravity.google.com
 #cask "windsurf"                # https://windsurf.com/

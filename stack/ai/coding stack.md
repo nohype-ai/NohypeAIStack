@@ -7,7 +7,7 @@ Coding is the most impactful use case, applicable to any work on markdown files,
 ### Selection Criteria
 
 The basic category here is coding (not general purpose) and cloud inference (not local inference). Further criteria for combo selection were:
-* Use lean client apps like Zed or OpenCode Desktop (instead of the many bloated, memory-inefficient, slow forks of VSCode)
+* Use lean client apps like Zed or OpenCode Desktop (instead of the many bloated, memory-inefficient, slow forks of VS Code)
 * Include the option to decouple client app from agent by leveraging ACP
 * Cover range of cheap/fast- versus intelligent models as well as open weights- versus proprietary models
 * Use a given provider only with the best agents available for it (for example, Anthropic API key in OpenCode makes no sense)

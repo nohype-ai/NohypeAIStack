@@ -2,7 +2,7 @@
 
 ## ACP Coding Agents Comparison (March 2026)
 
-ACP allows using the agents in any IDE, most notably in Zed. It enables rotating through several different agents in the same IDE. Also Zed is much faster, memory efficient and open than VSCode based IDEs, so it's the way to go anyways. So we limit this to agents with ACP integration in Zed plus Zed's own agent.
+ACP allows using the agents in any IDE, most notably in Zed. It enables rotating through several different agents in the same IDE. Also Zed is much faster, memory efficient and open than VS Code based IDEs, so it's the way to go anyways. So we limit this to agents with ACP integration in Zed plus Zed's own agent.
 
 | Agent              | Agentic Performance | BYOK | Cost Min                                      | Cost Max                                      | Token Efficiency | Free Tier                                      |
 |--------------------|---------------|------|-----------------------------------------------|-----------------------------------------------|--------------------|------------------------------------------------|
@@ -31,7 +31,7 @@ OpenCode is the best open-source- and the best BYOK coding agent.
 - Built from the ground up to work with any model/vendor
 - Native support for local models
 - Pure CLI agent (with ACP) as well as desktop app
-- Desktop app is much leaner than VSCode-IDEs (memory footprint)
+- Desktop app is much leaner than VS Code based IDEs (memory footprint)
 - Native pay-as-you-go pricing is offered (OpenCode Zen) and gives model variety (but charges 6.15% fee)
 - No lock-in into subscriptions, models, APIs or even agents (zen can be used in any agent/app via API key)
 
