@@ -1,0 +1,2 @@
+# Ignore the symlinks that get auto generated locally
+stack/symlinks to dotfiles/.*
