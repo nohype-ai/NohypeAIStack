@@ -387,19 +387,19 @@
   {
     "context": "Editor",
     "unbind": {
-      "cmd-'": "editor::ToggleSelectedDiffHunks"
-    }
+      "cmd-'": "editor::ToggleSelectedDiffHunks",
+    },
   },
   {
     "context": "Editor",
     "bindings": {
-      "cmd-'": "editor::ToggleFold"
-    }
+      "cmd-'": "editor::ToggleFold",
+    },
   },
   {
     "context": "Editor",
     "unbind": {
-      "cmd-k cmd-l": "editor::ToggleFold"
-    }
-  }
+      "cmd-k cmd-l": "editor::ToggleFold",
+    },
+  },
 ]
