@@ -9,7 +9,6 @@
     "folder": "~/Desktop/Repos"
   },
   "flags": {
-    "skip_brew_updates": false,
-    "restore_ide_settings": false
+    "skip_brew_updates": false
   }
 }
