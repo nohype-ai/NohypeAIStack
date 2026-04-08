@@ -1,6 +1,10 @@
 # MacStack (`mack update`) ensures this script is sourced in ~/.zshrc
 # This script allows you to further customize your shell environment
 
+# Use Microsoft's msedit (command `edit`) as default shell editor
+export VISUAL="edit"
+export EDITOR="$VISUAL"  # derive EDITOR from VISUAL
+
 # list folder content with useful options
 alias l="ls -Fahl"
 
