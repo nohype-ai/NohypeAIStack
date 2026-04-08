@@ -79,7 +79,7 @@ Custom instructions, rules and configurations can be injected into an agentic co
 * Agent permissions:
   * cases where it makes sense to actually deny agent actions
     1) are local exceptions
-    2) can often be covered with formal rules but require intelligence
+    2) can often NOT be covered with formal rules but require intelligence
     3) can still manually be avoided with Plan/Ask mode
     4) Could still be reviewed and reverted in git repos
   * ❗ → best strategy: allow everything on a user-level and handle sensitive exceptions on a project/folder level via policies, rules, documentation and AGENTS.md files. this prioritizes productivity a bit over total safety, and that's ok.
