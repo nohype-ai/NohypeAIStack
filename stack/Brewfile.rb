@@ -34,7 +34,7 @@ brew "git"                     # just so it gets updated frequently
 cask "fork"                    # graphical git client
 cask "font-fira-code"          # monospaced font with coding ligatures
 cask "ghostty"                 # modern native macOS terminal app
-brew "msedit"                  # Microsoft's lightweight TUI editor
+brew "msedit"                  # lightweight TUI editor by Microsoft
 
 # (Coding-) Agents and Lean IDEs
 cask "zed"                     # https://zed.dev, lean and fast IDE
