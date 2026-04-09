@@ -1,6 +1,8 @@
 git@github.com:nohype-ai/aiOS
 git@github.com:nohype-ai/Codeface
+git@github.com:nohype-ai/codeface-io.github.io
 git@github.com:nohype-ai/Flowlist
+git@github.com:nohype-ai/flowlistapp-com.github.io
 git@github.com:nohype-ai/iMember
 git@github.com:nohype-ai/Moovees
 git@github.com:nohype-ai/Paretospeak
