@@ -110,18 +110,6 @@
     },
   },
   {
-    "context": "ContextEditor > Editor",
-    "unbind": {
-      "cmd-<": "assistant::InsertIntoEditor",
-    },
-  },
-  {
-    "context": "Editor && mode == full",
-    "unbind": {
-      "cmd-<": "assistant::InsertIntoEditor",
-    },
-  },
-  {
     "context": "Workspace",
     "bindings": {
       "cmd-<": "workspace::ToggleLeftDock",
