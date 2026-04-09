@@ -10,82 +10,82 @@
   "icon_theme": {
     "mode": "system",
     "light": "Colored Zed Icons Theme Light",
-    "dark": "Colored Zed Icons Theme Dark",
+    "dark": "Colored Zed Icons Theme Dark"
   },
   "soft_wrap": "editor_width",
   "inline_code_actions": true,
   "agent": {
     "inline_assistant_model": {
       "provider": "x_ai",
-      "model": "grok-4-1-fast-non-reasoning",
-    },
+      "model": "grok-4-1-fast-non-reasoning"
+    }
   },
   "inlay_hints": {
-    "enabled": true,
+    "enabled": true
   },
   "toolbar": {
     "quick_actions": false,
     "breadcrumbs": false,
     "selections_menu": true,
-    "code_actions": true,
+    "code_actions": true
   },
   "scrollbar": {
     "axes": {
-      "horizontal": false,
-    },
+      "horizontal": false
+    }
   },
   "diff_view_style": "unified",
   "project_panel": {
-    "git_status_indicator": true,
+    "git_status_indicator": true
   },
   "auto_update": false,
   "terminal": {
     "shell": {
-      "program": "/opt/homebrew/bin/zsh",
-    },
+      "program": "/opt/homebrew/bin/zsh"
+    }
   },
-  "agent_buffer_font_size": 24.0,
+  "agent_buffer_font_size": 24,
   "current_line_highlight": "line",
   "theme_overrides": {
     "Gruvbox Dark Hard": {
       "editor.background": "#000000FF",
       "editor.foreground": "#FFFFFFFF",
-      "editor.active_line.background": "#FFFFFF16",
+      "editor.active_line.background": "#FFFFFF16"
     },
     "Gruvbox Light Hard": {
       "editor.background": "#FFFFFFFF",
       "editor.foreground": "#000000FF",
-      "editor.active_line.background": "#00000010",
-    },
+      "editor.active_line.background": "#00000010"
+    }
   },
   "use_system_window_tabs": true,
   "tabs": {
     "file_icons": true,
-    "git_status": true,
+    "git_status": true
   },
   "title_bar": {
     "show_menus": true,
     "show_onboarding_banner": false,
     "show_sign_in": true,
     "show_user_menu": true,
-    "show_branch_icon": true,
+    "show_branch_icon": true
   },
   "agent_servers": {
     "claude-acp": {
-      "type": "registry",
+      "type": "registry"
     },
     "gemini": {
-      "type": "registry",
+      "type": "registry"
     },
     "cursor": {
       "favorite_config_option_values": {
         "model": [
           "gemini-3.1-pro[]",
           "gpt-5.3-codex[reasoning=medium,fast=false]",
-          "claude-sonnet-4-6[thinking=true,context=200k,effort=medium]",
-        ],
+          "claude-sonnet-4-6[thinking=true,context=200k,effort=medium]"
+        ]
       },
-      "type": "registry",
+      "type": "registry"
     },
     "opencode": {
       "favorite_models": [
@@ -97,57 +97,61 @@
         "deepinfra/nvidia/NVIDIA-Nemotron-3-Super-120B-A12B",
         "xai/grok-4.20-multi-agent-0309",
         "xai/grok-4.20-0309-reasoning",
-        "xai/grok-4.20-0309-non-reasoning",
+        "xai/grok-4.20-0309-non-reasoning"
       ],
-      "type": "registry",
-    },
+      "type": "registry"
+    }
   },
   "auto_install_extensions": {
-    "ruby": true,
+    "ruby": true
   },
   "telemetry": {
     "diagnostics": true,
-    "metrics": false,
+    "metrics": false
   },
   "session": {
-    "trust_all_worktrees": true,
+    "trust_all_worktrees": true
   },
   "preview_tabs": {
-    "enabled": true,
+    "enabled": true
   },
   "status_bar": {
-    "experimental.show": false,
+    "experimental.show": false
   },
   "tab_bar": {
     "show_nav_history_buttons": true,
     "show": true,
-    "show_tab_bar_buttons": false,
+    "show_tab_bar_buttons": false
   },
   "sticky_scroll": {
-    "enabled": false,
+    "enabled": false
   },
   "gutter": {
     "min_line_number_digits": 3,
     "line_numbers": false,
     "folds": false,
     "breakpoints": false,
-    "runnables": false,
+    "runnables": false
   },
   "minimap": {
-    "show": "never",
+    "show": "never"
   },
   "autosave": "on_focus_change",
-  "buffer_font_fallbacks": ["Menlo", "Monaco", "Courier New"],
+  "buffer_font_fallbacks": [
+    "Menlo",
+    "Monaco",
+    "Courier New"
+  ],
   "buffer_font_family": "Fira Code",
   "show_whitespaces": "none",
   "indent_guides": {
-    "enabled": false,
+    "enabled": false
   },
-  "ui_font_size": 28.0,
-  "buffer_font_size": 24.0,
+  "ui_font_size": 28,
+  "buffer_font_size": 24,
   "theme": {
     "mode": "system",
     "light": "Gruvbox Light Hard",
-    "dark": "Gruvbox Dark Hard",
-  },
+    "dark": "Gruvbox Dark Hard"
+  }
 }
