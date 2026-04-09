@@ -3,8 +3,8 @@
 # 🚨 Prefer casks (🍺) over MAS apps (🍏) because cask installs work more reliably!
 
 # system management
-tap "nohype-ai/macstack"
-brew "nohype-ai/macstack/macstack"
+tap "nohype-ai/tap"
+brew "nohype-ai/tap/macstack"
 cask "applite" # GUI app Homebrew wrapper
 cask "omnidisksweeper" # simple free disk usage inspection (give it full disk access in System Settings > Privacy & Security)
 cask "stats" # system health monitor, including chip temperature
