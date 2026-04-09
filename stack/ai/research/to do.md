@@ -34,6 +34,7 @@ Next research topics are prioritized to scale up productivity quickly, even at t
    * mlx
    * mlx-lm
    * ollama
+   * llama.cpp
    * LMStudio
    * LiteLLM
    * (vLLM)
