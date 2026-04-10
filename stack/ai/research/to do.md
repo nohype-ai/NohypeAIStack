@@ -22,6 +22,7 @@ Next research topics are prioritized to scale up productivity quickly, even at t
 4. mcp servers
    * and generally how to inspect and control the environment of agents (tools/context)
    * LeanCTX, efficient token use
+   * the user as a (mcp) tool: so agents can ask the user clarifying questions (like an employee would) without breaking ther regular procedure of finishing a prompt/task/job. multiple agents could use the same tool, so the user can handle all questions in one channel.
 6. observability / tracing
    * understanding what agents are doing (token cost, latency, failures)
    * LangFuse, Helicone
