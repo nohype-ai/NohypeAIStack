@@ -16,6 +16,7 @@ mas "AdGuard Mini: Safari Adblock", id: 1440147259 # block ads in Safari, not on
 mas "Noir – Dark Mode for Safari", id: 1592917505 # force dark mode on websites in Safari
 
 # writing, diagramming, office
+cask "obsidian" # "process as documentation" + "canvas as code" ...
 cask "typora"
 cask "texifier" # LaTeX editor
 mas "Pages: Create Documents", id: 361309726
