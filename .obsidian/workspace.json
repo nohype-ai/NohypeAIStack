@@ -1,0 +1,199 @@
+{
+  "main": {
+    "id": "fdff53208d1b309e",
+    "type": "split",
+    "children": [
+      {
+        "id": "eef16172fb37e1e2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3778ce0c2484a18d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "stack/ai/research/to do.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "to do"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "f24acc1b512f58b2",
+    "type": "split",
+    "children": [
+      {
+        "id": "ae842a0d9f6082f6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b496f8367f23d7f5",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "1a2d30e6e0dacdc2",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "a2df8c6c62cfa0d0",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "a786b2c515bd0d12",
+    "type": "split",
+    "children": [
+      {
+        "id": "86a3be5e1286758d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b2521debdb7d1931",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "stack/ai/research/to do.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for to do"
+            }
+          },
+          {
+            "id": "e515f389b48d1f1c",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "stack/ai/research/to do.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from to do"
+            }
+          },
+          {
+            "id": "bc987b8457d8ca6c",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "ad2ac8a4388458bd",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "046eb08a403dc471",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "stack/ai/research/to do.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of to do"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "3778ce0c2484a18d",
+  "lastOpenFiles": [
+    "stack/ai/README.md",
+    "stack/README.md",
+    "stack/apps.md",
+    "stack/zed/README.md",
+    "stack/ai/coding/research/coding agent customization.md",
+    "stack/ai/coding/research/README.md",
+    "stack/ai/coding/README.md",
+    "stack/ai/research/to do.md",
+    "stack/ai/research/README.md",
+    "README.md"
+  ]
+}
