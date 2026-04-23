@@ -1,0 +1,82 @@
+#!/usr/bin/env zsh
+
+# init-obsidian: Destructively applies default Obsidian configurations to the
+# current folder by symlinking each top-level entry of ../obsidian/ (relative
+# to this script) into ./.obsidian/.
+#
+# USAGE:
+# `init-obsidian [--relative]`
+#
+# Rationale: once the symlinks are in place, the source folder becomes the
+# single source of truth for those configs - any edit there propagates to
+# every vault that was initialized this way.
+#
+# By default the symlinks are absolute (robust against the vault being moved,
+# breaks if the dotfiles repo is moved). Pass --relative to use relative
+# symlinks instead - useful when vault and source live in a portable subtree
+# that gets moved as a unit (e.g. both inside ~/Desktop/Repos).
+#
+# If the current folder is a git repo, each symlinked entry is also added to
+# .gitignore, since committing symlinks pointing into our dotfiles repo would
+# be both incorrect and brittle.
+
+# parse the optional --relative flag and pick the matching gln flags:
+#   -s  symbolic link
+#   -f  replace any existing file/symlink at the destination
+#   -n  if the destination is already a symlink to a directory, replace
+#       it instead of dereferencing into it (otherwise re-running would
+#       nest a new link inside the previously linked directory)
+#   -r  (only with --relative) make the symlink target relative to the
+#       symlink's containing directory; only available in GNU ln (gln)
+local ln_flags="-sfn"
+case "$1" in
+    --relative) ln_flags="-srfn"; shift ;;
+    "") ;;
+    *) echo "🛑 Unknown option: $1"; echo "Usage: init-obsidian [--relative]"; return 1 ;;
+esac
+
+# this script lives in stack/bin/, so the obsidian source folder is one
+# directory up; :A canonicalizes, :h takes the head (parent dir)
+local source_folder="${0:A:h:h}/obsidian"
+local destination_folder="$PWD/.obsidian"
+
+if [[ ! -d "$source_folder" ]]; then
+    echo "🛑 Source folder '$source_folder' does not exist"
+    return 1
+fi
+
+mkdir -p "$destination_folder"
+
+# set up .gitignore handling once, only if the current folder is a git repo
+local is_git_repo=0 gitignore="$PWD/.gitignore"
+if [[ -d "$PWD/.git" ]]; then
+    is_git_repo=1
+    touch "$gitignore"  # create if missing, no-op otherwise
+    # make sure the file ends with a newline before we start appending,
+    # otherwise our first new entry would be glued to the existing last line
+    # (command substitution strips trailing newlines, so a non-empty result
+    # here means the last byte was NOT a newline)
+    [[ -s "$gitignore" && -n "$(tail -c1 -- "$gitignore")" ]] && print >> "$gitignore"
+fi
+
+# iterate every top-level entry of the source folder.
+# zsh glob qualifiers: (D) includes dotfiles, (N) makes the glob expand to
+# nothing (instead of erroring) if the source folder happens to be empty.
+local entry name pattern
+for entry in "$source_folder"/*(DN); do
+    name="${entry:t}"  # :t = tail modifier, i.e. basename
+
+    # use GNU ln (from coreutils) so that -r works for relative links
+    gln $ln_flags "$entry" "$destination_folder/$name"
+
+    if (( is_git_repo )); then
+        # gitignore patterns are written relative to the .gitignore's
+        # location; a trailing slash is the conventional marker for a dir
+        pattern=".obsidian/$name"
+        [[ -d "$entry" ]] && pattern+="/"
+        # only append if that exact line isn't already present
+        #   -q  quiet (just exit code)    -x  whole-line match
+        #   -F  literal string (no regex) --  end of options, safety
+        grep -qxF -- "$pattern" "$gitignore" || print -r -- "$pattern" >> "$gitignore"
+    fi
+done

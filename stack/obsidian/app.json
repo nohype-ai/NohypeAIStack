@@ -1,0 +1,12 @@
+{
+  "promptDelete": false,
+  "showInlineTitle": false,
+  "defaultViewMode": "source",
+  "useMarkdownLinks": true,
+  "showUnsupportedFiles": false,
+  "spellcheck": false,
+  "alwaysUpdateLinks": true,
+  "newLinkFormat": "relative",
+  "livePreview": false,
+  "showIndentGuide": false
+}

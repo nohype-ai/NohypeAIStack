@@ -31,10 +31,11 @@ cask "focus"                   # limit distractions, heyfocus.com
 
 # basic developer tools
 brew "zsh"                     # but use this script shebang: #!/usr/bin/env zssh
+brew "coreutils"               # basic terminal utilities
+cask "ghostty"                 # modern native macOS terminal app
 brew "git"                     # just so it gets updated frequently
 cask "fork"                    # graphical git client
 cask "font-fira-code"          # monospaced font with coding ligatures
-cask "ghostty"                 # modern native macOS terminal app
 brew "msedit"                  # lightweight TUI editor by Microsoft
 
 # (Coding-) Agents and Lean IDEs

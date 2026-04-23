@@ -13,12 +13,13 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "stack/ai/research/to do.md",
+                "file": "stack/README.md",
                 "mode": "preview",
-                "source": false
+                "source": false,
+                "backlinks": false
               },
               "icon": "lucide-file",
-              "title": "to do"
+              "title": "README"
             }
           }
         ]
@@ -174,17 +175,22 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "markdown-importer:Open format converter": false,
+      "workspaces:Manage workspace layouts": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
-      "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "obsidian-kanban:Create new board": false
     }
   },
   "active": "3778ce0c2484a18d",
   "lastOpenFiles": [
+    "stack/stack candidates.md",
+    "README.md",
+    "stack/ai/research/to do.md",
     "stack/ai/README.md",
     "stack/README.md",
     "stack/apps.md",
@@ -192,8 +198,6 @@
     "stack/ai/coding/research/coding agent customization.md",
     "stack/ai/coding/research/README.md",
     "stack/ai/coding/README.md",
-    "stack/ai/research/to do.md",
-    "stack/ai/research/README.md",
-    "README.md"
+    "stack/ai/research/README.md"
   ]
 }

@@ -1,0 +1,13 @@
+{
+  "translucency": true,
+  "accentColor": "#00ffc3",
+  "showViewHeader": true,
+  "showRibbon": false,
+  "interfaceFontFamily": "SF Pro Text",
+  "textFontFamily": "SF Pro Text",
+  "monospaceFontFamily": "SF Mono",
+  "baseFontSizeAction": false,
+  "baseFontSize": 14,
+  "nativeMenus": false,
+  "cssTheme": ""
+}
