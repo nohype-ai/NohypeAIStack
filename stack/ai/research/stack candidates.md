@@ -2,6 +2,9 @@
 
 This file does **not** document the current stack but interesting things to check out that might join the stack in the future.
 
+## Agent Integrations
+- ACP agents in Obsidian: https://github.com/RAIT-09/obsidian-agent-client
+
 ## General Agents
 - [n8n.io (agent builder)](https://n8n.io)
   - [n8n.io - Tutorial](https://www.youtube.com/watch?v=ONgECvZNI3o)
