@@ -3,7 +3,8 @@
 Next research topics are prioritized to scale up productivity quickly, even at the cost of didactics:
 
 1. ✅ [agent customization](coding%20agent%20customization.md)
-2. background coding agents
+2. 🚧 background coding agents
+   * ✅ Establish how to use Obsidian since it's gonna be the tool for managing the whole "process as docs" harness for the coding agents 
    * long running, highly autonomous
    * team of agents
    * shipping 10000 LoC per day ... possible with quality and control?

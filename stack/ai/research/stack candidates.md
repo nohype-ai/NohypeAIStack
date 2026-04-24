@@ -24,7 +24,6 @@ This file does **not** document the current stack but interesting things to chec
 ## Pure CLI (Coding-) Agents
 - [Open Interpreter](https://openinterpreter.com) (System Automation)
 - [OpenHands](https://github.com/All-Hands-AI/OpenHands) (Autonomous Engineer Platform)
-- [Google Gemini CLI](https://github.com/google-gemini/gemini-cli) (Official CLI Agent)
 
 ## AI Coding Helpers
 - [LeanCTX (Context compression for efficient token use)](https://leanctx.com)
