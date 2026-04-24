@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "type": "file",
+      "ctime": 1777033295637,
+      "path": "stack/README.md",
+      "title": "Stack"
+    },
+    {
+      "type": "file",
+      "ctime": 1777033325370,
+      "path": "stack/ai/README.md",
+      "title": "AI"
+    },
+    {
+      "type": "file",
+      "ctime": 1777033370653,
+      "path": "stack/ai/coding/README.md",
+      "title": "AI Coding"
+    },
+    {
+      "type": "file",
+      "ctime": 1777033221303,
+      "path": "stack/ai/research/to do.md",
+      "title": "AI Research Tasks"
+    }
+  ]
+}
