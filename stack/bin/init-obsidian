@@ -70,10 +70,12 @@ for entry in "$source_folder"/*(DN); do
     gln $ln_flags "$entry" "$destination_folder/$name"
 
     if (( is_git_repo )); then
-        # gitignore patterns are written relative to the .gitignore's
-        # location; a trailing slash is the conventional marker for a dir
+        # gitignore pattern: NO trailing slash, even when the source entry is
+        # a directory. The destination is always a symlink, and git treats a
+        # symlink as a file (mode 120000) regardless of what it points at -
+        # a trailing-slash pattern only matches actual directories and would
+        # silently fail to ignore the symlink.
         pattern=".obsidian/$name"
-        [[ -d "$entry" ]] && pattern+="/"
         # only append if that exact line isn't already present
         #   -q  quiet (just exit code)    -x  whole-line match
         #   -F  literal string (no regex) --  end of options, safety
