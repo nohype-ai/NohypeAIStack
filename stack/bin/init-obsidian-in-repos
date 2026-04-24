@@ -1,0 +1,49 @@
+#!/usr/bin/env zsh
+
+# init-obsidian-in-repos: Apply `init-obsidian --relative` to every git repo
+# under /Users/seb/Desktop/Repos/.
+#
+# USAGE:
+# `init-obsidian-in-repos`
+#
+# Rationale: every repo is treated as an Obsidian vault. The "process as
+# documentation" workflow integrates markdown notes, plans, decisions, and
+# AI-agent harness directly into each repo, so every repo benefits from the
+# same canonical Obsidian setup (hotkeys, plugins, appearance, etc.).
+#
+# Use this manually whenever the source configs in stack/obsidian/ have
+# changed in a way that warrants re-running init-obsidian across the fleet
+# (e.g. new top-level entries to be linked, or new auto-managed gitignore
+# entries). It is intentionally NOT wired into `mack update`.
+
+local REPOS_ROOT="/Users/seb/Desktop/Repos"
+
+if [[ ! -d "$REPOS_ROOT" ]]; then
+    echo "🛑 Repos root '$REPOS_ROOT' does not exist"
+    exit 1
+fi
+
+# phase 1: gather all git repos under REPOS_ROOT.
+# `find -exec test -d {}/.git \;` keeps directories that contain a .git;
+# `-print -prune` then prints the match and stops descending into it, so a
+# detected repo is never traversed itself (per design - no nested-repo hits).
+# expressions are short-circuit-AND'd, so when the test fails, print+prune
+# don't run and find continues descending normally.
+local -a repos
+repos=("${(@f)$(find "$REPOS_ROOT" -type d -exec test -d {}/.git \; -print -prune)}")
+
+if (( ${#repos} == 0 )); then
+    echo "No git repos found under $REPOS_ROOT"
+    exit 0
+fi
+
+# phase 2: report what we're about to touch, then iterate
+echo "Found ${#repos} git repo(s) under $REPOS_ROOT:"
+printf "  %s\n" $repos
+echo
+
+local repo
+for repo in $repos; do
+    echo "==> $repo"
+    init-obsidian --relative "$repo"
+done
