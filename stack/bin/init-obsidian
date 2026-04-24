@@ -1,11 +1,15 @@
 #!/usr/bin/env zsh
 
-# init-obsidian: Destructively applies default Obsidian configurations to the
-# current folder by symlinking each top-level entry of ../obsidian/ (relative
-# to this script) into ./.obsidian/.
+# init-obsidian: Destructively applies default Obsidian configurations to a
+# vault folder by symlinking each top-level entry of ../obsidian/ (relative
+# to this script) into <vault_folder>/.obsidian/.
 #
 # USAGE:
-# `init-obsidian [--relative]`
+# `init-obsidian [--relative] [vault_folder]`
+#
+# vault_folder defaults to the current directory. Both arg orders are accepted
+# (e.g. `init-obsidian ~/MyVault --relative` works the same as the canonical
+# `init-obsidian --relative ~/MyVault`).
 #
 # Rationale: once the symlinks are in place, the source folder becomes the
 # single source of truth for those configs - any edit there propagates to
@@ -16,11 +20,37 @@
 # symlinks instead - useful when vault and source live in a portable subtree
 # that gets moved as a unit (e.g. both inside ~/Desktop/Repos).
 #
-# If the current folder is a git repo, each symlinked entry is also added to
+# If the vault folder is a git repo, each symlinked entry is also added to
 # .gitignore, since committing symlinks pointing into our dotfiles repo would
 # be both incorrect and brittle.
 
-# parse the optional --relative flag and pick the matching gln flags:
+# parse args. --relative may appear anywhere; vault_folder is the lone
+# positional and defaults to $PWD if omitted.
+local use_relative=0 vault_folder=""
+while (( $# > 0 )); do
+    case "$1" in
+        --relative)
+            use_relative=1
+            ;;
+        -*)
+            echo "🛑 Unknown option: $1"
+            echo "Usage: init-obsidian [--relative] [vault_folder]"
+            return 1
+            ;;
+        *)
+            if [[ -n "$vault_folder" ]]; then
+                echo "🛑 Too many arguments: '$1'"
+                echo "Usage: init-obsidian [--relative] [vault_folder]"
+                return 1
+            fi
+            vault_folder="$1"
+            ;;
+    esac
+    shift
+done
+[[ -z "$vault_folder" ]] && vault_folder="$PWD"
+
+# pick gln flags based on --relative:
 #   -s  symbolic link
 #   -f  replace any existing file/symlink at the destination
 #   -n  if the destination is already a symlink to a directory, replace
@@ -29,16 +59,17 @@
 #   -r  (only with --relative) make the symlink target relative to the
 #       symlink's containing directory; only available in GNU ln (gln)
 local ln_flags="-sfn"
-case "$1" in
-    --relative) ln_flags="-srfn"; shift ;;
-    "") ;;
-    *) echo "🛑 Unknown option: $1"; echo "Usage: init-obsidian [--relative]"; return 1 ;;
-esac
+(( use_relative )) && ln_flags="-srfn"
+
+if [[ ! -d "$vault_folder" ]]; then
+    echo "🛑 Vault folder '$vault_folder' does not exist"
+    return 1
+fi
 
 # this script lives in stack/bin/, so the obsidian source folder is one
 # directory up; :A canonicalizes, :h takes the head (parent dir)
 local source_folder="${0:A:h:h}/obsidian"
-local destination_folder="$PWD/.obsidian"
+local destination_folder="$vault_folder/.obsidian"
 
 if [[ ! -d "$source_folder" ]]; then
     echo "🛑 Source folder '$source_folder' does not exist"
@@ -47,9 +78,9 @@ fi
 
 mkdir -p "$destination_folder"
 
-# set up .gitignore handling once, only if the current folder is a git repo
-local is_git_repo=0 gitignore="$PWD/.gitignore"
-if [[ -d "$PWD/.git" ]]; then
+# set up .gitignore handling once, only if the vault folder is a git repo
+local is_git_repo=0 gitignore="$vault_folder/.gitignore"
+if [[ -d "$vault_folder/.git" ]]; then
     is_git_repo=1
     touch "$gitignore"  # create if missing, no-op otherwise
     # make sure the file ends with a newline before we start appending,
@@ -59,34 +90,48 @@ if [[ -d "$PWD/.git" ]]; then
     [[ -s "$gitignore" && -n "$(tail -c1 -- "$gitignore")" ]] && print >> "$gitignore"
 fi
 
+# helper: append $1 as a line in $gitignore unless that exact line is already there.
+# grep flags: -q quiet (just exit code), -x whole-line match,
+#             -F literal string (no regex), -- end of options for safety
+ensure_ignored() {
+    grep -qxF -- "$1" "$gitignore" || print -r -- "$1" >> "$gitignore"
+}
+
+# always ignore workspace.json (and the mobile counterpart): Obsidian writes
+# per-vault UI state there (open panes, last-opened note, scroll positions...),
+# which is inherently vault-local and would just create churn if committed
+if (( is_git_repo )); then
+    ensure_ignored ".obsidian/workspace.json"
+    ensure_ignored ".obsidian/workspace-mobile.json"
+fi
+
 # iterate every top-level entry of the source folder.
 # zsh glob qualifiers: (D) includes dotfiles, (N) makes the glob expand to
 # nothing (instead of erroring) if the source folder happens to be empty.
-    local entry name pattern dest
-    for entry in "$source_folder"/*(DN); do
-        name="${entry:t}"  # :t = tail modifier, i.e. basename
-        dest="$destination_folder/$name"
+local entry name dest
+for entry in "$source_folder"/*(DN); do
+    name="${entry:t}"  # :t = tail modifier, i.e. basename
+    dest="$destination_folder/$name"
 
-        # if the destination is a real (non-symlink) directory, remove it first.
-        # gln -fn can replace files and symlinks (including symlinks-to-dirs)
-        # but NOT real non-empty directories - in that case ln silently falls
-        # back to placing the new link INSIDE the directory, which produces a
-        # broken nested-symlink situation. -L tests for "is a symlink".
-        [[ -d "$dest" && ! -L "$dest" ]] && rm -rf "$dest"
+    # if the destination is a real (non-symlink) directory, remove it first.
+    # gln -fn can replace files and symlinks (including symlinks-to-dirs)
+    # but NOT real non-empty directories - in that case ln silently falls
+    # back to placing the new link INSIDE the directory, which produces a
+    # broken nested-symlink situation. -L tests for "is a symlink".
+    [[ -d "$dest" && ! -L "$dest" ]] && rm -rf "$dest"
 
-        # use GNU ln (from coreutils) so that -r works for relative links
-        gln $ln_flags "$entry" "$dest"
+    # use GNU ln (from coreutils) so that -r works for relative links
+    gln $ln_flags "$entry" "$dest"
 
-    if (( is_git_repo )); then
-        # gitignore pattern: NO trailing slash, even when the source entry is
-        # a directory. The destination is always a symlink, and git treats a
-        # symlink as a file (mode 120000) regardless of what it points at -
-        # a trailing-slash pattern only matches actual directories and would
-        # silently fail to ignore the symlink.
-        pattern=".obsidian/$name"
-        # only append if that exact line isn't already present
-        #   -q  quiet (just exit code)    -x  whole-line match
-        #   -F  literal string (no regex) --  end of options, safety
-        grep -qxF -- "$pattern" "$gitignore" || print -r -- "$pattern" >> "$gitignore"
-    fi
+    # gitignore pattern: NO trailing slash, even when the source entry is
+    # a directory. The destination is always a symlink, and git treats a
+    # symlink as a file (mode 120000) regardless of what it points at -
+    # a trailing-slash pattern only matches actual directories and would
+    # silently fail to ignore the symlink.
+    (( is_git_repo )) && ensure_ignored ".obsidian/$name"
 done
+
+# explicit success exit: without this, the script's exit code would be that
+# of the last evaluated statement in the loop, which is `(( is_git_repo ))`
+# when not in a git repo - and that arithmetic test returns 1 for zero
+exit 0
