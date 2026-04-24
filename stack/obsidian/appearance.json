@@ -1,6 +1,5 @@
 {
   "translucency": true,
-  "accentColor": "#00ffc3",
   "showViewHeader": true,
   "showRibbon": false,
   "interfaceFontFamily": "SF Pro Text",
@@ -9,5 +8,6 @@
   "baseFontSizeAction": false,
   "baseFontSize": 14,
   "nativeMenus": false,
-  "cssTheme": ""
+  "cssTheme": "",
+  "accentColor": "#59b300"
 }
