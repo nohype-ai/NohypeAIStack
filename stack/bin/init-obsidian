@@ -62,12 +62,20 @@ fi
 # iterate every top-level entry of the source folder.
 # zsh glob qualifiers: (D) includes dotfiles, (N) makes the glob expand to
 # nothing (instead of erroring) if the source folder happens to be empty.
-local entry name pattern
-for entry in "$source_folder"/*(DN); do
-    name="${entry:t}"  # :t = tail modifier, i.e. basename
+    local entry name pattern dest
+    for entry in "$source_folder"/*(DN); do
+        name="${entry:t}"  # :t = tail modifier, i.e. basename
+        dest="$destination_folder/$name"
 
-    # use GNU ln (from coreutils) so that -r works for relative links
-    gln $ln_flags "$entry" "$destination_folder/$name"
+        # if the destination is a real (non-symlink) directory, remove it first.
+        # gln -fn can replace files and symlinks (including symlinks-to-dirs)
+        # but NOT real non-empty directories - in that case ln silently falls
+        # back to placing the new link INSIDE the directory, which produces a
+        # broken nested-symlink situation. -L tests for "is a symlink".
+        [[ -d "$dest" && ! -L "$dest" ]] && rm -rf "$dest"
+
+        # use GNU ln (from coreutils) so that -r works for relative links
+        gln $ln_flags "$entry" "$dest"
 
     if (( is_git_repo )); then
         # gitignore pattern: NO trailing slash, even when the source entry is
