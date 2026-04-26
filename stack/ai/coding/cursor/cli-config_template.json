@@ -7,22 +7,10 @@
   "editor": {
     "vimMode": false
   },
-  "model": {
-    "modelId": "claude-4.6-sonnet-medium",
-    "displayModelId": "claude-4.6-sonnet-medium",
-    "displayName": "Sonnet 4.6 1M",
-    "displayNameShort": "Sonnet 4.6 1M",
-    "aliases": [],
-    "maxMode": false
-  },
   "hasChangedDefaultModel": true,
   "maxMode": false,
-  "selectedModel": {
-    "modelId": "claude-4.6-sonnet-medium",
-    "parameters": []
-  },
   "network": {
-    "useHttp1ForAgent": false
+    "useHttp1ForAgent": true
   },
   "approvalMode": "allowlist",
   "sandbox": {
