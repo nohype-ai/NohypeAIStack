@@ -9,12 +9,12 @@
 >
 >write me an overview of this topic into [@autonomous coding agents.md](file:///Users/seb/Desktop/Repos/nohype-ai/company/NohypeAIStack/stack/ai/research/autonomous%20coding%20agents.md) and also address my 3 main lines of thought.
 
-Research notes, not decisions. Decisions will move into [coding/README.md](../coding/README.md) once tested.
+Research notes, not decisions. Decisions will move into [coding/README.md](../README.md) once tested.
 
 ## Why this is the central topic
 
 * The "10x/100x developer" promise lives or dies here. Single-prompt assistance gives ~2x at best. Real multiplication only happens when one or more agents make sustained, mostly-unsupervised progress while the human supervises rather than types. Whether that multiplication actually requires *parallel* agents — versus a single tireless sequential one — is itself an open question, examined under [When parallelism actually pays off](#when-parallelism-actually-pays-off).
-* Everything else in the [to do list](to%20do.md) is in service of this:
+* Everything else in the [to do list](../../research/to%20do.md) is in service of this:
   * customization, RAG, MCP/tools, evals, observability — all are scaffolding so that long-running, parallel agents don't drift, lie, or wreck the codebase.
   * Without that scaffolding, autonomy just ships bugs faster (see [10k LoC/day](#the-10k-locday-claim) below).
 * So it makes sense to bootstrap autonomy early in a deliberately small, observable form, watch where it breaks, and let those breakages drive what to build next. The supporting layers earn their place by solving observed problems, not by being installed prophylactically.
@@ -42,12 +42,12 @@ A "background coding agent" is not one product. It's a stack. Even the hosted of
 4. **Agentic loop** — perceive → plan → act (tool call) → observe → repeat
    * Modern coding agents already contain this loop. You don't write it.
    * Building one yourself = building your own SWE-agent on LangGraph / smolagents / autogen / crewai / OpenHands. Defensible only if existing agents truly don't fit.
-5. **Tools** — the verbs the agent can use: file edit, shell, web fetch, code search, test runner, MCP servers. (See [to do](to%20do.md) item 4.)
+5. **Tools** — the verbs the agent can use: file edit, shell, web fetch, code search, test runner, MCP servers. (See [to do](../../research/to%20do.md) item 4.)
 6. **Orchestrator / dispatcher** — what spawns and coordinates *multiple* agents (see [Orchestration patterns](#orchestration-patterns)).
 7. **Task source / spec** — where work comes from: GitHub issues, plan markdown files, a kanban board, a queue. Spec-driven setups (Kiro, GitHub spec-kit) make this explicit. ❗ For us this maps directly onto Obsidian: process-as-docs is the task source.
 8. **Verification gate** — what every PR/branch must pass before being accepted: types, lint, tests, evals, human review. ❗ Without a real gate, autonomy is unsafe at any speed.
 9. **Memory / context substrate** — `AGENTS.md`, `README.md`, decision logs, RAG. Without it every agent restarts cold and reinvents conventions.
-10. **Observability** — what each agent did, cost, latency, where it failed. (See [to do](to%20do.md) item 6.)
+10. **Observability** — what each agent did, cost, latency, where it failed. (See [to do](../../research/to%20do.md) item 6.)
 
 ## What makes them run long
 
@@ -108,7 +108,7 @@ Tooling that already wraps this:
 | Claude Code (CLI) | local | ✅ | ❌ (single agent per invocation) | Strongest single-agent loop. Pair with worktrees + scripts to scale out. |
 | OpenCode (CLI) | local | ✅ | partial (subagents) | BYOK, open-source, scriptable. Best fit for self-built orchestration. |
 | Codex CLI | local | ✅ | ❌ | OpenAI's CLI; mirrors Claude Code's shape. |
-| Cursor CLI | local | ✅ | ❌ | Tied to Cursor subscription. See [coding stack notes](../coding/README.md). |
+| Cursor CLI | local | ✅ | ❌ | Tied to Cursor subscription. See [coding stack notes](../README.md). |
 | Amp (CLI/web) | hybrid | ✅ | ✅ (Threads) | Multi-model routing built in. Costs add up fast. |
 | Conductor | local | — | ✅ (over Claude Code) | A thin orchestration shell around Claude Code. Worth watching. |
 | Cursor Background Agents | hosted | ✅ | ✅ | MicroVM per task, opens PRs. Tied to Cursor account. |
@@ -153,9 +153,9 @@ The interesting question is what's *actually* different, because that's the part
 Practical consequences for the stack:
 
 * **The principles transfer; the dials don't.** "Small PRs" and "definition of done" stay; the right value of "small" is *smaller* for agents, because review of an agent PR is harder than review of a colleague's PR (no shared context, no in-person clarification, see [The reviewer bottleneck](#the-reviewer-bottleneck)).
-* **Documentation becomes load-bearing.** With humans, undocumented knowledge survives in heads. With agents it does not exist. This is exactly why [agent customization](../coding/research/coding%20agent%20customization.md) concludes the win is essentially "do classical good documentation, finally".
+* **Documentation becomes load-bearing.** With humans, undocumented knowledge survives in heads. With agents it does not exist. This is exactly why [agent customization](coding%20agent%20customization.md) concludes the win is essentially "do classical good documentation, finally".
 * **Throwing away work is a feature, not a failure.** Best-of-N, restart-from-scratch, "delete the branch and try again with a tighter spec" are first-class tactics with agents and almost taboo with humans.
-* **Initiative must be engineered.** A human reports "this spec is ambiguous". An agent has to be given a "user-as-MCP-tool" channel (see [to do](to%20do.md) item 4) or it will guess.
+* **Initiative must be engineered.** A human reports "this spec is ambiguous". An agent has to be given a "user-as-MCP-tool" channel (see [to do](../../research/to%20do.md) item 4) or it will guess.
 * **Coordination overhead inverts.** With humans, parallelism is expensive and coherence is cheap. With agents, parallelism is cheap and coherence is expensive — coherence comes from docs/specs/types/tests, not from people talking.
 
 ## Honest scope: where autonomy actually works
@@ -216,10 +216,10 @@ When parallelism is *not* worth it:
 
 ## Failure modes when you skip the supporting stack
 
-Useful as a checklist of what to expect when starting before the rest of the [to do](to%20do.md) is in place:
+Useful as a checklist of what to expect when starting before the rest of the [to do](../../research/to%20do.md) is in place:
 
 * **No evals / weak tests** → silent quality drift. PRs look fine, regressions accumulate. The exact failure mode that produces the "AI codebase that crumbles" mentioned in the third concern.
-* **No `AGENTS.md` / weak `README.md`s** → each agent reinvents conventions. Inconsistency compounds across PRs. (Mitigation principles already collected in [coding agent customization](../coding/research/coding%20agent%20customization.md).)
+* **No `AGENTS.md` / weak `README.md`s** → each agent reinvents conventions. Inconsistency compounds across PRs. (Mitigation principles already collected in [coding agent customization](coding%20agent%20customization.md).)
 * **No RAG / no decision log** → agents repeat decisions you already rejected, reintroduce dead patterns.
 * **No observability** → when something goes wrong across N parallel runs you cannot tell which agent did what or why. Debugging time eats the throughput gain.
 * **No isolation (worktrees / containers)** → parallel runs corrupt each other.
@@ -231,17 +231,17 @@ Useful as a checklist of what to expect when starting before the rest of the [to
 
 Smallest thing that exercises the whole stack and exposes its weaknesses:
 
-1. **One frontier coding agent** (Claude Code or Amp), driven from the terminal. CLI not IDE. (See [coding stack](../coding/README.md).)
+1. **One frontier coding agent** (Claude Code or Amp), driven from the terminal. CLI not IDE. (See [coding stack](../README.md).)
 2. **Worktrees** as the isolation primitive: `git worktree add ../proj-task-N`.
 3. **Plan files in Obsidian** as the task source. One markdown file per task, with acceptance criteria explicit.
-4. **`AGENTS.md` + good `README.md`s** as the standing context. (Already covered in [agent customization](../coding/research/coding%20agent%20customization.md).)
+4. **`AGENTS.md` + good `README.md`s** as the standing context. (Already covered in [agent customization](coding%20agent%20customization.md).)
 5. **Verification gate**: typecheck + lint + existing tests must pass before merge. No exceptions.
 6. **Start sequential, not parallel.** One agent, one task, one project at a time. Per [When parallelism actually pays off](#when-parallelism-actually-pays-off), 24/7 sequential is most of the available win for a solo operator. Add parallelism only across projects (lowest conflict surface) or for clearly independent fan-out work, and only after the verification gate has proven it catches mistakes.
 7. **Manual orchestration first**: `tmux` panes plus a small shell script invoking the agent headlessly per task. Don't adopt Conductor / Background Agents / Devin until the manual version reveals what they'd actually solve.
 8. **Log everything**: redirect agent stdout/stderr to per-task log files. This is the seed of observability.
 9. **Run on a real (small) codebase**, not a greenfield demo. The whole point is to see where it breaks under realistic constraints.
 
-Once that hurts in specific ways, those pains become the prioritized order of the rest of [to do](to%20do.md): evals, RAG, MCP, observability, and so on.
+Once that hurts in specific ways, those pains become the prioritized order of the rest of [to do](../../research/to%20do.md): evals, RAG, MCP, observability, and so on.
 
 ## Open questions to resolve through use
 
@@ -325,7 +325,7 @@ The interesting 20% — where naive analogies to managing humans break — is wh
 The practical consequences I think actually matter:
 
 - **The principles transfer; the dials don't.** "Small PR" for a colleague might be 500 lines; for an agent it's smaller, because review is harder (no shared context, no in-person clarification).
-- **Documentation becomes load-bearing.** Undocumented knowledge survives in human heads. With agents it doesn't exist. This is why the [agent customization](../coding/research/coding%20agent%20customization.md) doc concludes the win is essentially "do classical good documentation, finally".
+- **Documentation becomes load-bearing.** Undocumented knowledge survives in human heads. With agents it doesn't exist. This is why the [agent customization](coding%20agent%20customization.md) doc concludes the win is essentially "do classical good documentation, finally".
 - **Throwing away work is a feature, not a failure.** Best-of-N, restart-from-scratch, "delete the branch and try again with a tighter spec" — first-class with agents, taboo with humans.
 - **Initiative must be engineered.** A human asks "this spec is ambiguous, what do you mean?". An agent has to be *given* a question channel (a "user-as-MCP-tool") or it will just guess.
 - **Coordination overhead inverts.** With humans, parallelism is expensive and coherence is cheap (people talk). With agents, parallelism is cheap and coherence is expensive — coherence comes from docs/specs/types/tests, not from talking.
@@ -344,11 +344,11 @@ For your specific kanban example:
 
 - **One prompt, no outer script.** You can tell Claude Code: *"open `kanban.md`, pick the top unfinished ticket, branch, implement, run tests, push a PR, mark done, repeat"*. It will probably get through a few tickets. Then it will accumulate too much context, lose plot mid-loop, or stop. Workable for a handful of tickets. **Not** what you want for hours of unattended work.
 - **Outer wrapper script — the actual answer for overnight runs.** A small shell loop that for each ticket creates a worktree, invokes the agent *headlessly* (Claude Code: `claude -p "<spec>"`; OpenCode: `opencode run`; Codex CLI: similar) with that one ticket's spec as the prompt, captures the log, opens the PR, moves on. Each invocation gets a fresh context window and predictable behavior. This is the form that actually runs overnight without surprises.
-- **Next step up:** queue + retries + status reporting back to the kanban file. Conductor (Charm) is essentially this for Claude Code; Cursor Background Agents / GitHub Coding Agent / Codex Cloud / Devin are the same outer loop sold as a managed service.
+- **Next step up:** queue + retries + status reporting back to the kanban file. Conductor is essentially this for Claude Code; Cursor Background Agents / GitHub Coding Agent / Codex Cloud / Devin are the same outer loop sold as a managed service.
 
 Rule of thumb: **one agent invocation = one bounded task with a clear definition of done.** Long horizons come from chaining many such invocations, not from making one invocation chew on the whole roadmap. The outer chaining is the part you (or a tool like Conductor) build; the inner grinding is the part the agent already does.
 
-### 5) Why parallelism even matters
+### 5) Whether parallelism even matters
 
 Honest answer: for a solo operator your skepticism is largely correct. A single agent running 24/7 sequentially captures most of the realistic productivity gain. "Swarm of parallel autonomous agents" is mostly the marketing pitch, not the realistic operator pattern.
 
@@ -369,7 +369,7 @@ Your option (c) — **parallelism across different projects** — is in my view 
 
 So the realistic operator pattern is closer to: **one tireless sequential agent per project, plus occasional batched fan-outs for genuinely independent work, plus best-of-N when a hard task can be cheaply judged.** Aim for that first. Treat aggressive intra-project parallelism as a later optimization adopted only when a specific pain demands it.
 
-### 6) Parallelism vs Quality
+### 6) Trust ratio as the real limiting factor
 
 Your observation on parallelism is, I think, the actual core insight of all of this. Worth stating sharply: **the bound on autonomous coding throughput is the fraction of agent output you must read, not the rate at which agents produce it.** Once you internalize that, the entire to-do list reorders itself around one question — *"what would let me skip reading this PR?"* — and evals, types, tests, reviewer agents, `AGENTS.md` discipline and tight specs all stop being "good practice" and become the actual bottleneck-busters. The whole rest of the stack exists to raise the trust ratio.
 
@@ -382,7 +382,7 @@ A nice corollary: this also reframes parallelism. Parallelism only buys throughp
 
 ### 7) Harness vs Scaffolding
 
-Harness vs scaffolding** — honest answer: not strictly defined, often interchangeable in practice, especially in academic papers (the original SWE-agent paper uses "scaffolding" for what most practitioners now call "harness"). But there's a useful working distinction that some of the field is converging on:
+**Harness vs scaffolding** — honest answer: not strictly defined, often interchangeable in practice, especially in academic papers (the original SWE-agent paper uses "scaffolding" for what most practitioners now call "harness"). But there's a useful working distinction that some of the field is converging on:
 
 - **Harness** = the *persistent runtime envelope the agent operates inside, per invocation*. System prompt, tools, MCP servers, context window contents, `AGENTS.md`, the agent definition, sub-agent definitions, RAG hookup. The thing the model lives in. Closer to the model, mostly invisible from outside.
 - **Scaffolding** = the *broader supporting machinery around the autonomous setup as a whole, across many runs*. Evals, CI gates, the orchestrator script, worktree setup, the kanban file, observability/logging, reviewer-agent pipelines. What wraps the operation end-to-end. Closer to the operator, mostly visible from outside.
@@ -414,3 +414,17 @@ Yes, exactly — and the field is currently in active terminology-formation arou
 - Most existing templates are *opinionated* about either harness *or* scaffolding, rarely both. A `SKILL.md` ships harness without scaffolding. A `spec-kit` ships scaffolding with thin harness.
 - A truly drop-in "harness + scaffolding bundle" — eval suite, plan format, AGENTS.md, agent definitions, headless runner, worktree manager, observability hooks, all coherent — does not really exist as a polished off-the-shelf product yet. Most teams assemble their own from these parts.
 - ❗ This is one of the cases where it's worth *watching* the terminology rather than committing to one. In 12 months one of "skill", "crew", "spec kit", or something not yet named will likely have eaten the rest. Until then, building your own bundle (and naming it whatever's useful internally) is reasonable — and is exactly what the suggested first setup in the doc amounts to.
+
+## ❗ My Main Takeaways
+
+- no magic: use regular CLI coding agent, rely on its built in loop
+- harness: what the agent sees directly. scaffolding: whole machinery in which the agent is employed. harness is essentially text-based context. scaffolding can also include code and infrastructure.
+- long running time per-invocation is a result of mostly just the harness (like spec's scope) – not of the "right" agent or agent config itself
+- one invocation can run for hours but should be limited to one self contained task, like implementing one ticket.
+- a task like mowing through many tickets from a kanban board should be spread across multiple invocations (one per ticket) and requires some kind of wrapper script or dedicated conductor (like literally [Conductor](https://www.conductor.build))
+- key to 10x productivity is having to review very little of the agent's output, which is based on the output's quality, which is based on the agent's harness and scaffolding (specs, qa steps etc.)
+- parallelism is less important than expected: human review likely the tighter bottle neck for a 24/7 agent, parallel work on overlapping scope requires merge conflict resolution, parallelization should start across fully independent work items (ideally across distinct projects)
+- 90% of what unlocks agents is known good practices that apply to managing human dev teams as well
+- the main difference between human and agent engineers is cost structure: agents cost much less to begin with, discarding results becomes viable (for best-of-N, retries etc.), zero cost for onboarding and idle time, nor any social cost or friction.
+  - secondary differences: all knowledge must be explicit, zero initiative unless explicitly engineered, confidently-inconsistent (requires stricter verification gates)
+- in principle, agents can accumulate long-term knowledge similar to humans, since agents can be empowered to evolve a project's knowledge base ([LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)) or even their own scaffolding
