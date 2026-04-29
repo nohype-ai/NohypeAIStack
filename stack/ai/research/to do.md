@@ -26,6 +26,7 @@ Next research topics are prioritized to scale up productivity quickly, even at t
    * the user as a (mcp) tool: so agents can ask the user clarifying questions (like an employee would) without breaking ther regular procedure of finishing a prompt/task/job. multiple agents could use the same tool, so the user can handle all questions in one channel.
    * mcp versus skills?
    * is mcp even useful/necessary since models are increasingly cabable to just use the shell, including pulling up man pages etc...?
+   * what are ways/tools to tighten the agernt's feedback loop in the sense that the agent can retrieve screenshots of a website, run terminal copmmands and see the output, get screenshots of an app, maybe even walk through an app or website interactively etc.
 6. observability / tracing
    * understanding what agents are doing (token cost, latency, failures)
    * LangFuse, Helicone
