@@ -2,13 +2,8 @@
 
 Next research topics are prioritized to scale up productivity quickly, even at the cost of didactics:
 
-1. ✅ [agent customization](coding%20agent%20customization.md)
-2. 🚧 background coding agents
-   * ✅ Establish how to use Obsidian since it's gonna be the tool for managing the whole "process as docs" harness for the coding agents 
-   * long running, highly autonomous
-   * team of agents
-   * shipping 10000 LoC per day ... possible with quality and control?
-     * many boast they do it. see also "gstack"
+1. ✅ [coding agent customization](../coding/research/coding%20agent%20customization.md)
+2. ✅ [autonomous coding agents](../coding/research/autonomous%20coding%20agents.md)
 3. rag / knowledge management
    * semantic retrieval of your own docs, codebases, notes, decisions
    * spec-driven development?

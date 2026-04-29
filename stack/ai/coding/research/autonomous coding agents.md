@@ -428,3 +428,4 @@ Yes, exactly — and the field is currently in active terminology-formation arou
 - the main difference between human and agent engineers is cost structure: agents cost much less to begin with, discarding results becomes viable (for best-of-N, retries etc.), zero cost for onboarding and idle time, nor any social cost or friction.
   - secondary differences: all knowledge must be explicit, zero initiative unless explicitly engineered, confidently-inconsistent (requires stricter verification gates)
 - in principle, agents can accumulate long-term knowledge similar to humans, since agents can be empowered to evolve a project's knowledge base ([LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)) or even their own scaffolding and harness
+- Obsidian is the right tool for managing the harness and large parts of the scaffolding, which amount to a "process as docs" philosophy
