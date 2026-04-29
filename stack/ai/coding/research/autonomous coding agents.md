@@ -422,9 +422,9 @@ Yes, exactly — and the field is currently in active terminology-formation arou
 - long running time per-invocation is a result of mostly just the harness (like spec's scope) – not of the "right" agent or agent config itself
 - one invocation can run for hours but should be limited to one self contained task, like implementing one ticket.
 - a task like mowing through many tickets from a kanban board should be spread across multiple invocations (one per ticket) and requires some kind of wrapper script or dedicated conductor (like literally [Conductor](https://www.conductor.build))
-- key to 10x productivity is having to review very little of the agent's output, which is based on the output's quality, which is based on the agent's harness and scaffolding (specs, qa steps etc.)
-- parallelism is less important than expected: human review likely the tighter bottle neck for a 24/7 agent, parallel work on overlapping scope requires merge conflict resolution, parallelization should start across fully independent work items (ideally across distinct projects)
-- 90% of what unlocks agents is known good practices that apply to managing human dev teams as well
+- key to 10x productivity is having to review very little of the agent's output, which is a result of the output's quality, which is a result of the agent's harness and scaffolding (specs, qa steps etc.) and **not** of parallelism
+- parallelism is less important than expected: human review likely the tighter bottle neck for a 24/7 agent, parallel work on overlapping scope would require merge conflict resolution, so parallelization should start with fully independent work items (ideally even distinct projects)
+- 90% of what unlocks autonomous agents is known good practices that apply to managing human dev teams as well
 - the main difference between human and agent engineers is cost structure: agents cost much less to begin with, discarding results becomes viable (for best-of-N, retries etc.), zero cost for onboarding and idle time, nor any social cost or friction.
   - secondary differences: all knowledge must be explicit, zero initiative unless explicitly engineered, confidently-inconsistent (requires stricter verification gates)
-- in principle, agents can accumulate long-term knowledge similar to humans, since agents can be empowered to evolve a project's knowledge base ([LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)) or even their own scaffolding
+- in principle, agents can accumulate long-term knowledge similar to humans, since agents can be empowered to evolve a project's knowledge base ([LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)) or even their own scaffolding and harness
