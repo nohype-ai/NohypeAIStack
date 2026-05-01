@@ -19,7 +19,7 @@ Beispiel: `Finanzen_Vertraulich_2025.xlsx` oder `Contracts_Sensitive/`
 2. **Public Key teilen**
    - Exportiere deinen Public Key und sende ihn an den Owner
 
-3. **Repository klonen** (sobald Owner dich via git-crypt dem repo hinzugefügt hat)
+3. **Repository klonen** (sobald Owner dich via git-crypt dem Repo hinzugefügt hat)
    ```bash
    git clone <repo-url>
    cd <repo-name>
