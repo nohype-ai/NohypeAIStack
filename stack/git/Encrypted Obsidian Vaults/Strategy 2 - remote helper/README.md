@@ -1,4 +1,4 @@
-# Using git-remote-gcrypt for Encrypted Git Repositories
+# Full Repo Encryption with git-remote-gcrypt
 
 ## Why We Moved to git-remote-gcrypt
 

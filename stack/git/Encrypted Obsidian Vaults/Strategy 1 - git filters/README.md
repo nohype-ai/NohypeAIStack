@@ -1,31 +1,8 @@
-# Encrypted Obsidian Vaults
-
-Dieses Dokument dokumentiert eine Strategie um sensitive Obsidian Vaults via GitHub Repos zu teilen und dennoch hinreichend privat zu halten.
-
-## Overview
-
-### Ziel:
-- Obsidian Vaults via git teilen statt via Cloud Folder
-- Grund 1: .gitignore nutzen für user-spezifische Obsidian configs wie etwa `.obsidian/workspace.json` (allgemein: steuerbare Projekt-/Nutzer-Grenze)
-- Grund 2: Generelle Vorteile von git nutzen: merging, branching, history ...
-- Grund 3: Edits von AI Agents lassen sich anders kaum überwachen. In einem reinen Cloud Folder blieben viele Änderungen unbemerkt und würden von keinem Menschen abgenommen werden.
-
-### Challenge:
-- GitHub ist von Natur aus eine öffentlichere Plattform als ein Cloud Folder. Datenleaks sind wahrscheinlicher. Ein Kollaborateur müsste zum Bsp. nur die Sichtbarkeit eines privaten Repos auf öffentlich umstellen und schon wäre alles öffentlich.
-- Jüngste Ereignisse haben die Vertrauenswürdigkeit von GitHub weiter erodiert
-- Microslop
-- Selbst private Repos gelten einfach nicht als hinreichend privat für sensitive Daten
+# File-Level Encryption with git-crypt (or transcrypt)
 
 ### Lösung:
-- Obsidian Vaults in privaten Repos auf GitHub hosten aber sensitive elemente zusätzlich automatisch verschlüsseln und so gegen Datenleaks sichern
-
-### Positive Nebeneffekte
-- Alles in einem System: nur Repos statt Repos + Cloud Folder
-- Ein Repo kann mehrere Remotes haben: Level der Redundanz frei wählbar, Unabhängigkeit von einzelnem Cloud Anbieter (Apple), auch geografischer Speicherort wählbar (etwa Host im Heimatland)
-- Verschlüsselung selektiv anwendbar, Repo Sichtbarkeit und Verschlüsselungsregeln pro Repo/Ordner/Datei einstellbar.
-- Lesbarkeit für Host (Apple, Microsoft) und Behörden kann ausgeschlossen werden
-
-## How to: git-crypt + GPG + Namenskonvention
+- Obsidian Vault in privatem Repo auf GitHub hosten und ausgewählte Inhalte des Repos zusätzlich automatisch verschlüsseln und so gegen Datenleaks sichern
+- Dieses Dokument illustriert die Strategie anhand `git-crypt`. Eine Alternative dazu wäre noch `transcrypt`
 
 ### Grundprinzip
 - Verschlüsselung erfolgt über **GPG-Modus** von `git-crypt`
