@@ -67,6 +67,18 @@ This led us to **git-remote-gcrypt**, which takes a different approach: it encry
 - You push very frequently
 - Team members are not comfortable with GPG
 
+## How "No PRs" Can Be a Feature for Small Trusted Teams
+
+One of the main downsides of full repo encryption is the loss of GitHub features and aabove all the loss of PRs. However this can be a plus for small high-trust teams:
+- **Faster iteration** — Changes can be shared immediately via direct push and pull, without waiting for reviews or approvals.
+- **Lower process overhead** — Eliminates the bureaucracy of opening PRs, requesting reviews, addressing comments, and merging — leading to a simpler, more lightweight workflow.
+- **Encourages direct communication** — Teams tend to talk more (via Slack, calls, or pair programming) instead of hiding behind asynchronous PR comments.
+- **Reduced cognitive load** — Especially beneficial for less technical or busy team members who don’t want to navigate GitHub’s PR interface.
+- **Higher velocity** — Small, trusted teams can move much faster when they don’t have to go through formal review processes for every change.
+- **More control** — The team decides how and when code review happens, rather than being forced into GitHub’s standardized PR model.
+
+In short: For small, competent, and well-communicating teams, removing Pull Requests often results in a **simpler, faster, and more human** collaboration style.
+
 ## Quick Setup Overview (GitHub)
 
 1. Create a **private** empty repository on GitHub.
