@@ -34,6 +34,7 @@ brew "zsh"                     # but use this script shebang: #!/usr/bin/env zss
 brew "coreutils"               # basic terminal utilities
 cask "ghostty"                 # modern native macOS terminal app
 brew "git"                     # just so it gets updated frequently
+brew "transcrypt"              # encryt parts of git repos
 cask "fork"                    # graphical git client
 cask "font-fira-code"          # monospaced font with coding ligatures
 brew "msedit"                  # lightweight TUI editor by Microsoft

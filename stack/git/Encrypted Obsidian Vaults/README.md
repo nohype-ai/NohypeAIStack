@@ -124,3 +124,140 @@ Even though you’re leaning toward Strategy 2, here are the main trade-offs you
 Given everything you’ve shared — especially your strong preference for **simplicity**, **low cognitive load**, **independence**, and avoiding the mental overhead of deciding what is sensitive — **Strategy 2 (git-remote-gcrypt)** is the better fit for you.
 
 The main advantage of Strategy 1 (flexibility for partial encryption) comes at the cost of exactly the complexity and decision fatigue you want to avoid.
+
+---
+
+## Discovered Problem with Strategy 2: Key Management
+
+### 1. Practical Issues Discovered with `git-remote-gcrypt`
+
+| Issue | What Actually Happens | Severity |
+|-------|------------------------|----------|
+| **Key distribution (multi-user)** | Everyone must have everyone else's public keys. Missing one = risk of locking people out | High |
+| **Key rotation** | Easy for the owner, but breaks easy historical access for everyone | High |
+| **Historical access after rotation** | Cannot reliably `git checkout` pre-rotation commits in fresh clones. Old objects become hard to access | High |
+| **User revocation** | Removing a user breaks historical access for remaining users | Very High |
+| **Full history access** | No simple way to get "full history" after rotation/revocation | High |
+| **Debugging across changes** | Requires keeping old keys or pre-change clones | High |
+| **Operational complexity** | High coordination needed for teams | Medium-High |
+
+These issues stem from the fundamental design: the manifest (which holds all the symmetric keys) is replaced on every push that changes participants. Old manifests are gone.
+
+---
+
+### 2. Comparison: `git-remote-gcrypt` vs `git-crypt` vs `transcrypt`
+
+| Aspect                              | **git-remote-gcrypt**                          | **git-crypt**                                      | **transcrypt**                                      | Winner for Small Teams |
+|-------------------------------------|------------------------------------------------|----------------------------------------------------|-----------------------------------------------------|------------------------|
+| **Encryption Scope**                | Entire repository (full history)              | Selected files only (via `.gitattributes`)        | Selected files only (via `.gitattributes`)         | git-remote-gcrypt     |
+| **Encryption Method**               | GPG (public-key or shared key)                | OpenSSL (symmetric or GPG)                        | OpenSSL (symmetric only)                           | Depends on preference |
+| **Multi-user Key Management**       | Complex (per-person or per-repo)              | Simple (one symmetric key or GPG)                 | Very simple (one password)                         | transcrypt            |
+| **Risk of Accidental Lockouts**     | High (especially per-person model)            | Low                                                | Very Low                                           | transcrypt            |
+| **Key Rotation Difficulty**         | Medium (but breaks history access)            | Easy                                               | Very Easy                                          | transcrypt            |
+| **Historical Access After Rotation**| Poor (hard to access pre-rotation history)    | Good                                               | Good                                               | git-crypt / transcrypt|
+| **User Revocation**                 | Poor (affects everyone’s history access)      | Easy (just stop sharing the key)                  | Easy (just change password)                        | transcrypt            |
+| **Full History Encryption**         | Yes                                           | No (only selected files)                          | No (only selected files)                           | git-remote-gcrypt     |
+| **Dependency on GPG**               | Required                                      | Optional (can use symmetric mode)                 | No                                                 | transcrypt            |
+| **Operational Simplicity (Small Team)** | Medium (with per-repo key model)            | Good                                               | Excellent                                          | transcrypt            |
+| **Best Use Case**                   | Full-repo encryption on untrusted remote      | Encrypting secrets in mostly-public repos         | Simple symmetric encryption of selected files      | —                     |
+
+### Final Verdict
+
+- **`git-remote-gcrypt`** excels at **encrypting the entire repository** (including history), but has significant operational drawbacks around key rotation, revocation, and historical access — exactly as you discovered.
+- **`git-crypt`** and especially **`transcrypt`** are much simpler and more practical for most small teams, but they only encrypt **selected files**, not the full repository.
+
+If full-repo encryption is a hard requirement, `git-remote-gcrypt` (with the per-repo key model) is still one of the few tools that does it. But if you're willing to encrypt only sensitive files, `transcrypt` is generally the better choice for small teams.
+
+### Is Cutting Off History "That Bad"? (to Keep Repo Size in Check)
+
+**That approach is actually quite reasonable and practical. It's not bad if you do it intentionally** at natural breakpoints (major releases, stable milestones, big refactors, etc.).
+
+Many teams and projects do exactly what you described:
+- Finish a major version or milestone
+- Create a fresh repo (or heavily squash/filter history)
+- Continue development in the new repo
+- Keep the old repo around for reference (or archive it)
+- Eventually delete or make the old one read-only
+
+This is a **valid and common strategy**, especially when repo size or complexity becomes an issue.
+
+### Pros of Your Proposed Workflow
+
+| Benefit                        | Explanation |
+|--------------------------------|-----------|
+| Clean, manageable size         | New repo starts fresh |
+| Simpler mental model           | "v2.0 = new repo" |
+| Avoids complex key rotation    | No need to deal with historical access issues |
+| Psychological fresh start      | Often improves maintainability |
+| Easy to archive old version    | Keep `project-v1` as read-only reference |
+
+### Cons (Be Honest With Yourself)
+
+- You lose seamless `git log` / `git blame` / `git bisect` across the cutoff.
+- All existing clones, links, and bookmarks to old commits break.
+- Some loss of development context (though you can keep the old repo).
+- Requires team coordination to switch.
+
+### Recommendation
+
+Your idea works well **if**:
+- You do it at natural milestones (not randomly).
+- You keep the old repo accessible for at least 6–12 months.
+- Your team is okay with the trade-off of losing deep history access.
+
+This approach is often **simpler and cleaner** than trying to fight repo bloat or key rotation issues indefinitely.
+
+---
+
+## Strategy 1 Afterall but with `transcrypt`?
+
+**Here’s a clean summary of the main advantages of `transcrypt`:**
+
+### Advantages of `transcrypt` over `git-remote-gcrypt`
+
+| # | Advantage | Explanation |
+|---|-----------|-------------|
+| 1 | **Much easier to use** | Simpler commands, no GPG complexity, easier onboarding |
+| 2 | **Easier credential rotation** | Simple `--rekey` command + easier debugging across changes |
+| 3 | **More modern encryption** | Uses OpenSSL AES-256 directly (cleaner than GPG) |
+| 4 | **Selective encryption** | Only encrypt what you need — unencrypted files work without any password |
+| 5 | **Better for PRs & collaboration** | Reviewers don’t need the password to review non-sensitive code |
+| 6 | **Better maintained** | More recent development activity (as of 2026) |
+| 7 | **Simpler key management** | Just one shared password (vs GPG keys + participants list) |
+| 8 | **Lower risk of mistakes** | Much harder to accidentally lock people out |
+| 9 | **Easier user revocation** | Just change the password (no history breakage) |
+| 10 | **Lower cognitive load** | Less to think about and configure |
+
+### Bonus Practical Wins
+
+- Works great with the **“isolate sensitive data in dedicated files”** strategy
+- History cutting (if ever needed) is simpler to manage
+- No dependency on GPG at all
+
+### Git-Native but Modern & Usable
+
+`transcrypt` is **as Git-native as `git-crypt`** (same `.gitattributes` mechanism, same transparent clean/smudge filters), but implemented in a more modern and convenient way:
+
+- Pure Bash script (no compilation, easy to audit)
+- Simpler commands (`--rekey`, `--add`, etc.)
+- Better defaults and UX
+- Actively maintained
+
+It's essentially the refined, user-friendly evolution of the same core idea.
+
+---
+
+**Bottom line:**  
+For a small trusted team, `transcrypt` wins on **simplicity, maintainability, and day-to-day usability**, while still providing strong encryption for the files that actually need it.
+
+---
+
+## The Killer Argument: Hiding Sensitive Data from Agents
+
+Strategy 1 offers the ability to work normally on a repo with just the sensitive data (temporarily) encrypted. **This allows hiding that data from agents.**
+
+That also nicely amplifies the incentive to keep sensitive data cleanly isolated in dedicated files, because this also keeps the history size problem in check: It minimizes the frequency of changes in encrypted files which can fully remove one of the 2 major downsides of strategy 1 which is the exploding history size.
+
+the other downside can also turn into a feature: clearly marking and isolating sensitive data makes the team conscious of what data is actually sensitive in the whole repo. this requires more cognitive effort in the beginning but pays off:
+1. data protection awareness beyond just the repo itself
+2. encryption applied only where really needed

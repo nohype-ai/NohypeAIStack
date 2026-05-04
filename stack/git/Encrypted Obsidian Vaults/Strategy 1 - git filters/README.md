@@ -3,6 +3,9 @@
 ### Lösung:
 - Obsidian Vault in privatem Repo auf GitHub hosten und ausgewählte Inhalte des Repos zusätzlich automatisch verschlüsseln und so gegen Datenleaks sichern
 - Dieses Dokument illustriert die Strategie anhand `git-crypt`. Eine Alternative dazu wäre noch `transcrypt`
+- Major donside is growing size of history when encrypted files change.
+	- ❗ a good rule would be to isolate sensitive data into dedicated files, so that the files that need encryption really only store the data that needs encryption, so that the encrypted files have little reason to change.
+	- last resort is cutting off history before some chosen commit (or even continuing in an all new repo)
 
 ### Grundprinzip
 - Verschlüsselung erfolgt über **GPG-Modus** von `git-crypt`
@@ -23,6 +26,14 @@
   **/*[Ss]ensitive* filter=git-crypt diff=git-crypt
   **/*[Vv]ertraulich*/** filter=git-crypt diff=git-crypt
   **/*[Ss]ensitive*/** filter=git-crypt diff=git-crypt
+  ```
+- Oder mit `transcrypt`:
+  ```gitattributes
+  # Encrypt files/folders containing these terms (case-insensitive)
+  **/*[Vv]ertraulich* filter=crypt diff=crypt merge=crypt
+  **/*[Ss]ensitive* filter=crypt diff=crypt merge=crypt
+  **/*[Vv]ertraulich*/** filter=crypt diff=crypt merge=crypt
+  **/*[Ss]ensitive*/** filter=crypt diff=crypt merge=crypt
   ```
 - `README.md` → enthält die Anleitung für Nutzer
 - `.git-crypt/` — enthält die verschlüsselten symmetrischen Schlüssel (wird automatisch verwaltet) 
