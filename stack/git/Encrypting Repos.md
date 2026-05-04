@@ -52,6 +52,7 @@ Why this strategy over the other three? Because it has this specific combination
 - allows continue using GitHub along with public open-source (one host for simplicity)
 - no risk of accidentally locking people out (like with `git-remote-gcrypt`)
 - pure bash script (no compilation, easy to audit, minimal lock-in to the tool itself)
+- transcrypt officially supports Windows, so Windows users can fully collaborate, with only minor adjustments
 - downsides have positive effects as well or are super managable:
 	- what is sensitive must be made explicit → everyone's aware of what is sensitive
 	- frequent changes of encrypted files grow history size → not so much when sensitive data is isolated and explicit. and old history could be abandoned as last resort, no big deal.
