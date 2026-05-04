@@ -62,15 +62,15 @@ Why this strategy over the other three? Because it has this specific combination
 The patterns in the `.gitattributes` file could look like this:
 
 ```gitattributes
-# Encrypt files/folders containing these terms (case-insensitive)
-**/*[Vv]ertraulich** filter=crypt diff=crypt merge=crypt
-**/*[Cc]onfidential** filter=crypt diff=crypt merge=crypt
-**/*[Gg]eheim** filter=crypt diff=crypt merge=crypt
-**/*[Ss]ecret** filter=crypt diff=crypt merge=crypt
-**/*[Pp]rivat** filter=crypt diff=crypt merge=crypt
-**/*🔒** filter=crypt diff=crypt merge=crypt
-**/*🔐** filter=crypt diff=crypt merge=crypt
-**/*🔑** filter=crypt diff=crypt merge=crypt
+**/*CONFIDENTIAL*/** filter=crypt diff=crypt merge=crypt
+*CONFIDENTIAL*/** filter=crypt diff=crypt merge=crypt
+**/*CONFIDENTIAL* filter=crypt diff=crypt merge=crypt
+*CONFIDENTIAL* filter=crypt diff=crypt merge=crypt
+
+**/*🔒*/** filter=crypt diff=crypt merge=crypt
+*🔒*/** filter=crypt diff=crypt merge=crypt
+**/*🔒* filter=crypt diff=crypt merge=crypt
+*🔒* filter=crypt diff=crypt merge=crypt
 ```
 
 The following sections could all be provided as documentation in a Repo. They assume something like the above `.gitattributes` file and employ the `lock` and `unlock` commands that come with [MacStack](https://macstack.dev).
@@ -125,6 +125,3 @@ This only works when the local credentials (password + cipher) are active — wh
 3. Enter the **new** password when prompted.
 4. Commit and push the changes.
 5. Share new password with team (store it in shared password manager).
-
-
-
