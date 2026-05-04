@@ -49,7 +49,7 @@ Why this strategy over the other three? Because it has this specific combination
 - maintained better, used more, starred more than `git-remote-gcrypt` and `git-crypt`
 - simple key management: just one shared password per repo or set of repos
 - decouples concerns: git, encryption, hosting ...
-- allows continue using GitHub along with public open-source (one host for simplicity)
+- simplicity of hosting: allows to continue using one and the same host (GitHub) for everything: sensitive, private and public repos
 - no risk of accidentally locking people out (like with `git-remote-gcrypt`)
 - pure bash script (no compilation, easy to audit, minimal lock-in to the tool itself)
 - transcrypt officially supports Windows, so Windows users can fully collaborate, with only minor adjustments
