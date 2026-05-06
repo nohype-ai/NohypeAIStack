@@ -59,15 +59,27 @@ Why this strategy over the other three? Because it has this specific combination
 	- what is sensitive must be made explicit → everyone's aware of what is sensitive
 	- frequent changes of encrypted files grow history size → not so much when sensitive data is isolated and explicit. and old history could be abandoned as last resort, no big deal.
 
+### Limits / Open Questions
+
+- when the repo is unlocked locally, the password locates in `.git/config` in the repo. the risk in combination with AI agents is that agents could read sensitive data and even the password into their context and send it to remote models (not because agents are evil but because this is just a likely effect of how they work.)
+	- this reflects a general problem with agents. in macOS, a user's space is traditionally consdidered private to that user, but agents running in a user's space could expose that user's private data and credentials.
+- locking and unlocking can take a moment on large repos with lots of sensitive data. and of course the user can forget to lock the repo before using an agent.
+
 ## Using Encrypted Repos
 
 The following sections provide documentation for collaborators on how to work with repos that use the above described strategy.  We assume the user has the `lock` and `unlock` commands available. The easiest way to get them is to install [MacStack](https://macstack.dev). 
 
+### General
+
+✅ You can use the repo like any other repo, without setting up any decryption. Just make sure not to change any encrypted (obfuscated) files, because that would destroy their encrypted content.
+
+🔒 Files are encrypted if they match any of the related patterns defined in `.gitattributes`. And file content also makes that obvious, since encrypted content looks like random garbage. Note that only file contents get encrypted and not the names of files and folders.
+
 ### `.gitattributes`
 
-The `.gitattributes` file in a repo defines patterns that determine which files in this repo are supposed to get encrypted.
+The `.gitattributes` file in a repo defines patterns that determine which files in that repo are supposed to get encrypted.
 
-The following documentation assumes that the patterns in the repo's `.gitattributes` file look something like this:
+This documentation assumes that the patterns in the repo's `.gitattributes` file look something like this:
 
 ```gitattributes
 **/*CONFIDENTIAL*/** filter=crypt diff=crypt merge=crypt
@@ -83,12 +95,6 @@ The following documentation assumes that the patterns in the repo's `.gitattribu
 
 For example, this will mark all files as encrypted that have a "🔒" anywhere in their file path (including in the file name).
 
-### General
-
-✅ You can use the repo like any other repo, without setting up any decryption. Just make sure not to change any encrypted (obfuscated) files, because that would destroy their encrypted content.
-
-🔒 Files are encrypted if they match any of the related patterns defined in `.gitattributes`. For example a file that has a "🔒" anywhere in its name or path gets encrypted. File content also makes it obvious, since encrypted content looks like random garbage. Note that file- and folder names never get encrypted.
-
 ### Set Up Decryption
 
 If you want to read or write the encrypted files:
@@ -99,30 +105,28 @@ If you want to read or write the encrypted files:
 
 ### 🚨 Encrypt Sensitive Data
 
-  - 🚨 encrypt each sensitive item (file/folder) by using certain terms or emojis in that item's path, as defined by the patterns in [.gitattributes](.gitattributes).
+  - 🚨 encrypt each sensitive item (file/folder) by using certain terms or emojis in that item's path, as defined by the patterns in the repo's `.gitattributes` file.
     - this could simply mean putting a sensitive item into a folder that already has such a term or emoji in its path.
     - a file path includes the file name, so individual files can of course also be marked as sensitive.
     - file- and folder names themselves do not get encrypted, so do not put sensitive data into them.
-  - 🚨 Ensure the appropriate item path **BEFORE** you even stage a sensitive item! Because the patterns in [.gitattributes](.gitattributes) are already evaluated when staging – not when committing or pushing!
+  - 🚨 Ensure the appropriate item path **BEFORE** you even stage a sensitive item! Because the patterns in `.gitattributes` are already evaluated when staging – not when committing or pushing!
   - 🔓 Adding sensitive files of course only works while the repo is **unlocked**.
   - ❗ Try to limit encryption to only sensitive data. Do not mix sensitive and regular data in the same file.
     - This keeps it explicit what is actually sensitive
     - But most of all: This keeps the history size minimal by avoiding unnecessary changes of encrypted files, mitigating the big downside of this whole approach.
 
+### 🚨 Hide Sensitive Data from Agents
 
+An unsolved issue with this repo-level partial encryption strategy is this: In an unlocked repo, agents might read sensitive data into their context and send it to remote models. This includes not only the sensitive data itself (that is supposed to be protected by encryption) but also the encryption password in `.git/config`.
 
-### Hide Sensitive Data from Agents
+Just locking and unlocking the repo all the time is no solution since that can take time on a large repo and also can easily be forgotten.
 
-🚨 If this is not done, agents might read the password from `.git/config` into their context and send it to the remote model. This is an unsolved issue with this repo-level encryption approach. The default way to work on the repo should be to have it **locked**:
+So the strongly implied practice is this:
+- **Keep your local repo locked.** Never unlock your main local working copy that you work on with agents.
+- Instead, when you need to read or edit encrypted files, create a separate checkout locally that you never work on with agents and that is not integrated into the normal setup and workflow but is only used for manual reading and editing of sensitive data. This working copy could stay unlocked if you ensure that no agent can ever access it.
+- To really enforce the separation, one could run agents in a dedicated "agent-operator" macOS user that simply has no access to the unlocked repo owned by your personal macOS user.
 
-Run `lock` to switch your local working copy back to encrypted files
-- Removes the locally stored password/credentials
-- Forces Git to **re-encrypt** all files in your working directory
-- Your local files will now show the encrypted content (the same garbage you see on GitHub)
-
-This is perfect for letting agents work on the repo without them ever 1) seeing plaintext sensitive data, and 2) sending the repos password as part of the context to the remote model.
-
-To switch back to normal (decrypted) mode, run `unlock` again.
+To lock a repo, run `lock` in its root folder. This will switch it back to encrypted files (same garbage you see on GitHub) and remove the locally stored password.
 
 ### Change Repo Password
 
