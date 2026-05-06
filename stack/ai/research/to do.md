@@ -4,6 +4,7 @@ Next research topics are prioritized to scale up productivity quickly, even at t
 
 - ✅ [coding agent customization](../coding/research/coding%20agent%20customization.md)
 - ✅ [autonomous coding agents](../coding/research/autonomous%20coding%20agents.md)
+- 🚧 [Confidentiality and Integrity](Confidentiality%20and%20Integrity.md)
 - harness + scaffolding for coding and knowledge work
 	- see [autonomous coding agents](../coding/research/autonomous%20coding%20agents.md)
 	- spec-driven development ...
