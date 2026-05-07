@@ -172,3 +172,10 @@ A couple of implications that fall out of this framing:
 2. **The ROI math is also different.** When AI applies to *all* knowledge work, even modest per-task gains compound across your whole working life — which justifies a much higher upfront investment in the isolation setup than someone using AI only for code would rationally make. So you're not over-engineering; you're amortizing.
 
 3. **This is also a genuinely novel-ish problem.** "Multi-tier sensitive corpus accessed by autonomous agents" isn't a solved pattern in the public discourse yet. So expect to invent some of this rather than copy it.
+
+## Pragmatic Intervention: Cursor Ignore Rules
+
+- By default, the Cursor agent has not even any built in protection against reading `~/ssh`.
+- **`.cursorignore` is not even helpful**: It's a useful *indexing/context* control but a weak *confidentiality* control because **the terminal tool bypasses it**.
+- there is also on the level of transcrypt and OpenSSL no way to truly hide the repo password from the agent while the repo is unlocked.
+- the only (quick) measure left is to treat the password as burned, rekey the repo with a new password, and rewrite even the repo history using the new password, because the burned password could still be used to read historic commits. then after that apply agents only ever to locked working copies of the repo. and also keep the personal working copies locked whil agents are running ....
