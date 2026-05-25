@@ -82,6 +82,12 @@
     "show_user_menu": true,
   },
   "agent_servers": {
+    "Grok Build": {
+      "type": "custom",
+      "command": "grok",
+      "args": ["agent", "stdio"],
+      "env": {},
+    },
     "claude-acp": {
       "type": "registry",
     },
@@ -91,11 +97,12 @@
     "cursor": {
       "favorite_config_option_values": {
         "model": [
+          "claude-opus-4-7[thinking=true,context=300k,effort=xhigh]",
           "claude-opus-4-7[thinking=true,context=200k,effort=high]",
           "claude-opus-4-7[thinking=true,context=200k,effort=xhigh]",
           "gemini-3.1-pro[]",
-          "gpt-5.3-codex[reasoning=medium,fast=false]",
           "claude-sonnet-4-6[thinking=true,context=200k,effort=medium]",
+          "claude-opus-4-7[thinking=true,context=300k,effort=xhigh,fast=false]"
         ],
       },
       "type": "registry",
