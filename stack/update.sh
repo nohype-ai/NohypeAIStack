@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 # MacStack (`mack update`) runs this script
-# This script allow you to customize/extend the update process
+# This script allows you to customize/extend the update process
 
 # Prepare
 set -e  # Exit on any error
@@ -12,6 +12,10 @@ touch ~/.hushlogin
 
 # Create symlink to dotfiles
 "$stack_folder/symlinks to dotfiles/generate.sh"
+
+# Update Grok Build (not yet available via Homebrew)
+echo "🌌 Updating Grok Build ..."
+silent zsh -c 'curl -fsSL https://x.ai/cli/install.sh | bash'
 
 # Update Rust (needed to compile some Python package dependencies)
 echo "🦀 Updating Rust ..."
