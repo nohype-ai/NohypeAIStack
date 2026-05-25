@@ -38,6 +38,7 @@ brew "transcrypt"              # encryt parts of git repos
 cask "fork"                    # graphical git client
 cask "font-fira-code"          # monospaced font with coding ligatures
 brew "msedit"                  # lightweight TUI editor by Microsoft
+brew "rust"                    # needed to compile some Python package dependencies
 
 # (Coding-) Agents and Lean IDEs
 cask "zed"                     # https://zed.dev, lean and fast IDE

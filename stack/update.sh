@@ -17,10 +17,6 @@ touch ~/.hushlogin
 echo "🌌 Updating Grok Build ..."
 silent zsh -c 'curl -fsSL https://x.ai/cli/install.sh | bash'
 
-# Update Rust (needed to compile some Python package dependencies)
-echo "🦀 Updating Rust ..."
-silent zsh -c 'brew upgrade rust || brew install rust'
-
 # Update Python
 echo "🐍 Updating Python ..."
 silent uv python install --default
