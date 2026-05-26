@@ -43,10 +43,10 @@ brew "msedit"                  # lightweight TUI editor by Microsoft
 cask "zed"                     # https://zed.dev, lean and fast IDE
 cask "opencode-desktop"        # https://opencode.ai/download
 brew "opencode"                # https://opencode.ai
-cask "claude"                  # https://code.claude.com/docs/en/desktop-quickstart
-cask "claude-code"             # https://claude.com/product/claude-code
-cask "cursor-cli"              # https://cursor.com/cli
-brew "gemini-cli"              # https://geminicli.com
+# cask "claude"                  # https://code.claude.com/docs/en/desktop-quickstart
+# cask "claude-code"             # https://claude.com/product/claude-code
+# cask "cursor-cli"              # https://cursor.com/cli
+# brew "gemini-cli"              # https://geminicli.com
 #cask "openclaw"  install seems broken currently
 #brew "openclaw-cli"           # https://openclaw.ai
 

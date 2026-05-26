@@ -31,5 +31,5 @@ echo "📝 Updating markitdown ..."
 silent uv tool install --upgrade --force 'markitdown[pptx,docx,xlsx,xls,pdf,outlook]'
 
 # Fix Cursor CLI Issue
-echo "🩹 Fixing Cursor CLI issue ..."
-xattr -rd com.apple.quarantine /opt/homebrew/Caskroom/cursor-cli
+# echo "🩹 Fixing Cursor CLI issue ..."
+# xattr -rd com.apple.quarantine /opt/homebrew/Caskroom/cursor-cli
