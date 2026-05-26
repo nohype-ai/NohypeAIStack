@@ -14,7 +14,6 @@ This file does **not** document the current stack but interesting things to chec
 - [TRAE](https://www.trae.ai/)
 
 ## CLI Coding Agents with VS Code Extensions
-- [claude-code](https://claude.com/product/claude-code)
 - [cline.bot](https://cline.bot)
 - [kilocode.ai](https://kilocode.ai)
 - [Aider](https://aider.chat) (Community Extensions)

@@ -38,7 +38,6 @@ brew "transcrypt"              # encryt parts of git repos
 cask "fork"                    # graphical git client
 cask "font-fira-code"          # monospaced font with coding ligatures
 brew "msedit"                  # lightweight TUI editor by Microsoft
-brew "rust"                    # needed to compile some Python package dependencies
 
 # (Coding-) Agents and Lean IDEs
 cask "zed"                     # https://zed.dev, lean and fast IDE
@@ -75,9 +74,10 @@ cask "font-sf-compact"
 cask "font-sf-mono"
 cask "font-new-york"
 
-# Python development
-brew "uv" # THE python eco system manager, https://github.com/astral-sh/uv
-vscode "ms-python.python" # Central extension for python
+# Python
+brew "uv"      # THE python eco system manager, https://github.com/astral-sh/uv
+brew "rust"    # needed to compile some Python package dependencies
+#vscode "ms-python.python" # Central VS Code extension for python
 
 # Screen recording (for demos and lectures) and media
 mas "Hand Mirror", id: 1502839586 # video overlay in lecture recordings

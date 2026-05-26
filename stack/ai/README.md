@@ -22,6 +22,7 @@ Native macOS apps that offer GUI frontends to agents – natively or via ACP. Bu
 
 ### Coding Agents
 Selection is explained in [coding/README.md](coding/README.md).
+- [Grok Build](https://x.ai/cli)
 - [OpenCode](https://opencode.ai)
 - [Cursor CLI](https://cursor.com/cli)
 - [Gemini CLI](https://geminicli.com)

@@ -10,7 +10,7 @@ stack_folder=${0:a:h} # Get the absolute path of the stack folder
 # Ensure new interactive shells start without "Last login" banner
 touch ~/.hushlogin
 
-# Create symlink to dotfiles
+# Update symlinks to dotfiles
 "$stack_folder/symlinks to dotfiles/generate.sh"
 
 # Update Grok Build (not yet available via Homebrew)
