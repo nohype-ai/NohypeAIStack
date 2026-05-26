@@ -65,6 +65,33 @@ Why this strategy over the other three? Because it has this specific combination
 	- this reflects a general problem with agents. in macOS, a user's space is traditionally consdidered private to that user, but agents running in a user's space could expose that user's private data and credentials.
 - locking and unlocking can take a moment on large repos with lots of sensitive data. and of course the user can forget to lock the repo before using an agent.
 
+### Future Direction
+
+#### We're optimizing for long-term invariants
+1. **Conceptual integrity of the data** — Data that belongs together stays together. We refuse to let today's encryption/agent limitations dictate how we structure our knowledge.
+2. **Future local agent reality** — Eventually, local agents (running on our own or client hardware or in controlled environments) will need access to the *full* picture, including the highly confidential parts. The system must not paint itself into a corner where that becomes painful or impossible.
+3. Encryption is not just about what agents see. It is a protection layer against any form of data leak, including compromised private git repos or human error of collaborators.
+
+Implied: we stick to partially encrypted git repos
+
+#### The most promising remaining degrees of freedom
+1. where to draw the line between encrypted and plain data
+2. running agents in their own isolated environment (machine, VM ...) where encryption passwords are not available and no repo is ever unlocked.
+
+
+#### Potential additional levers
+1. Anonymizing data. There are 2 main approaches:
+  - copy valuable information from the encrypted part into the plain part while anonymizing, for example by replacing sensitive data with placeholders or simply by summarizing.
+  - extract sensitive information completely out of the repo (into a business cloud, on premise folder or password manager) in a way that does not break things or can easily be reversed when needed. for example a deployment pipeline could retrieve auth data from a secrets manager.
+2. Other forms of isolation? An isolation mechanism we use must be deterministic in the sense that it's air tight by virtue of logic and principle. We should find out if any of the isolation levels listed in `stack/ai/research/Confidentiality and Integrity.md` satisfy this requirement. An example of such a controllable boundary is "degree of freedom" #2 described above. It guarantees the agent will never see any encrypted data or user credentials. In contrast, a solution that means manually fixing leaks one by one requires constant maintenance and never adds any guarantees.
+
+#### Again: We're drawing a hard line
+- **Hard boundaries** (can be used as isolation mechanisms): Things that are *deterministic and principle-based* — the agent *physically cannot* see the real data, no matter how it behaves or what prompts you give it. Examples: separate OS user / machine where the unlocked repo never exists, actual encryption the agent can't read, a git worktree that was never decrypted in that environment, etc.
+- **Pseudo / flaky boundaries** (rejected): Anything that relies on the agent's behavior, prompt obedience, harness logic, or "the model will probably do the right thing." This includes on-the-fly anonymization/summarization inside the harness, tool restrictions that depend on the agent following rules, custom instructions telling the agent "don't look at this folder," etc. These require constant maintenance and give no real guarantees.
+
+#### Local Inference will unlock everything without having to do everything
+local agents will always lag remote SOTA agents, but: they can be applied to what they are good at in a targeted specialized way: they can just do the extraction, summarization, anonymization, pre-processing on the sensitive data to generate plain data that thereafter can be fed to the actual remote agents ...
+
 ## Using Encrypted Repos
 
 The following sections provide documentation for collaborators on how to work with repos that use the above described strategy.  We assume the user has the `lock` and `unlock` commands available. The easiest way to get them is to install [MacStack](https://macstack.dev). 
