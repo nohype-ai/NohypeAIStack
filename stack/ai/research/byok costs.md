@@ -36,7 +36,7 @@ To avoid lock-in while using **OpenCode** (or other code editors, agents or LLM 
 | **GLM-5 / MiniMax M2.5** (top open) | Together / OpenCode Zen (BYOK compatible) | $0.30–1.00 / $1.20–3.20 | **$0.70–1.80** | 200K+ | 75%+ SWE-Bench | ★★★★☆ | Agentic workflows |
 | **Llama 4 Maverick / Scout** (Meta open) | Groq / Together | $0.11–0.27 / $0.34–0.85 | **$0.30–0.60** | 128K–10M (some) | Strong open baseline | ★★★★ | When you want fully open weights + speed |
 
-## Open Source Models (DeepSeek, Llama, Qwen)
+## Open-Source Models
 
 ### How BYOK works with Open-Source Models
 

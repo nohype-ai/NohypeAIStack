@@ -29,7 +29,7 @@ Why Zed:
 
 Why Obsidian:
 - English is now the most important programming language. And its format is markdown.
-- Yeah that's it. We pull everything into markdown so agents can work on everything. Code and concepts merge. Obsidian is the IDE for exactly that conceptual informal perspective And it still offers visual interfaces on top of markdown: Kanban board, canvas and more.
+- Yeah that's it. We pull everything into markdown so agents can work on everything. Code and concepts merge. Obsidian is the IDE for exactly that conceptual informal perspective, and it still offers visual interfaces on top of markdown: Kanban board, canvas and more.
 - In particular, the ai agent harnesses ("process as documentation") and knowledge bases ("LLM wiki") which are becoming part of projects deserve their own specialized editor.
 
 ## Preliminary Conclusion on Open-Source Models (like via DeepInfra)

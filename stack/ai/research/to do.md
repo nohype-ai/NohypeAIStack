@@ -43,3 +43,5 @@ Next research topics are prioritized to scale up productivity quickly, even at t
    * LMStudio
    * LiteLLM
    * (vLLM)
+- extra capabilities that I have put off:
+  - the agent should reliably be able to generate visual assets in marketing, design and prototyping work like when building apps, websites or online posts. agents increasingly have that built in, but it needs to be tested and likely be prompted in the harness ...
