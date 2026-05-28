@@ -18,8 +18,15 @@ alias cdr="cd '$repos'"
 # Install the latest Xcode version
 alias xcode-update="xcodes install --latest"
 
-# Update GHrok Build (not yet available via Homebrew)
-alias grok-update="curl -fsSL https://x.ai/cli/install.sh | bash"
+# Update Grok Build
+grok-update() {
+  if command -v grok >/dev/null 2>&1; then
+    grok update --alpha
+  else
+    GROK_CHANNEL=alpha
+    curl -fsSL https://x.ai/cli/install.sh | bash
+  fi
+}
 
 # Setup antigravity
 export PATH="$PATH:$HOME/.antigravity/antigravity/bin"

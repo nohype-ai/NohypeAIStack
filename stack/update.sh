@@ -13,9 +13,14 @@ touch ~/.hushlogin
 # Update symlinks to dotfiles
 "$stack_folder/symlinks to dotfiles/generate.sh"
 
-# Update Grok Build (not yet available via Homebrew)
-echo "🌌 Updating Grok Build ..."
-silent zsh -c 'curl -fsSL https://x.ai/cli/install.sh | bash'
+# Update Grok Build
+if command -v grok >/dev/null 2>&1; then
+  echo "🌌 Updating Grok Build ..."
+  silent grok update --alpha
+else
+  echo "🌌 Installing Grok Build ..."
+  silent zsh -c 'GROK_CHANNEL=alpha curl -fsSL https://x.ai/cli/install.sh | bash'
+fi
 
 # Update Python
 echo "🐍 Updating Python ..."
