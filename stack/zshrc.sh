@@ -29,7 +29,7 @@ grok-update() {
 }
 
 # Setup antigravity
-export PATH="$PATH:$HOME/.antigravity/antigravity/bin"
+# export PATH="$PATH:$HOME/.antigravity/antigravity/bin"
 
 # d: Opens folder in IDE, opens current folder if none is provided
 # "d" stands for: Development environment, Develop, Debug, Display, Dive into, Dig into, Discuss (with AI)
