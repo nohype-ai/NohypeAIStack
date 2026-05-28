@@ -26,12 +26,12 @@
 >
 >write me an overview of this topic into [@autonomous coding agents.md](file:///Users/seb/Desktop/Repos/nohype-ai/company/NohypeAIStack/stack/ai/research/autonomous%20coding%20agents.md) and also address my 3 main lines of thought.
 
-Research notes, not decisions. Decisions will move into [coding/README.md](../README.md) once tested.
+Research notes, not decisions. Decisions will move into [coding/README.md](../coding/README.md) once tested.
 
 ### Why this is the central topic
 
 * The "10x/100x developer" promise lives or dies here. Single-prompt assistance gives ~2x at best. Real multiplication only happens when one or more agents make sustained, mostly-unsupervised progress while the human supervises rather than types. Whether that multiplication actually requires *parallel* agents — versus a single tireless sequential one — is itself an open question, examined under [When parallelism actually pays off](#when-parallelism-actually-pays-off).
-* Everything else in the [to do list](../../research/to%20do.md) is in service of this:
+* Everything else in the [to do list](README.md) is in service of this:
   * customization, RAG, MCP/tools, evals, observability — all are scaffolding so that long-running, parallel agents don't drift, lie, or wreck the codebase.
   * Without that scaffolding, autonomy just ships bugs faster (see [10k LoC/day](#the-10k-locday-claim) below).
 * So it makes sense to bootstrap autonomy early in a deliberately small, observable form, watch where it breaks, and let those breakages drive what to build next. The supporting layers earn their place by solving observed problems, not by being installed prophylactically.
@@ -59,12 +59,12 @@ A "background coding agent" is not one product. It's a stack. Even the hosted of
 4. **Agentic loop** — perceive → plan → act (tool call) → observe → repeat
    * Modern coding agents already contain this loop. You don't write it.
    * Building one yourself = building your own SWE-agent on LangGraph / smolagents / autogen / crewai / OpenHands. Defensible only if existing agents truly don't fit.
-5. **Tools** — the verbs the agent can use: file edit, shell, web fetch, code search, test runner, MCP servers. (See [to do](../../research/to%20do.md) item 4.)
+5. **Tools** — the verbs the agent can use: file edit, shell, web fetch, code search, test runner, MCP servers. (See [README](README.md) item 4.)
 6. **Orchestrator / dispatcher** — what spawns and coordinates *multiple* agents (see [Orchestration patterns](#orchestration-patterns)).
 7. **Task source / spec** — where work comes from: GitHub issues, plan markdown files, a kanban board, a queue. Spec-driven setups (Kiro, GitHub spec-kit) make this explicit. ❗ For us this maps directly onto Obsidian: process-as-docs is the task source.
 8. **Verification gate** — what every PR/branch must pass before being accepted: types, lint, tests, evals, human review. ❗ Without a real gate, autonomy is unsafe at any speed.
 9. **Memory / context substrate** — `AGENTS.md`, `README.md`, decision logs, RAG. Without it every agent restarts cold and reinvents conventions.
-10. **Observability** — what each agent did, cost, latency, where it failed. (See [to do](../../research/to%20do.md) item 6.)
+10. **Observability** — what each agent did, cost, latency, where it failed. (See [README](README.md) item 6.)
 
 ### What makes them run long
 
@@ -125,7 +125,7 @@ Tooling that already wraps this:
 | Claude Code (CLI) | local | ✅ | ❌ (single agent per invocation) | Strongest single-agent loop. Pair with worktrees + scripts to scale out. |
 | OpenCode (CLI) | local | ✅ | partial (subagents) | BYOK, open-source, scriptable. Best fit for self-built orchestration. |
 | Codex CLI | local | ✅ | ❌ | OpenAI's CLI; mirrors Claude Code's shape. |
-| Cursor CLI | local | ✅ | ❌ | Tied to Cursor subscription. See [coding stack notes](../README.md). |
+| Cursor CLI | local | ✅ | ❌ | Tied to Cursor subscription. See [coding stack notes](../coding/README.md). |
 | Amp (CLI/web) | hybrid | ✅ | ✅ (Threads) | Multi-model routing built in. Costs add up fast. |
 | Conductor | local | — | ✅ (over Claude Code) | A thin orchestration shell around Claude Code. Worth watching. |
 | Cursor Background Agents | hosted | ✅ | ✅ | MicroVM per task, opens PRs. Tied to Cursor account. |
@@ -172,7 +172,7 @@ Practical consequences for the stack:
 * **The principles transfer; the dials don't.** "Small PRs" and "definition of done" stay; the right value of "small" is *smaller* for agents, because review of an agent PR is harder than review of a colleague's PR (no shared context, no in-person clarification, see [The reviewer bottleneck](#the-reviewer-bottleneck)).
 * **Documentation becomes load-bearing.** With humans, undocumented knowledge survives in heads. With agents it does not exist. This is exactly why [agent customization](coding%20agent%20customization.md) concludes the win is essentially "do classical good documentation, finally".
 * **Throwing away work is a feature, not a failure.** Best-of-N, restart-from-scratch, "delete the branch and try again with a tighter spec" are first-class tactics with agents and almost taboo with humans.
-* **Initiative must be engineered.** A human reports "this spec is ambiguous". An agent has to be given a "user-as-MCP-tool" channel (see [to do](../../research/to%20do.md) item 4) or it will guess.
+* **Initiative must be engineered.** A human reports "this spec is ambiguous". An agent has to be given a "user-as-MCP-tool" channel (see [README](README.md) item 4) or it will guess.
 * **Coordination overhead inverts.** With humans, parallelism is expensive and coherence is cheap. With agents, parallelism is cheap and coherence is expensive — coherence comes from docs/specs/types/tests, not from people talking.
 
 ### Honest scope: where autonomy actually works
@@ -233,7 +233,7 @@ When parallelism is *not* worth it:
 
 ### Failure modes when you skip the supporting stack
 
-Useful as a checklist of what to expect when starting before the rest of the [to do](../../research/to%20do.md) is in place:
+Useful as a checklist of what to expect when starting before the rest of the [README](README.md) is in place:
 
 * **No evals / weak tests** → silent quality drift. PRs look fine, regressions accumulate. The exact failure mode that produces the "AI codebase that crumbles" mentioned in the third concern.
 * **No `AGENTS.md` / weak `README.md`s** → each agent reinvents conventions. Inconsistency compounds across PRs. (Mitigation principles already collected in [coding agent customization](coding%20agent%20customization.md).)
@@ -248,7 +248,7 @@ Useful as a checklist of what to expect when starting before the rest of the [to
 
 Smallest thing that exercises the whole stack and exposes its weaknesses:
 
-1. **One frontier coding agent** (Claude Code or Amp), driven from the terminal. CLI not IDE. (See [coding stack](../README.md).)
+1. **One frontier coding agent** (Claude Code or Amp), driven from the terminal. CLI not IDE. (See [coding stack](../coding/README.md).)
 2. **Worktrees** as the isolation primitive: `git worktree add ../proj-task-N`.
 3. **Plan files in Obsidian** as the task source. One markdown file per task, with acceptance criteria explicit.
 4. **`AGENTS.md` + good `README.md`s** as the standing context. (Already covered in [agent customization](coding%20agent%20customization.md).)
@@ -258,7 +258,7 @@ Smallest thing that exercises the whole stack and exposes its weaknesses:
 8. **Log everything**: redirect agent stdout/stderr to per-task log files. This is the seed of observability.
 9. **Run on a real (small) codebase**, not a greenfield demo. The whole point is to see where it breaks under realistic constraints.
 
-Once that hurts in specific ways, those pains become the prioritized order of the rest of [to do](../../research/to%20do.md): evals, RAG, MCP, observability, and so on.
+Once that hurts in specific ways, those pains become the prioritized order of the rest of [README](README.md): evals, RAG, MCP, observability, and so on.
 
 ### Open questions to resolve through use
 

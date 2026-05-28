@@ -2,7 +2,7 @@
 
 This README defines the general layers of an AI stack and selects specific tools at each layer. The coding-specific stack is defined in [coding/README.md](coding/README.md). General research and past decisions are documented in [research/](research/).
 
-This stack does not yet involve local inference but still focusses on scaling up productivity. Research on local inference for privacy and cost-efficiency at scale [will follow in time](research/to%20do.md).
+This stack does not yet involve local inference but still focusses on scaling up productivity. Research on local inference for privacy and cost-efficiency at scale [will follow in time](research/README.md).
 
 ## Agent Clients
 
