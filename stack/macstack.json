@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/nohype-ai/MacStack/refs/heads/master/scripts/stack_config/macstack.schema.json",
   "git": {
-    "user_name": "codeface-io",
+    "user_name": "Sebastian Fichtner",
     "user_email": "sebastian@nohype.ai",
     "core_editor": "zed --wait"
   },
