@@ -58,7 +58,7 @@ brew "opencode"                # https://opencode.ai
 #vscode "mathematic.vscode-pdf" # fast maintained PDF viewer (for Antigravity use https://open-vsx.org/extension/mathematic/vscode-pdf)
 
 # Run Local Models
-brew "ollama"
+# brew "ollama"
 
 # Apple development
 brew "xcodes"
@@ -93,6 +93,7 @@ brew "pandoc" # universal document converter (markdown, HTML, LaTeX, docx, PDF .
 brew "weasyprint" # specialized HTML/CSS to PDF converter, preserves styling
 brew "ffmpeg" # industry-standard CLI video/audio converter/compressor/processor
 brew "woff2" # font conversion (e.g. .otf/.ttf -> .woff2)
+brew "asciidoctor" # converts .adoc files (AsciiDoc) into other formats
 
 # Networking / Cloud / DevOps
 cask "radio-silence"   # firewall & network monitor
