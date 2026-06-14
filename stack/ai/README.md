@@ -33,6 +33,7 @@ Selection is explained in [coding/README.md](coding/README.md).
 Not deeply explored yet.
 - [OpenClaw](https://openclaw.ai)
 - [Claude CoWork](https://claude.com/product/cowork)
+- [Hermes Agent](https://hermes-agent.nousresearch.com)
 
 ## Providers
 
