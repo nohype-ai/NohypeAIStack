@@ -7,6 +7,8 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "agent_ui_font_size": 22.0,
+  "ui_font_family": ".SystemUIFont",
   "outline_panel": {
     "dock": "left"
   },
@@ -55,7 +57,7 @@
       "program": "/opt/homebrew/bin/zsh"
     }
   },
-  "agent_buffer_font_size": 22.0,
+  "agent_buffer_font_size": 18.0,
   "current_line_highlight": "line",
   "theme_overrides": {
     "Gruvbox Dark Hard": {
@@ -168,7 +170,7 @@
     "enabled": false
   },
   "ui_font_size": 22.0,
-  "buffer_font_size": 22.0,
+  "buffer_font_size": 18.0,
   "theme": {
     "mode": "system",
     "light": "Gruvbox Light Hard",
