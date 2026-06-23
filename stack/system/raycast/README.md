@@ -25,7 +25,7 @@ It makes sense to build global navigation hot keys around the option key. The op
 
 | Destination (Intent) | Shortcut | App / Website / Raycast Action |
 |--------|---------|-----|
-| AI Assistant | ⌥A | Grok (Safari App) |
+| AI Assistant | ⌥A | Grok URL |
 | Calendar | ⌥C | Calendar |
 | Develop | ⌥D | Zed |
 | Email | ⌥E | Mail |
@@ -35,7 +35,7 @@ It makes sense to build global navigation hot keys around the option key. The op
 | Internet | ⌥I | Safari |
 | Listen | ⌥L | Music |
 | Listen | ⌥⇧L | YouTube Music URL |
-| Messenger | ⌥M | Telegram (Safari App) |
+| Messenger | ⌥M | Telegram URL |
 | News | ⌥N | X Pro |
 |  | ⌥O |  |
 | Passwords | ⌥P | Passwords |
@@ -43,8 +43,8 @@ It makes sense to build global navigation hot keys around the option key. The op
 | System Settings | ⌥S | System Settings |
 |  | ⌥T |  |
 | Write | ⌥W | Typora |
-| Xcodes | ⌥X | Xcodes App |  
-| YouTube | ⌥Y | YouTube Subscriptions (Safari App) |
+| Xcode | ⌥X | Xcodes App |  
+| YouTube | ⌥Y | YouTube Subscriptions URL |
 | Terminal | ⌥⏎ | Ghostty |
 | Trash | ⌥⌫ | Open Trash |
 
