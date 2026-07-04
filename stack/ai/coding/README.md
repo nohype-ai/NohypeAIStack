@@ -35,3 +35,15 @@ Why Obsidian:
 ## Preliminary Conclusion on Open-Source Models (like via DeepInfra)
 
 Open-source remote models for knowledge work agents turned out as a dead end. The added complexity of comparing and testing models, working around issues, and staying up to date would not just be an initial investment but a repeated ongoing cost. This effort and cognitive load are not worth the potential marginal cost savings, in particular since Grok Build is finally out. Open-source models will only become relevant to us with local inference.
+
+## Vertical Integration Crushes Open Modularity
+
+The whole modular approach of mixing and matching open components turned out to be a costly mess. It is freeing in theory but falters under its own complexity in practice.
+
+between IDE, agent, inference provider and model are three boundaries. if those boundaries are not managed by one company within one product, it is almost guaranteed that something somewhere fails. 
+
+protocols, standards and general landscape are not mature enough to reliably handle these boundaries. often protocols exist but are not strictly adhered to, leading to hangs and other failures (ACP).
+
+this is particularly true because:
+1. the inference provider is not just a thin dumb proxy but an involved compatability layer that has to handle each (open-weight-) model individually and has ample room for doing things in unique incompatible interfering ways. so its boundaries to model and agent are two real ones.
+2. the IDE is not (yet) made obsolete by TUI agents. reviewing changes, exploring a project, picking context, using IDE features is still easier with IDEs. so the boundary between IDE and agent is also a real one. an example that bridges it seemlessly is the Cursor IDE, but that may lack vertical integration at other boundaries. the default interface here is the ACP.
