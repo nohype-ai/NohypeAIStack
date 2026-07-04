@@ -18,6 +18,10 @@
         "deepseek-ai/DeepSeek-V4-Flash": {
           "name": "di-custom: DeepSeek V4 Flash"
         },
+        // $0.93 in, $3.00 out
+        "zai-org/GLM-5.2": {
+          "name": "di-custom: GLM 5.2"
+        },
         // $1.30 in, $2.60 out
         "deepseek-ai/DeepSeek-V4-Pro": {
           "name": "di-custom: DeepSeek V4 Pro"
