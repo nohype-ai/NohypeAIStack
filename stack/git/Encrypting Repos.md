@@ -42,7 +42,7 @@ Why this strategy over the other three? Because it has this specific combination
 - agents can be used without them seeing sensitive data. you can simply re-activate encryption temporarily in your local working copy (i.e. deactivate the automatic decryption again).
 - no platform lock-in: encrypts data in repo independent of repo hosts, requiring minimal tooling and knowledge
 - completely free
-- easy credential rotation / user revocation: just change the password, no history breakage
+- password rotation is straightforward but requires sacrificing history — see [Rotating the Encryption Password](Rotating%20the%20Encryption%20Password.md) — because `transcrypt --rekey` does not re-encrypt old history
 - git-native: uses `.gitattributes` patterns and clean/smudge filters
 - modern encryption (uses OpenSSL AES-256 directly)
 - flexible selective encryption: only encrypts what needs encryption, allows encrypting secrets even in open-source public repos
@@ -155,29 +155,8 @@ So the strongly implied practice is this:
 
 To lock a repo, run `lock` in its root folder. This will switch it back to encrypted files (same garbage you see on GitHub) and remove the locally stored password.
 
-### Change Repo Password
+### Keep History Encrypted
 
-This only works when the local credentials (password + cipher) are active — which means the repo must be in the **unlocked** state:
-1. Make sure you're **unlocked** (working directory shows plaintext files):
-   ```bash
-   unlock    # and enter current password
-   ```
-2. Then run rekey:
-   ```bash
-   transcrypt --rekey
-   ```
-3. Enter the **new** password when prompted.
-4. Commit and push the changes.
-5. Share new password with team (store it in shared password manager).
+Surface level password changes or encrypting previously unencrypted files would not effect the git history. But git history must remain as private as the current state or commit.
 
-### Encrypt Previously Unencrypted Files
-
-⚠️ This does not retroactively encrypt those files in the history. To really lock them behind the password, you need to rewrite or squash history.
-
-```bash
-unlock   # if needed
-git add --renormalize .
-git status   # review
-git commit -m "…"
-git push
-```
+That means we cannot simply use `transcrypt --rekey` to change the password or `git add --renormalize .` to suddenly encrypt existing files. When such needs arise we re-encrypt the whole repo with a new password and sacrifice the repo history. That is a trade-off we can make because we use git for collaboration with people and agents - not for archeology. How we rotate a password is documented in [Rotating the Encryption Password](Rotating%20the%20Encryption%20Password.md).
