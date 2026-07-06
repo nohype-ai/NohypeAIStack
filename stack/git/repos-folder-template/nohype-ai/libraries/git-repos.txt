@@ -1,3 +1,4 @@
+git@github.com:nohype-ai/AppKitToolz.git
 git@github.com:nohype-ai/CloudKid
 git@github.com:nohype-ai/FoundationToolz
 git@github.com:nohype-ai/GetLaid
