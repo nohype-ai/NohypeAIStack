@@ -99,7 +99,6 @@ brew "woff2" # font conversion (e.g. .otf/.ttf -> .woff2)
 brew "asciidoctor" # converts .adoc files (AsciiDoc) into other formats
 
 # Networking / Cloud / DevOps
-cask "radio-silence"   # firewall & network monitor
 #brew "tailscale"       # business VPN: easy/secure/fast remote access (ZTNA)
 #cask "tailscale-app"
 #cask "docker-desktop"  # "Docker Desktop" app plus `docker` CLI

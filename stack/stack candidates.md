@@ -21,6 +21,11 @@ This file documents interesting things to check out which might join the stack i
   - but VPNs are generally incompatible with content safety filters
 - [SSH Config Editor](https://www.hejki.org/ssheditor/)
 - [DigitalOcean (hosting, cloud AI)](https://www.digitalocean.com/)
+- [Radio Silence](https://radiosilenceapp.com)
+  - `cask "radio-silence"`
+  - firewall & network monitor
+  - I still own a license
+  - 🚨 BUT: last time i had it running it caused all kinds of networking issues, did cost me days of productivity until i found out
 
 ## Hardware
 - [Melt Mouse](https://www.melt-interface.com/melt-mouse)
