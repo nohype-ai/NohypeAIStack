@@ -44,8 +44,6 @@ brew "msedit"                  # lightweight TUI editor by Microsoft
 cask "zed"                     # https://zed.dev, lean and fast IDE
 cask "opencode-desktop"        # https://opencode.ai/download
 brew "opencode"                # https://opencode.ai
-tap "Kilo-Org/tap"
-brew "kilo"                    # https://kilo.ai
 # cask "claude"                  # https://code.claude.com/docs/en/desktop-quickstart
 # cask "claude-code"             # https://claude.com/product/claude-code
 # cask "cursor-cli"              # https://cursor.com/cli

@@ -13,16 +13,12 @@ This file does **not** document the current stack but interesting things to chec
 ## IDEs with Integrated Agent UI
 - [TRAE](https://www.trae.ai/)
 
-## CLI Coding Agents with VS Code Extensions
-- [cline.bot](https://cline.bot)
+## Coding Agents
 - [kilocode.ai](https://kilocode.ai)
-- [Aider](https://aider.chat) (Community Extensions)
-- [Mentat](https://github.com/mentat-ai/mentat) (Official Extension)
-- [GPT Pilot](https://github.com/Pythagora-io/gpt-pilot) (Official Extension "Pythagora")
-
-## Pure CLI (Coding-) Agents
-- [Open Interpreter](https://openinterpreter.com) (System Automation)
+  - apparently best open-source agent after OpenCode but not quite as powerful
+- [cline.bot](https://cline.bot)
 - [OpenHands](https://github.com/All-Hands-AI/OpenHands) (Autonomous Engineer Platform)
+- [Open Interpreter](https://openinterpreter.com) (System Automation)
 
 ## AI Coding Helpers
 - [LeanCTX (Context compression for efficient token use)](https://leanctx.com)
