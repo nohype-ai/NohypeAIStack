@@ -1,21 +1,18 @@
 # Apple
 
 ## Swift
-- [Swift Forums](https://forums.swift.org/c/evolution/18/l/top?period=monthly)
-- [Swift Blog](https://swift.org/blog/)
-- [Swift Book](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/)
-- [Forum: SK-LSP](https://forums.swift.org/c/development/sourcekit-lsp/47/l/latest)
-- [Swift Evolution](https://apple.github.io/swift-evolution/)
+- [Book (online)](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/)
+- [Apple Docs](https://developer.apple.com/documentation/swift)
+- [Apple Docs - Standard Library](https://developer.apple.com/documentation/swift/swift-standard-library)
+- [Blog](https://swift.org/blog/)
+- [Evolution](https://forums.swift.org/c/evolution/18/l/top?period=monthly)
 
 ## Apple Developer Resources
-- [Developer Releases](https://developer.apple.com/news/releases/)
-- [Developer Docs](https://developer.apple.com/documentation)
-- [Developer Videos](https://developer.apple.com/videos/all-videos/)
-- [Direct Downloads](https://developer.apple.com/download/more/)
+- [Releases](https://developer.apple.com/news/releases/)
+- [Docs](https://developer.apple.com/documentation)
+- [Videos](https://developer.apple.com/videos/all-videos/)
 - [Developer Account](https://developer.apple.com/account/#!/overview/8T3R57GCBV)
-- [SF Symbols](https://developer.apple.com/sf-symbols/)
 - [App Store Connect](https://appstoreconnect.apple.com/)
-- [iOS Version Distribution](https://iosref.com/ios-usage)
 
 ## ACITP
 
