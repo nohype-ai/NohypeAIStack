@@ -28,11 +28,7 @@
   "inline_code_actions": true,
   "agent": {
     "sidebar_side": "right",
-    "dock": "right",
-    "inline_assistant_model": {
-      "provider": "x_ai",
-      "model": "grok-4-1-fast-non-reasoning"
-    }
+    "dock": "right"
   },
   "inlay_hints": {
     "enabled": true
