@@ -1,8 +1,8 @@
 # MacStack (`mack update`) ensures this script is sourced in ~/.zshrc
 # This script allows you to further customize your shell environment
 
-# Use Microsoft's msedit (command `edit`) as default shell editor
-export VISUAL="edit"
+# Use Zed as default shell editor
+export VISUAL="zed"
 export EDITOR="$VISUAL"  # derive EDITOR from VISUAL
 
 # list folder content with useful options
@@ -17,16 +17,6 @@ alias cdr="cd '$repos'"
 
 # Install the latest Xcode version
 alias xcode-update="xcodes install --latest"
-
-# Update Grok Build
-grok-update() {
-  if command -v grok >/dev/null 2>&1; then
-    grok update --alpha
-  else
-    GROK_CHANNEL=alpha
-    curl -fsSL https://x.ai/cli/install.sh | bash
-  fi
-}
 
 # Setup antigravity
 # export PATH="$PATH:$HOME/.antigravity/antigravity/bin"

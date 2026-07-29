@@ -38,28 +38,10 @@ brew "git"                     # just so it gets updated frequently
 brew "transcrypt"              # encryt parts of git repos
 cask "fork"                    # graphical git client
 cask "font-fira-code"          # monospaced font with coding ligatures
-brew "msedit"                  # lightweight TUI editor by Microsoft
 
 # (Coding-) Agents and Lean IDEs
-cask "zed"                     # https://zed.dev, lean and fast IDE
-cask "opencode-desktop"        # https://opencode.ai/download
-brew "opencode"                # https://opencode.ai
-# cask "claude"                  # https://code.claude.com/docs/en/desktop-quickstart
-# cask "claude-code"             # https://claude.com/product/claude-code
-# cask "cursor-cli"              # https://cursor.com/cli
-# brew "gemini-cli"              # https://geminicli.com
-#cask "openclaw"  install seems broken currently
-#brew "openclaw-cli"           # https://openclaw.ai
-
-# Bloated VS Code Based IDEs
-#cask "cursor"                  # https://cursor.com
-#cask "antigravity"             # https://antigravity.google.com
-#cask "windsurf"                # https://windsurf.com/
-#cask "kiro"                    # https://kiro.dev
-#vscode "mathematic.vscode-pdf" # fast maintained PDF viewer (for Antigravity use https://open-vsx.org/extension/mathematic/vscode-pdf)
-
-# Run Local Models
-# brew "ollama"
+cask "grok-build"  # https://x.ai/cli
+cask "zed"         # https://zed.dev, lean and fast IDE
 
 # Apple development
 brew "xcodes"
@@ -103,4 +85,4 @@ brew "asciidoctor" # converts .adoc files (AsciiDoc) into other formats
 
 # ⚠️ Required dependencies for Brewfile (do not remove)
 brew "mas" # for declaring mac app store apps
-cask "visual-studio-code" # for declaring vs code extensions
+# cask "visual-studio-code" # for declaring vs code extensions
