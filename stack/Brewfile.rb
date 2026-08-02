@@ -78,4 +78,3 @@ brew "asciidoctor" # converts .adoc files (AsciiDoc) into other formats
 
 # ⚠️ Required dependencies for Brewfile (do not remove)
 brew "mas" # for declaring mac app store apps
-# cask "visual-studio-code" # for declaring vs code extensions
