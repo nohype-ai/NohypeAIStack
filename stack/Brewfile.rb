@@ -11,8 +11,7 @@ cask "stats" # system health monitor, including chip temperature
 
 # communication, browser
 cask "WhatsApp"
-cask "brave-browser" # PWAs can block ads on YT (-Music), but Brave wastes main memory
-mas "AdGuard Mini: Safari Adblock", id: 1440147259 # block ads in Safari, not on YT (-Music)
+mas "AdGuard Mini: Safari Adblock", id: 1440147259 # block ads in Safari, YT, YT-Music
 mas "Noir – Dark Mode for Safari", id: 1592917505 # force dark mode on websites in Safari
 
 # writing, diagramming, office
@@ -60,7 +59,6 @@ cask "font-new-york"
 # Python
 brew "uv"      # THE python eco system manager, https://github.com/astral-sh/uv
 brew "rust"    # needed to compile some Python package dependencies
-#vscode "ms-python.python" # Central VS Code extension for python
 
 # Screen recording (for demos and lectures) and media
 mas "Hand Mirror", id: 1502839586 # video overlay in lecture recordings
@@ -77,11 +75,6 @@ brew "weasyprint" # specialized HTML/CSS to PDF converter, preserves styling
 brew "ffmpeg" # industry-standard CLI video/audio converter/compressor/processor
 brew "woff2" # font conversion (e.g. .otf/.ttf -> .woff2)
 brew "asciidoctor" # converts .adoc files (AsciiDoc) into other formats
-
-# Networking / Cloud / DevOps
-#brew "tailscale"       # business VPN: easy/secure/fast remote access (ZTNA)
-#cask "tailscale-app"
-#cask "docker-desktop"  # "Docker Desktop" app plus `docker` CLI
 
 # ⚠️ Required dependencies for Brewfile (do not remove)
 brew "mas" # for declaring mac app store apps

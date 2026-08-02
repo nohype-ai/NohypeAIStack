@@ -26,6 +26,9 @@ This file documents interesting things to check out which might join the stack i
   - firewall & network monitor
   - I still own a license
   - 🚨 BUT: last time i had it running it caused all kinds of networking issues, did cost me days of productivity until i found out
+- Tailscale: business VPN ... easy/secure/fast remote access (ZTNA)
+  - `cask "tailscale-app"`
+  - `brew "tailscale"`
 
 ## Hardware
 - [Melt Mouse](https://www.melt-interface.com/melt-mouse)
