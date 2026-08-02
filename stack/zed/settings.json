@@ -90,17 +90,32 @@
     "Grok-Low": {
       "type": "custom",
       "command": "grok",
-      "args": ["agent", "--effort", "low", "stdio"]
+      "args": [
+        "agent",
+        "--effort",
+        "low",
+        "stdio"
+      ]
     },
     "Grok-Medium": {
       "type": "custom",
       "command": "grok",
-      "args": ["agent", "--effort", "medium", "stdio"]
+      "args": [
+        "agent",
+        "--effort",
+        "medium",
+        "stdio"
+      ]
     },
     "Grok-High": {
       "type": "custom",
       "command": "grok",
-      "args": ["agent", "--effort", "high", "stdio"]
+      "args": [
+        "agent",
+        "--effort",
+        "high",
+        "stdio"
+      ]
     }
   },
   "auto_install_extensions": {
@@ -117,7 +132,7 @@
     "enabled": true
   },
   "status_bar": {
-    "experimental.show": false
+    "experimental.show": true
   },
   "tab_bar": {
     "show_nav_history_buttons": true,
