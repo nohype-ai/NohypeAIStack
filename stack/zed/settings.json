@@ -7,6 +7,21 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "remove_trailing_whitespace_on_save": false,
+  "languages": {
+    "Swift": {
+      "auto_indent": "syntax_aware",
+      "ensure_final_newline_on_save": false,
+      "remove_trailing_whitespace_on_save": false
+    }
+  },
+  "accessible_mode": true,
+  "disable_ai": false,
+  "show_edit_predictions": true,
+  "edit_predictions": {
+    "provider": "zed",
+    "mode": "eager"
+  },
   "show_wrap_guides": false,
   "agent_ui_font_size": 22,
   "ui_font_family": ".SystemUIFont",
@@ -48,6 +63,7 @@
   },
   "diff_view_style": "unified",
   "project_panel": {
+    "button": true,
     "dock": "left",
     "git_status_indicator": true
   },
