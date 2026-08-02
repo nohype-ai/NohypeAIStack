@@ -87,8 +87,20 @@
     "show_user_menu": true
   },
   "agent_servers": {
-    "grok-build": {
-      "type": "registry"
+    "Grok-Low": {
+      "type": "custom",
+      "command": "grok",
+      "args": ["agent", "--effort", "low", "stdio"]
+    },
+    "Grok-Medium": {
+      "type": "custom",
+      "command": "grok",
+      "args": ["agent", "--effort", "medium", "stdio"]
+    },
+    "Grok-High": {
+      "type": "custom",
+      "command": "grok",
+      "args": ["agent", "--effort", "high", "stdio"]
     }
   },
   "auto_install_extensions": {
