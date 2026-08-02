@@ -27,6 +27,7 @@
   "soft_wrap": "editor_width",
   "inline_code_actions": true,
   "agent": {
+    "thinking_display": "always_collapsed",
     "sidebar_side": "right",
     "dock": "right"
   },
