@@ -15,7 +15,7 @@
       "remove_trailing_whitespace_on_save": false
     }
   },
-  "accessible_mode": true,
+  "accessible_mode": false,
   "disable_ai": false,
   "show_edit_predictions": true,
   "edit_predictions": {
@@ -135,6 +135,8 @@
     }
   },
   "auto_install_extensions": {
+    "swift": true,
+    "html": true,
     "ruby": true
   },
   "telemetry": {
