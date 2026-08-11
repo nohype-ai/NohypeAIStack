@@ -49,6 +49,7 @@ cask "sf-symbols" # https://developer.apple.com/sf-symbols
 #mas "TestFlight", id: 899247664 # mas install fails: would require sudo since it copies the receipt file in a second step
 mas "Developer", id: 640199958
 mas "Icon Generator", id: 1631880470 # for scaling macOS app icons
+brew "asc"        # https://asccli.sh
 
 # Apple fonts: https://developer.apple.com/fonts
 cask "font-sf-pro"
