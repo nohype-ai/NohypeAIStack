@@ -7,6 +7,6 @@
   "spellcheck": false,
   "alwaysUpdateLinks": true,
   "newLinkFormat": "relative",
-  "livePreview": false,
+  "livePreview": true,
   "showIndentGuide": false
 }
