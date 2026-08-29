@@ -40,6 +40,7 @@ cask "font-fira-code"          # monospaced font with coding ligatures
 
 # (Coding-) Agents and Lean IDEs
 cask "grok-build"  # https://x.ai/cli
+cask "grok-bot"    # https://x.ai/bot
 cask "zed"         # https://zed.dev, lean and fast IDE
 
 # Apple development
