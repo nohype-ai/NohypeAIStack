@@ -11,8 +11,9 @@ cask "stats" # system health monitor, including chip temperature
 
 # communication, browser
 cask "WhatsApp"
-mas "AdGuard Mini: Safari Adblock", id: 1440147259 # block ads in Safari, YT, YT-Music
-mas "Noir – Dark Mode for Safari", id: 1592917505 # force dark mode on websites in Safari
+mas "AdGuard Mini: Safari Adblock", id: 1440147259  # block ads in Safari, YT, YT-Music
+mas "Noir – Dark Mode for Safari", id: 1592917505   # force dark mode on websites in Safari
+cask "onedrive"                                     # share data with MS users
 
 # writing, diagramming, office
 cask "obsidian" # "process as documentation" + "canvas as code" ...
