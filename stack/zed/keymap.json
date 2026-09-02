@@ -24,16 +24,6 @@
     }
   },
   {
-    "bindings": {
-      "cmd-p": "csv::OpenPreview"
-    }
-  },
-  {
-    "bindings": {
-      "alt-cmd-p": "csv::OpenPreviewToTheSide"
-    }
-  },
-  {
     "context": "Editor && mode == full",
     "bindings": {
       "cmd-|": "agent::AddSelectionToThread"
