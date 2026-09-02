@@ -7,5 +7,6 @@ git@github.com:nohype-ai/macstack-dev.github.io
 git@github.com:nohype-ai/nohype-ai.github.io
 git@github.com:nohype-ai/nohype-ai
 git@github.com:nohype-ai/NohypeAIStack
+git@github.com:nohype-ai/olive-mail.github.io
 git@github.com:nohype-ai/olive-mail
 git@github.com:nohype-ai/sebastian-cv
