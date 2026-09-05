@@ -2,6 +2,11 @@
 
 We assume here that the CLI should run on macOS and Linux.
 
+## References
+
+- https://www.swift.org/getting-started/cli-swiftpm/
+- https://www.swift.org/get-started/command-line-tools/
+
 ## Stack
 
 ### Basics
@@ -50,11 +55,6 @@ Don’t use `FoundationEssentials` if you want breadth — that’s the *narrowe
 - TUI (fullscreen): https://github.com/SwiftTUI/swift-tui (unofficial)
 
 ## How
-
-### References
-
-- https://www.swift.org/getting-started/cli-swiftpm/
-- https://www.swift.org/get-started/command-line-tools/
 
 ### Basic Template
 
