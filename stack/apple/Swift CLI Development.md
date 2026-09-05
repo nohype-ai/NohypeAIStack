@@ -1,4 +1,6 @@
-# Swift CLI Development for macOS and Linux
+# Swift CLI Development
+
+We assume here that the CLI should run on macOS and Linux.
 
 ## Stack
 
@@ -45,7 +47,7 @@ Don’t use `FoundationEssentials` if you want breadth — that’s the *narrowe
 	  #endif
 	  ```
 - CLI Chrome: https://github.com/tuist/Noora (Swift.org-recommended)
-- TUI (fullscreen): https://github.com/rensbreur/SwiftTUI (unofficial)
+- TUI (fullscreen): https://github.com/SwiftTUI/swift-tui (unofficial)
 
 ## How
 
@@ -61,18 +63,20 @@ Don’t use `FoundationEssentials` if you want breadth — that’s the *narrowe
 `platforms` is the Apple minimum only; Linux still builds. Put the @main command in `Sources/MyTool/`:
 
 ```swift
-// swift-tools-version: 6.0
+// swift-tools-version: 6.1
 import PackageDescription
 
 let package = Package(
     name: "MyTool",
     platforms: [.macOS(.v13)],
     products: [
-        .executable(name: "mytool", 
+        .executable(name: "mytool",
                     targets: ["MyTool"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser",
+                 from: "1.8.0"),
+        .package(url: "https://github.com/apple/swift-system",
                  from: "1.8.0"),
     ],
     targets: [
@@ -81,16 +85,18 @@ let package = Package(
             dependencies: [
                 .product(name: "ArgumentParser",
                          package: "swift-argument-parser"),
+                .product(name: "SystemPackage",
+                         package: "swift-system"),
             ]
         ),
         .testTarget(
-		    name: "MyToolTests",
-		    dependencies: [
-		        "MyTool",
-		        .product(name: "ArgumentParser",
-		                 package: "swift-argument-parser"),
-		    ]
-		)
+            name: "MyToolTests",
+            dependencies: [
+                "MyTool",
+                .product(name: "ArgumentParser",
+                         package: "swift-argument-parser"),
+            ]
+        )
     ]
 )
 ```
@@ -101,6 +107,8 @@ let package = Package(
 Sources in `Sources/MyTool/`:
 
 ```swift
+import ArgumentParser
+
 @main
 struct MyTool: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
@@ -136,7 +144,7 @@ struct MySubcommand: AsyncParsableCommand {
 }
 ```
 
-To reuse certain sets of options and flags, use `ParsableArguments` and ` @OptionGroup`.
+To reuse certain sets of options and flags, use `ParsableArguments` and `@OptionGroup`.
 
 #### Tests
 
@@ -148,7 +156,7 @@ import ArgumentParser
 @testable import MyTool
 
 @Test func parsesInput() throws {
-    let command = try MyTool.parse(["hello"])
+    let command = try MySubcommand.parse(["hello"])
     #expect(command.input == "hello")
 }
 ```
@@ -172,32 +180,6 @@ swift build -c release --swift-sdk x86_64-swift-linux-musl
 swift build -c release --swift-sdk aarch64-swift-linux-musl
 ```
 
-### ArgumentParser
-
-**1. No.** Two properties named `input` won’t compile. Even renamed, that’s two ways to pass the same thing — pick one.
-
-```swift
-@Argument(help: "Path to the input.")
-var input: String          // mytool ./file.txt
-
-@Option(help: "Timeout in seconds.")
-var timeout: Int = 30      // mytool ./file.txt --timeout 10
-```
-
-**2. `mutating`** because the command is a struct and the protocol lets `run()` change properties (defaults, counters, consuming an option). You must keep the keyword even if you don’t mutate.
-
-**3. Positionals have order. Options/flags do not.**
-
-| Term | ArgumentParser | Example | Order |
-|---|---|---|---|
-| **Argument** (positional) | `@Argument` | `mytool ./file.txt` | Yes — declaration order |
-| **Option** | `@Option` | `--timeout 10` | No — named |
-| **Flag** | `@Flag` | `--verbose` | No — boolean, no value |
-
-I used “flags” loosely for “put it on the command line.” Strictly: flags are `--verbose`; options are `--timeout 10`; arguments are the bare `./file.txt`.
-
-Hierarchy is **subcommands** (`mytool deploy --env prod`), not argument vs option. Options can sit before or after positionals; two `@Argument`s are first-declared, then second.
-
 ### Working With Paths
 
 Use `FilePath` when actually working with paths. Convert to `URL` only at the Foundation I/O call (`Data(contentsOf:)`, `FileManager`). Never store actual paths as `URL` — `URL(string:)` is the wrong parser for file paths.
@@ -211,8 +193,17 @@ Use `FilePath` when actually working with paths. Convert to `URL` only at the Fo
 Cwd (where it was *invoked from*) is separate: `FileManager.default.currentDirectoryPath` → `FilePath`.
 
 ```swift
-let config = FilePath(ProcessInfo.processInfo.environment["HOME"]!)
-    .appending(".config/my-tool")
+import Foundation
+#if canImport(System)
+import System
+#else
+import SystemPackage
+#endif
+
+let configHome = ProcessInfo.processInfo.environment["XDG_CONFIG_HOME"]
+    .map(FilePath.init)
+    ?? FilePath(ProcessInfo.processInfo.environment["HOME"]!).appending(".config")
+let config = configHome.appending("my-tool")
 try FileManager.default.createDirectory(
     at: URL(filePath: config.string),
     withIntermediateDirectories: true
@@ -227,10 +218,23 @@ Composing other CLIs is normal. The boundary is **your domain vs someone else’
 
 **Shell out** when the other tool *is* the product: `git`, `ffmpeg`, `docker`, `xcodebuild`, `gh`. Reimplementing those is a trap. Also shell out for one-shot system utilities (`which`, `uname`) you don’t want to wrap.
 
-Use **`swift-subprocess`**, not `Foundation.Process`, not `/bin/sh -c "…"`. Example:
+Use **`swift-subprocess`**, not `Foundation.Process`, not `/bin/sh -c "…"`. It uses `FilePath` in some APIs (`.path(_:)`, working directory) but does **not** re-export it — still `import System` / `SystemPackage`. `1.0` needs Swift 6.2:
+
+```swift
+.package(url: "https://github.com/swiftlang/swift-subprocess", from: "1.0.0"),
+// target:
+.product(name: "Subprocess", package: "swift-subprocess"),
+```
+
+Example:
 
 ```swift
 import Subprocess
+#if canImport(System)
+import System
+#else
+import SystemPackage
+#endif
 
 let result = try await run(
     .name("git"),                    // PATH lookup; use .path("/usr/bin/git") to pin
@@ -313,4 +317,3 @@ TTY detection (`isatty`) is the usual proxy: piped/`CI`/`--json` → machine mod
 Human-friendly default: missing flag → prompt. Agent-friendly default: missing flag + non-interactive → error or a documented default, never wait.
 
 The CLI is one API. Noora is optional presentation for a real terminal, never the only way to supply a value.
-
