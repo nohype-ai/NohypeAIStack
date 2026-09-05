@@ -4,6 +4,12 @@
 
 ### Basics
 
+- [CommandLine](https://developer.apple.com/documentation/swift/commandline)
+	- Enum from the Swift standard library 
+	- `CommandLine.arguments   // [argv0, ...]  always been there`
+	- `CommandLine.executablePath  // FilePath?  — SE-0513, recent 6.x`
+	- If `executablePath` doesn’t compile, your toolchain predates it; `CommandLine.arguments[0]` is *not* a substitute (relative, or just the name from `PATH`).
+	- ⚠️ Don't read `CommandLine.arguments` when using `ArgumentParser` anyway. `CommandLine.executablePath` is the one exception — “where is this binary?” — which ArgumentParser doesn’t answer.
 - https://github.com/apple/swift-argument-parser
 - https://github.com/swiftlang/swift-subprocess
 
@@ -38,46 +44,17 @@ Don’t use `FoundationEssentials` if you want breadth — that’s the *narrowe
 	  import SystemPackage
 	  #endif
 	  ```
-- TUI: https://github.com/tuist/Noora
+- CLI Chrome: https://github.com/tuist/Noora (Swift.org-recommended)
+- TUI (fullscreen): https://github.com/rensbreur/SwiftTUI (unofficial)
 
 ## How
 
-### Basics
+### References
 
-#### Program
+- https://www.swift.org/getting-started/cli-swiftpm/
+- https://www.swift.org/get-started/command-line-tools/
 
-Sources in `Sources/MyTool/`:
-
-```swift
-@main
-struct MyTool: AsyncParsableCommand {
-    static let configuration = CommandConfiguration(
-        commandName: "mytool",
-        abstract: "Does the thing.",
-        version: "1.0.0"
-    )
-
-    @Argument(help: "Path to the input.")
-    var input: String
-
-    mutating func run() async throws { /* ... */ }
-}
-```
-
-#### Tests
-
-Tests in `Tests/MyToolTests/`:
-
-```swift
-import Testing
-import ArgumentParser
-@testable import MyTool
-
-@Test func parsesInput() throws {
-    let command = try MyTool.parse(["hello"])
-    #expect(command.input == "hello")
-}
-```
+### Basic Template
 
 #### Package.swift
 
@@ -118,7 +95,65 @@ let package = Package(
 )
 ```
 
-#### Test, Run, Build
+
+#### Program
+
+Sources in `Sources/MyTool/`:
+
+```swift
+@main
+struct MyTool: AsyncParsableCommand {
+    static let configuration = CommandConfiguration(
+	    // by default camel case types result in kebab case commands
+        commandName: "mytool", // default here would be my-tool
+        abstract: "Does the thing.",
+        version: "1.0.0",
+        subcommands: [MySubcommand.self]
+    )
+    
+    // options & flags are named and have no position but are not inherited by subcommands, so we define them on the subcommand that actually runs
+
+	// no run method since we have subcommands. MyTool here is only a "dispatcher"
+}
+
+struct MySubcommand: AsyncParsableCommand {
+	// arguments are positional. order is declaration order.
+	// put arguments only on leaf commands - not on commands that have subcommands
+    @Argument(help: "Path to the input.")
+	var input: String          // mytool my-subcommand ./file.txt
+	
+	// named, order position irrelevant
+	@Option(help: "Timeout in seconds.")
+	var timeout: Int = 30      // mytool my-subcommand ./file.txt --timeout 10
+	
+	// named, order position irrelevant
+	@Flag(name: .shortAndLong, // mytool my-subcommand ./file.txt --timeout 10 -v
+		  help: "Print more output.")
+	var verbose = false
+	
+	// mutating because can change properties. Must keep keyword even if no mutation.
+    mutating func run() async throws { /* ... */ }
+}
+```
+
+To reuse certain sets of options and flags, use `ParsableArguments` and ` @OptionGroup`.
+
+#### Tests
+
+Tests in `Tests/MyToolTests/`:
+
+```swift
+import Testing
+import ArgumentParser
+@testable import MyTool
+
+@Test func parsesInput() throws {
+    let command = try MyTool.parse(["hello"])
+    #expect(command.input == "hello")
+}
+```
+
+### Test, Run, Build
 
 ```bash
 swift test
@@ -135,6 +170,53 @@ swift build -c release --static-swift-stdlib
 swift sdk install <static-linux-sdk-url-matching-your-swift>
 swift build -c release --swift-sdk x86_64-swift-linux-musl
 swift build -c release --swift-sdk aarch64-swift-linux-musl
+```
+
+### ArgumentParser
+
+**1. No.** Two properties named `input` won’t compile. Even renamed, that’s two ways to pass the same thing — pick one.
+
+```swift
+@Argument(help: "Path to the input.")
+var input: String          // mytool ./file.txt
+
+@Option(help: "Timeout in seconds.")
+var timeout: Int = 30      // mytool ./file.txt --timeout 10
+```
+
+**2. `mutating`** because the command is a struct and the protocol lets `run()` change properties (defaults, counters, consuming an option). You must keep the keyword even if you don’t mutate.
+
+**3. Positionals have order. Options/flags do not.**
+
+| Term | ArgumentParser | Example | Order |
+|---|---|---|---|
+| **Argument** (positional) | `@Argument` | `mytool ./file.txt` | Yes — declaration order |
+| **Option** | `@Option` | `--timeout 10` | No — named |
+| **Flag** | `@Flag` | `--verbose` | No — boolean, no value |
+
+I used “flags” loosely for “put it on the command line.” Strictly: flags are `--verbose`; options are `--timeout 10`; arguments are the bare `./file.txt`.
+
+Hierarchy is **subcommands** (`mytool deploy --env prod`), not argument vs option. Options can sit before or after positionals; two `@Argument`s are first-declared, then second.
+
+### Working With Paths
+
+Use `FilePath` when actually working with paths. Convert to `URL` only at the Foundation I/O call (`Data(contentsOf:)`, `FileManager`). Never store actual paths as `URL` — `URL(string:)` is the wrong parser for file paths.
+
+| Example Use Case | Get it from |
+|---|---|
+| **file path argument** | `@Argument var input: String` then `FilePath(input)`. Add `completion: .file()`. |
+| **`~/.config/my-tool/`** | `HOME` / `XDG_CONFIG_HOME` + append. `FilePath` does **not** expand `~`. |
+| **path to this binary** | `CommandLine.executablePath` (SE-0513). **Not** `Bundle.main` — that’s wrong for SPM CLIs. **Not** cwd. |
+
+Cwd (where it was *invoked from*) is separate: `FileManager.default.currentDirectoryPath` → `FilePath`.
+
+```swift
+let config = FilePath(ProcessInfo.processInfo.environment["HOME"]!)
+    .appending(".config/my-tool")
+try FileManager.default.createDirectory(
+    at: URL(filePath: config.string),
+    withIntermediateDirectories: true
+)
 ```
 
 ### Running Shell Commands
@@ -179,3 +261,56 @@ Rules of thumb:
 - Don’t go through `bash`/`zsh` unless you truly need globbing, pipes, or a user’s shell config — and then you probably still don’t.
 
 Typical shape of a Swift CLI: ArgumentParser for the interface, Swift for orchestration, subprocess for the heavy existing tools.
+
+### Agent-Friendly APIs
+
+#### General Approach
+
+1. **Provide one and the same CLI API for humans and agents.**
+	- Good pattern: one binary, humans and agents both call it. Potential TUI is a *subcommand* (`my-tool tui`), not mixed into data commands. MCP/skills are thin adapters on top, not a second product.
+2. **The CLI API should allow to input all data via launch arguments/options and then run without waiting on further prompts.**
+	- Agents are bad at interactive CLIs (inputting data after launch, like text, decisions, passwords).
+
+- ArgumentParser flags = the API. Noora only when stdin is a TTY.
+- `--json` (and/or JSON-when-piped).
+- `--yes` / `--non-interactive` / `MYTOOL_NONINTERACTIVE=1`.
+- Stable exit codes.
+- Optional later: `mytool commands --json`, a skill, or `mytool mcp`.
+
+Don’t build `mytool-agent`. Agents already shell out; they need a boring, complete, non-interactive CLI.
+
+#### Safe Baseline / MVP
+
+The agent-safe baseline is non-interactive and non-Noora: flags in, text (or JSON) out, exit. No conversation after launch.
+
+That's also the MVP. Not optimally convenient for humans, but definitely works for humans and agents alike. It’s the one agents and scripts can actually use. Interactivity is a later convenience, not part of an MVP.
+
+- Non-Interactive
+	- Prompts are what you avoid. Not because agents can’t read them — because the command never finishes until something types.
+	- if data is missing, give feedback and exit. don't ask for that missing data.
+	- ArgumentParser already is the agent API: flags, --help, typed args, non-zero exit on bad input.
+	- don’t readLine() / wait for a TTY
+	- don’t run interactive subprocesses (git, ssh, docker login) without their non-interactive flags
+- Non-Noora
+	- put the result on stdout as plain text or --json
+	- keep chatter on stderr
+	- JSON/--jq is an extra for chaining IDs and MCP, not for the LLM to “understand” the CLI.
+	- Noora is optional human chrome on top.
+
+Humans get a slightly dry CLI. Agents get something they can actually call. Add Noora later only for prompts/progress that always have a flag equivalent.
+
+#### Use Noora Only Carefully
+ 
+**Restrain prompts, not chrome.** You cannot reliably tell agent from human.
+
+TTY detection (`isatty`) is the usual proxy: piped/`CI`/`--json` → machine mode. Agents often **fake a TTY** (Claude Code, Codex), which is why `hey` for example uses `HEY_NONINTERACTIVE=1`. Detection is a hint, not a guarantee.
+
+| Noora | Agent-safe? |
+|---|---|
+| Colors, alerts, progress on **stderr** | Yes, if they no-op when not a TTY / `--json` |
+| Prompts (yes/no, pickers, text) | **No** unless every one has a flag and you skip them when `--non-interactive`, `*_NONINTERACTIVE=1`, or stdin isn’t a TTY |
+
+Human-friendly default: missing flag → prompt. Agent-friendly default: missing flag + non-interactive → error or a documented default, never wait.
+
+The CLI is one API. Noora is optional presentation for a real terminal, never the only way to supply a value.
+
