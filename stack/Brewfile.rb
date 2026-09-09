@@ -41,6 +41,7 @@ brew 'git'                     # just so it gets updated frequently
 brew 'transcrypt'              # encryt parts of git repos
 cask 'fork'                    # graphical git client
 cask 'font-fira-code'          # monospaced font with coding ligatures
+brew 'gh'                      # for open-source release automation, https://cli.github.com
 
 # (Coding-) Agents and Lean IDEs
 cask 'grok-build'  # https://x.ai/cli
