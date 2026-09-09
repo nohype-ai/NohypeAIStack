@@ -22,7 +22,7 @@ Native macOS apps that offer GUI frontends to agents – natively or via ACP. Bu
 
 ### Coding Agents
 Selection is explained in [coding/README.md](coding/README.md).
-- [Grok Build](https://x.ai/cli)
+- [Grok Build](https://x.ai/build)
 - [OpenCode](https://opencode.ai)
 - [Cursor CLI](https://cursor.com/cli)
 - [Gemini CLI](https://geminicli.com)
@@ -31,6 +31,7 @@ Selection is explained in [coding/README.md](coding/README.md).
 
 ### Personal Agents
 Not deeply explored yet.
+- [Grok Bot](https://x.ai/bot)
 - [OpenClaw](https://openclaw.ai)
 - [Claude CoWork](https://claude.com/product/cowork)
 - [Hermes Agent](https://hermes-agent.nousresearch.com)
@@ -66,6 +67,7 @@ These providers only provide the inference, hosting a wide range of publically a
 - [DeepInfra](https://deepinfra.com) (via GitHub account)
   - cheap and fast inference provider for open models
   - [Model Prices](https://deepinfra.com/models/text-generation)
+- [DigitalOcean](https://www.digitalocean.com)
 
 ### Proprietary Providers
 These providers provide the inference and also train the models and are often the only way to access these models.

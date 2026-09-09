@@ -9,12 +9,15 @@ Next research topics are prioritized to scale up productivity quickly, even at t
 - ✅ [coding agent customization](coding%20agent%20customization.md)
 - ✅ [autonomous coding agents](autonomous%20coding%20agents.md)
 - 🚧 [confidentiality and integrity](confidentiality%20and%20integrity.md)
-	- ✅ main practical result is [Encrypting Repos](../../git/Encrypting%20Repos.md)
-	- 🚧 open: solid customization of Grok Build, storing its config in stack
-- harness + scaffolding for coding and knowledge work
-	- see [autonomous coding agents](autonomous%20coding%20agents.md)
-	- spec-driven development ...
-	- set up a basic example harness & scaffolding in one project as a learning ground and template
+	- ✅ main practical results is [Encrypting Repos](../../git/Encrypting%20Repos.md)
+	- 🚧 open: solid customization of Grok Build, storing its config in stack, automate via MacStack
+- 🚧 harness + scaffolding for coding and knowledge work
+	- ✅ [autonomous coding agents](autonomous%20coding%20agents.md)
+	- ✅ [Dev Harness Playbook](../dev%20harness/Dev%20Harness%20Playbook.md)
+	- 🚧 Relate/apply the explicit practical means and conventions beyond just general markdown:
+		- Agents.md, agentskills.io, custom agents
+		- and Grok Build-specific: plugins, personas, hooks, workflows
+	- gather a basic template here for a harness, tested and proven in one specific project
 - evals / quality gates
    - automated quality assessment of agent output
    - generating tests alongside code (even for shell scripts?)
@@ -39,6 +42,7 @@ Next research topics are prioritized to scale up productivity quickly, even at t
    * prompt degradation over time
    * multi-agent failure debugging
 - personal agents
+   * Grok Bot
    * openclaw
    * claude cowork
 - local inference
