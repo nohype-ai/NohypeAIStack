@@ -6,16 +6,16 @@ This folder contains ongoing research, some research topics are further along th
 
 Next research topics are prioritized to scale up productivity quickly, even at the cost of didactics:
 
-- ✅ [coding agent customization](coding%20agent%20customization.md)
+- ✅ [coding agent customization](agent%20customization/coding%20agent%20customization.md)
 	- ✅ customization of Grok Build, storing its config in stack, automate via MacStack
-- ✅ [autonomous coding agents](autonomous%20coding%20agents.md)
-- 🚧 [confidentiality and integrity](confidentiality%20and%20integrity.md)
-	- ✅ main practical results is [Encrypting Repos](../../git/Encrypting%20Repos.md)
-	- 🚧 how this works in Grok Build (rules, policies ...)
+- ✅ [autonomous coding agents](harness%20for%20autonomy/autonomous%20coding%20agents.md)
+- ✅ [confidentiality and integrity](confidentiality%20and%20integrity/confidentiality%20and%20integrity.md)
+	- ✅ Protecting the data [Encrypting Repos](../../git/Encrypting%20Repos.md)
+	- ✅ Customizing the agent (here grok build): [confidentiality and integrity customization](confidentiality%20and%20integrity/confidentiality%20and%20integrity%20customization.md)
 - 🚧 harness + scaffolding for coding and knowledge work
-	- ✅ generally: [autonomous coding agents](autonomous%20coding%20agents.md)
-	- ✅ still boken: [Agent Failures in Codeface](Agent%20Failures%20in%20Codeface.md)
-	- ✅ solution concept: [Dev Harness Playbook](../dev%20harness/Dev%20Harness%20Playbook.md)
+	- ✅ generally: [autonomous coding agents](harness%20for%20autonomy/autonomous%20coding%20agents.md)
+	- ✅ still boken: [Agent Failures in Codeface](harness%20for%20autonomy/Agent%20Failures%20in%20Codeface.md)
+	- ✅ solution concept: [Dev Harness Playbook](harness%20for%20autonomy/Dev%20Harness%20Playbook.md)
 		- in particular the quality gate in the task completion guide
 	- 🚧 solution practice:
 		- Relate/apply the explicit practical means and conventions beyond just general markdown:

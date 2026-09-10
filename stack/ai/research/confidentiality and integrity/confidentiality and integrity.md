@@ -1,4 +1,4 @@
-# Confidentiality and Integrity with Agents
+# Confidentiality and Integrity
 
 Context: We target a setup where AI is applied to all knowledge work, so sensitive personal/company/client data lives in the same git-managed substrate as code. Loose practices that seem to work for code-only repos clearly do not work for this generalized use case.
 
@@ -184,8 +184,8 @@ A couple of implications that fall out of this framing:
 
 Some past research as context:
 [Above file content]
-[Encrypting Repos](../../git/Encrypting%20Repos.md)
-[coding agent customization](coding%20agent%20customization.md)
+[Encrypting Repos](../../../git/Encrypting%20Repos.md)
+[coding agent customization](../agent%20customization/coding%20agent%20customization.md)
 
 Some think differently about the confidentiality issue in some ways. here are 2 common working assumptions:
 1. agents do actually NOT read files outside the project folder.

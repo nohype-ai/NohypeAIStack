@@ -1,0 +1,8 @@
+# Named denies inside cwd. User sandbox profile `cwd` (strict) confines the rest.
+[permission]
+deny = [
+  "Read(/Users/*/.ssh/**)",
+  "Read(/Users/*/.gnupg/**)",
+  "Read(**/.env)",
+  "Read(**/*.pem)",
+]

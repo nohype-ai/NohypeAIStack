@@ -17,4 +17,6 @@
 | `agents/` | `~/.grok/agents/` |
 | `personas/` | `~/.grok/personas/` |
 
+User-level: always-approve, sandbox profile `cwd` (extends `strict` — FS confined to launch directory). Named path denies go in each repo's `.grok/config.toml`.
+
 Empty folders are placeholders. This README is not copied.

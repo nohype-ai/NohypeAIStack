@@ -34,3 +34,6 @@ git = "https://github.com/xai-org/plugin-marketplace.git"
 [models]
 default = "grok-4.6"
 default_reasoning_effort = "high"
+
+[sandbox]
+profile = "cwd"
