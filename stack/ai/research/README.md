@@ -6,8 +6,8 @@ This folder contains ongoing research, some research topics are further along th
 
 Next research topics are prioritized to scale up productivity quickly, even at the cost of didactics:
 
-- 🚧 [coding agent customization](coding%20agent%20customization.md)
-	- 🚧 customization of Grok Build, storing its config in stack, automate via MacStack
+- ✅ [coding agent customization](coding%20agent%20customization.md)
+	- ✅ customization of Grok Build, storing its config in stack, automate via MacStack
 - ✅ [autonomous coding agents](autonomous%20coding%20agents.md)
 - 🚧 [confidentiality and integrity](confidentiality%20and%20integrity.md)
 	- ✅ main practical results is [Encrypting Repos](../../git/Encrypting%20Repos.md)

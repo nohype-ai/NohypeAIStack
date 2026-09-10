@@ -18,3 +18,4 @@ Many files here are direct inputs to the MacStack update process (`mack update` 
 | [ai/coding/cursor/](ai/coding/cursor/) | `mack update` merges these Cursor CLI settings and rules into `~/.cursor/`. |
 | [ai/coding/gemini/](ai/coding/gemini/) | `mack update` merges Gemini CLI settings file `settings.json` and `policies/` into `~/.gemini/` |
 | [ai/coding/opencode/](ai/coding/opencode/) | `mack update` merges OpenCode settings file `opencode.json` into `~/.config/opencode/` |
+| [ai/coding/grok/](ai/coding/grok/) | `mack update` copies `AGENTS.md` and `config.toml` into `~/.grok/` (overwrite, no merge) |

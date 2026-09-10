@@ -1,0 +1,36 @@
+[ui]
+max_thoughts_width = 120
+fork_secondary_model = "grok-build"
+yolo = false
+compact_mode = false
+permission_mode = "always-approve"
+theme = "auto"
+collapsed_edit_blocks = true
+scroll_lines = 1
+prompt_suggestions = false
+scroll_speed = 100
+screen_mode = "fullscreen"
+show_timestamps = false
+show_timeline = true
+show_thinking_blocks = false
+remember_tool_approvals = true
+group_tool_verbs = true
+
+[ui.display_refresh]
+auto_cadence_enabled = true
+
+[cli]
+channel = "alpha"
+auto_update = false
+
+[marketplace]
+official_marketplace_auto_installed = true
+default_skills_installs_purged = true
+
+[[marketplace.sources]]
+name = "xAI Official"
+git = "https://github.com/xai-org/plugin-marketplace.git"
+
+[models]
+default = "grok-4.6"
+default_reasoning_effort = "high"
