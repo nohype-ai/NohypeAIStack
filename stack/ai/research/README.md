@@ -13,13 +13,16 @@ Next research topics are prioritized to scale up productivity quickly, even at t
 	- ✅ main practical results is [Encrypting Repos](../../git/Encrypting%20Repos.md)
 	- 🚧 how this works in Grok Build (rules, policies ...)
 - 🚧 harness + scaffolding for coding and knowledge work
-	- ✅ [autonomous coding agents](autonomous%20coding%20agents.md)
-	- ✅ [Dev Harness Playbook](../dev%20harness/Dev%20Harness%20Playbook.md)
-	- 🚧 Relate/apply the explicit practical means and conventions beyond just general markdown:
-		- Agents.md, agentskills.io, custom agents
-		- and what's possibly specific to Grok Build: plugins, personas, hooks, workflows
-	- gather a basic template here for a harness, tested and proven in one specific project
-- evals / quality gates
+	- ✅ generally: [autonomous coding agents](autonomous%20coding%20agents.md)
+	- ✅ still boken: [Agent Failures in Codeface](Agent%20Failures%20in%20Codeface.md)
+	- ✅ solution concept: [Dev Harness Playbook](../dev%20harness/Dev%20Harness%20Playbook.md)
+		- in particular the quality gate in the task completion guide
+	- 🚧 solution practice:
+		- Relate/apply the explicit practical means and conventions beyond just general markdown:
+			- Agents.md, agentskills.io, custom agents
+			- and what's possibly specific to Grok Build: plugins, personas, hooks, workflows
+		- gather a basic template here for a harness, tested and proven in one specific project
+- evals / quality gates (deeper dive into this part of the harness)
    - automated quality assessment of agent output
    - generating tests alongside code (even for shell scripts?)
    - regression suites, benchmark runs
