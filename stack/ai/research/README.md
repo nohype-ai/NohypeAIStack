@@ -6,17 +6,18 @@ This folder contains ongoing research, some research topics are further along th
 
 Next research topics are prioritized to scale up productivity quickly, even at the cost of didactics:
 
-- ✅ [coding agent customization](coding%20agent%20customization.md)
+- 🚧 [coding agent customization](coding%20agent%20customization.md)
+	- 🚧 customization of Grok Build, storing its config in stack, automate via MacStack
 - ✅ [autonomous coding agents](autonomous%20coding%20agents.md)
 - 🚧 [confidentiality and integrity](confidentiality%20and%20integrity.md)
 	- ✅ main practical results is [Encrypting Repos](../../git/Encrypting%20Repos.md)
-	- 🚧 open: solid customization of Grok Build, storing its config in stack, automate via MacStack
+	- 🚧 how this works in Grok Build (rules, policies ...)
 - 🚧 harness + scaffolding for coding and knowledge work
 	- ✅ [autonomous coding agents](autonomous%20coding%20agents.md)
 	- ✅ [Dev Harness Playbook](../dev%20harness/Dev%20Harness%20Playbook.md)
 	- 🚧 Relate/apply the explicit practical means and conventions beyond just general markdown:
 		- Agents.md, agentskills.io, custom agents
-		- and Grok Build-specific: plugins, personas, hooks, workflows
+		- and what's possibly specific to Grok Build: plugins, personas, hooks, workflows
 	- gather a basic template here for a harness, tested and proven in one specific project
 - evals / quality gates
    - automated quality assessment of agent output

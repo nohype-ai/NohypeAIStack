@@ -18,7 +18,7 @@ Risk: The agent scans local context scooping up sensitive data, and then sends t
 > 
 > The local preprocessing that agents do is typically not even intelligent but based on deterministic dumb algorithms. The actual agent itself has no brain of its own. It does not understand when some local data is a password, it just sends the password out to its remote brain.
 > 
-> At the point where intelligence finally kicks it's already too late, because that intelligence sits anywhere on the planet, is not in your control and is subject to the competence of countless other people as well as who knows which laws and regulations (that might enforce back doors, government access, retention obligations etc.).
+> At the point where intelligence finally kicks it's already too late, because that intelligence sits anywhere on the planet, is not in your control and is subject to the competence of countless other people as well as god knows what laws and regulations (that might enforce back doors, government access, retention obligations etc.).
 
 Specific examples of affected sensitive data together with solution ideas:
 - credentials and other secrets in `~/`, for example in `~/ssh/`
