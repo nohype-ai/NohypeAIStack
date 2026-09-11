@@ -1,6 +1,6 @@
-# Confidentiality and Integrity Customization
+# Agent Customization
 
-What Grok Build is *permitted* to do, as opposed to what it is *asked* to do. Parent: [confidentiality and integrity](confidentiality%20and%20integrity.md). Prompt/behavior locations: [coding agent customization](../agent%20customization/coding%20agent%20customization.md).
+What Grok Build is *permitted* to do, as opposed to what it is *asked* to do. Parent: [confidentiality and integrity - initial conversation](confidentiality%20and%20integrity%20-%20initial%20conversation.md). Prompt/behavior locations: [coding agent customization](../agent%20customization/coding%20agent%20customization.md).
 
 Scope: Grok Build, user and project level, general knobs on the agent itself. Not MCP, hooks, plugins, personas, skills.
 

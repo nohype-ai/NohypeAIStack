@@ -9,15 +9,17 @@ Next research topics are prioritized to scale up productivity quickly, even at t
 - ✅ [coding agent customization](agent%20customization/coding%20agent%20customization.md)
 	- ✅ customization of Grok Build, storing its config in stack, automate via MacStack
 - ✅ [autonomous coding agents](harness%20for%20autonomy/autonomous%20coding%20agents.md)
-- ✅ [confidentiality and integrity](confidentiality%20and%20integrity/confidentiality%20and%20integrity.md)
-	- ✅ Protecting the data [Encrypting Repos](../../git/Encrypting%20Repos.md)
-	- ✅ Customizing the agent (here grok build): [confidentiality and integrity customization](confidentiality%20and%20integrity/confidentiality%20and%20integrity%20customization.md)
+- ✅ [confidentiality and integrity - initial conversation](confidentiality%20and%20integrity/confidentiality%20and%20integrity%20-%20initial%20conversation.md)
+	- ✅ Repo encryption: [Encrypting Repos](../../git/Encrypting%20Repos.md)
+	- ✅ Agent isolation: [Agent Isolation](confidentiality%20and%20integrity/Agent%20Isolation.md)
+	- ✅ Agent customization (here grok build): [Agent Customization](confidentiality%20and%20integrity/Agent%20Customization.md)
 - 🚧 harness + scaffolding for coding and knowledge work
 	- ✅ generally: [autonomous coding agents](harness%20for%20autonomy/autonomous%20coding%20agents.md)
 	- ✅ still boken: [Agent Failures in Codeface](harness%20for%20autonomy/Agent%20Failures%20in%20Codeface.md)
 	- ✅ solution concept: [Dev Harness Playbook](harness%20for%20autonomy/Dev%20Harness%20Playbook.md)
-		- in particular the quality gate in the task completion guide
-	- 🚧 solution practice:
+		- in particular the quality gate (in task completion instructions, could be a skill)
+	- 🚧 solution in practice:
+		- process [Agentic Engineering - voice conversation](harness%20for%20autonomy/Agentic%20Engineering%20-%20voice%20conversation.md)
 		- Relate/apply the explicit practical means and conventions beyond just general markdown:
 			- Agents.md, agentskills.io, custom agents
 			- and what's possibly specific to Grok Build: plugins, personas, hooks, workflows
