@@ -7,6 +7,7 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "cli_default_open_behavior": "existing_window",
   "remove_trailing_whitespace_on_save": false,
   "languages": {
     "Swift": {
@@ -103,33 +104,11 @@
     "show_user_menu": true
   },
   "agent_servers": {
-    "Grok-Low": {
+    "Grok": {
       "type": "custom",
       "command": "grok",
       "args": [
         "agent",
-        "--effort",
-        "low",
-        "stdio"
-      ]
-    },
-    "Grok-Medium": {
-      "type": "custom",
-      "command": "grok",
-      "args": [
-        "agent",
-        "--effort",
-        "medium",
-        "stdio"
-      ]
-    },
-    "Grok-High": {
-      "type": "custom",
-      "command": "grok",
-      "args": [
-        "agent",
-        "--effort",
-        "high",
         "stdio"
       ]
     }
