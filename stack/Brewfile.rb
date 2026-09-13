@@ -7,7 +7,7 @@
 # system management
 tap 'nohype-ai/tap'
 brew 'nohype-ai/tap/macstack'
-cask 'applite' # GUI app Homebrew wrapper
+cask 'homebrew-app' # official Homebrew GUI app
 # give omnidisksweeper full disk access in System Settings > Privacy & Security
 cask 'omnidisksweeper' # simple free disk usage inspection
 cask 'stats' # system health monitor, including chip temperature
