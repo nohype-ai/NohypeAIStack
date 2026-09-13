@@ -26,7 +26,7 @@ mas 'Pages: Create Documents', id: 361309726
 mas 'Numbers: Make Spreadsheets', id: 361304891
 mas 'Keynote: Design Presentations', id: 361285480
 cask 'omnigraffle'
-cask 'inkscape' # vector graphics app and cli (also for eps to svg conversion)
+cask 'affinity' # vector graphics app and cli (also for eps to svg conversion)
 
 # basic productivity tools
 cask 'raycast'                 # THE macOS swiss army knife for productivity
