@@ -98,27 +98,23 @@ struct SuperKeys {
             // MARK: Open Finder Folder in apps - macOS Only
             
             // Terminal in folder
-            HotKey(key: .return, modifiers: [.option, .shift, .control]) {
-                
+            HotKey(key: .return, modifiers: [.command, .control]) {
+                openFinderFolder(in: "/Applications/Ghostty.app")
             },
             // Develop in folder
-            HotKey(key: .d, modifiers: [.option, .shift, .control]) {
-                
-            },
-            // Organize / Obsidian in folder
-            HotKey(key: .o, modifiers: [.option, .shift, .control]) {
-                
+            HotKey(key: .d, modifiers: [.command, .shift, .control]) {
+                openFinderFolder(in: "/Applications/Zed.app")
             },
             // Write in folder
-            HotKey(key: .w, modifiers: [.option, .shift, .control]) {
-                
+            HotKey(key: .w, modifiers: [.command, .shift, .control]) {
+                openFinderFolder(in: "/Applications/Typora.app")
             },
             
             // MARK: System Controls - macOS Only
             
             // Switch Dark/Day Mode
             HotKey(key: .d, modifiers: [.control, .command]) {
-                runAppleScript("""
+                _ = runAppleScript("""
                     tell application "System Events"
                         tell appearance preferences
                             set dark mode to not dark mode
@@ -132,7 +128,7 @@ struct SuperKeys {
             },
             // Empty the Trash
             HotKey(key: .delete, modifiers: [.control, .command]) {
-                runAppleScript("tell application \"Finder\" to empty the trash")
+                _ = runAppleScript("tell application \"Finder\" to empty the trash")
             },
         ]
     }
@@ -157,8 +153,26 @@ struct SuperKeys {
         )
     }
     
-    static func runAppleScript(_ source: String) {
-        NSAppleScript(source: source)?.executeAndReturnError(nil)
+    static func openFinderFolder(in appPath: String) {
+        guard let folder = finderFolder() else { return }
+        NSWorkspace.shared.open(
+            [URL(fileURLWithPath: folder)],
+            withApplicationAt: URL(fileURLWithPath: appPath),
+            configuration: NSWorkspace.OpenConfiguration()
+        )
+    }
+    
+    static func finderFolder() -> String? {
+        guard var folder = runAppleScript("""
+            tell application "Finder" to get POSIX path of (insertion location as alias)
+            """) else { return nil }
+        folder = folder.trimmingCharacters(in: .whitespacesAndNewlines)
+        if folder.count > 1, folder.hasSuffix("/") { folder.removeLast() }
+        return folder
+    }
+    
+    static func runAppleScript(_ source: String) -> String? {
+        NSAppleScript(source: source)?.executeAndReturnError(nil).stringValue
     }
     
     static func run(_ command: String, _ args: String...) {

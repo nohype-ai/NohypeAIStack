@@ -44,7 +44,6 @@
 | Terminal in folder | ⌘⌃⏎ | 🚧 Open folder in Terminal |
 | Develop in folder | ⌘⇧⌃D | 🚧 Open folder in Zed |
 | Create new file in folder | ⌘⇧⌃F | 🚧 Create new file in folder |
-| Organize / Obsidian in folder | ⌘⇧⌃O | 🚧 Open folder in Obsidian |
 | Write in folder | ⌘⇧⌃W | 🚧 Open folder in Typora |
 
 ## System Controls
