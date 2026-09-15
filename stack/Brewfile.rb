@@ -29,7 +29,6 @@ cask 'omnigraffle'
 cask 'affinity' # vector graphics app and cli (also for eps to svg conversion)
 
 # basic productivity tools
-cask 'raycast'                 # THE macOS swiss army knife for productivity
 cask 'cold-turkey-blocker'     # strict distraction blocker, getcoldturkey.com
 cask 'focus'                   # limit distractions, heyfocus.com
 

@@ -8,6 +8,9 @@ This file documents interesting things to check out which might join the stack i
 - [mise.jdx.dev (macOS environment manager)](https://mise.jdx.dev)
 - [DaisyDisk (disk usage inspection)](https://daisydiskapp.com/)
 - [cleanshot.com (screen recording)](https://cleanshot.com/features#recording)
+- Raycast
+  - THE macOS swiss army knife for productivity
+  - BUT: needed 750 MB memory with not even UI open, and config cannot even be installed via script
 
 ## Collaboration, Web
 - [Basecamp (project management)](https://basecamp.com)
