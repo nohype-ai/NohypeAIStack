@@ -12,7 +12,7 @@ struct SuperKeys {
     
     static func createHotKeys() -> [HotKey] {
         [
-            // MARK: macOS + Omarchy (Omarchy Default)
+            // MARK: Launch Stuff - macOS + Omarchy (Omarchy Default)
             
             // Terminal
             HotKey(key: .return, modifiers: [.command]) {
@@ -59,7 +59,7 @@ struct SuperKeys {
                 open(website: "https://www.youtube.com/feed/subscriptions")
             },
             
-            // MARK: macOS + Omarchy (Omarchy Customized)
+            // MARK: Launch Stuff - macOS + Omarchy (Omarchy Customized)
             
             // Develop
             HotKey(key: .d, modifiers: [.command, .shift]) {
@@ -74,7 +74,7 @@ struct SuperKeys {
                 open(website: "https://web.telegram.org")
             },
             
-            // MARK: macOS Only
+            // MARK: Launch Stuff - macOS Only
             
             // Develop - Secondary
             HotKey(key: .d, modifiers: [.command, .shift, .option]) {
@@ -95,7 +95,7 @@ struct SuperKeys {
                 )
             },
             
-            // MARK: Open Finder Folder in apps - macOS Only
+            // MARK: Do Stuff in Finder Folder - macOS Only
             
             // Terminal in folder
             HotKey(key: .return, modifiers: [.command, .control]) {
@@ -104,6 +104,10 @@ struct SuperKeys {
             // Develop in folder
             HotKey(key: .d, modifiers: [.command, .shift, .control]) {
                 openFinderFolder(in: "/Applications/Zed.app")
+            },
+            // Create new file in folder
+            HotKey(key: .f, modifiers: [.command, .shift, .control]) {
+                createNewFileInFinderFolder()
             },
             // Write in folder
             HotKey(key: .w, modifiers: [.command, .shift, .control]) {
@@ -162,10 +166,26 @@ struct SuperKeys {
         )
     }
     
+    static func createNewFileInFinderFolder() {
+        guard let folder = finderFolder() else { return }
+        let folderURL = URL(fileURLWithPath: folder)
+        var url = folderURL.appendingPathComponent("_new.md")
+        var n = 2
+        while FileManager.default.fileExists(atPath: url.path) {
+            url = folderURL.appendingPathComponent("_new \(n).md")
+            n += 1
+        }
+        FileManager.default.createFile(atPath: url.path, contents: Data())
+        NSWorkspace.shared.activateFileViewerSelecting([url])
+    }
+    
     static func finderFolder() -> String? {
         guard var folder = runAppleScript("""
-            tell application "Finder" to get POSIX path of (insertion location as alias)
-            """) else { return nil }
+            tell application "Finder"
+                if (count of Finder windows) is 0 then return
+                POSIX path of (insertion location as alias)
+            end tell
+            """), !folder.isEmpty else { return nil }
         folder = folder.trimmingCharacters(in: .whitespacesAndNewlines)
         if folder.count > 1, folder.hasSuffix("/") { folder.removeLast() }
         return folder

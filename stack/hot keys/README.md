@@ -1,6 +1,8 @@
 # Hot Keys
 
-🚧 = Not implemented yet
+These global hot keys are implemented by our own tool "SuperKeys."
+
+Hot keys are an aspect of the stack that we aim to document and somewhat align across macOS and Omarchy in order to ease switching between those systems.
 
 ## Launch Stuff
 
@@ -37,13 +39,13 @@
 | Talk - Secondary | ⌘⇧⌥T | WhatsApp |
 | Trash | ⌘⇧⌫ | Open Trash |
 
-## In Active Finder Folder (macOS only so far)
+## Do Stuff In Active File Manager Folder (only macOS Finder so far)
 
 | Destination / Intent | Shortcut | macOS Action |
 |--------|---------|-----|
 | Terminal in folder | ⌘⌃⏎ | 🚧 Open folder in Terminal |
 | Develop in folder | ⌘⇧⌃D | 🚧 Open folder in Zed |
-| Create new file in folder | ⌘⇧⌃F | 🚧 Create new file in folder |
+| Create new file in folder | ⌘⇧⌃F | Create `_new.md` and select it in Finder |
 | Write in folder | ⌘⇧⌃W | 🚧 Open folder in Typora |
 
 ## System Controls
@@ -61,7 +63,3 @@
 | Switch Dark/Day Mode | ⌃⌘D | Toggle System Appearance |
 | Put System to Sleep | ⌃⌘S | System -> Sleep |
 | Empty the Trash | ⌃⌘⌫ | Empty Trash |
-
-## Symbols
-
-⇧ ⌃ ⌥ ⌘ ⏎ ⌫
