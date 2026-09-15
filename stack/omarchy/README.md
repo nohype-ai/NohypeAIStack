@@ -74,32 +74,42 @@ omarchy default editor
 omarchy default agent
 ```
 
-## GitHub SSH
+## GitHub (HTTPS via `gh`)
 
-Default key for this machine is `~/.ssh/id_ed25519`. OpenSSH picks that filename on its own — no `~/.ssh/config` needed. GitHub account: **codeface-io**.
+Omarchy already ships `gh`. Git on this machine uses HTTPS with the GitHub CLI as the credential helper — not SSH. GitHub account: **codeface-io**.
 
-```bash
-ssh-keygen -t ed25519 -C "sebastian@codeface.io" -f ~/.ssh/id_ed25519
-cat ~/.ssh/id_ed25519.pub
-```
-
-Use a passphrase. Then add the public key at [github.com/settings/keys](https://github.com/settings/keys) as an **Authentication** key (title e.g. the hostname). Test:
+In a real terminal (so the browser can open):
 
 ```bash
-ssh -T git@github.com
+gh auth login
 ```
 
-First use: type `yes` to trust GitHub’s host key (writes `~/.ssh/known_hosts`). Then enter the key passphrase.
+Prompts:
 
-Success:
+| Prompt | Choice |
+| --- | --- |
+| Where do you use GitHub? | GitHub.com |
+| Preferred protocol for Git operations | **HTTPS** |
+| Authenticate Git with your GitHub credentials? | **Yes** |
+| How would you like to authenticate? | Login with a web browser |
+
+Copy the one-time code, press Enter, paste it at [github.com/login/device](https://github.com/login/device), approve. Success looks like:
 
 ```text
-Hi codeface-io! You've successfully authenticated, but GitHub does not provide shell access.
+✓ Authentication complete.
+- gh config set -h github.com git_protocol https
+✓ Configured git protocol
+✓ Logged in as codeface-io
 ```
 
-Clone / remotes use SSH:
+Check later with `gh auth status`.
+
+Existing clones that still have an SSH remote (`git@github.com:…`) must be switched or `git` will keep asking for the SSH key passphrase:
 
 ```bash
-git clone git@github.com:USER/REPO.git
-git remote set-url origin git@github.com:USER/REPO.git
+git remote set-url origin https://github.com/USER/REPO.git
+git remote -v
+git fetch
 ```
+
+`git fetch` / `pull` / `push` against `https://github.com/…` remotes should not prompt. New clones: `gh repo clone USER/REPO` or `git clone https://github.com/USER/REPO.git`.
