@@ -95,6 +95,25 @@ struct SuperKeys {
                 )
             },
             
+            // MARK: Open Finder Folder in apps - macOS Only
+            
+            // Terminal in folder
+            HotKey(key: .return, modifiers: [.option, .shift, .control]) {
+                
+            },
+            // Develop in folder
+            HotKey(key: .d, modifiers: [.option, .shift, .control]) {
+                
+            },
+            // Organize / Obsidian in folder
+            HotKey(key: .o, modifiers: [.option, .shift, .control]) {
+                
+            },
+            // Write in folder
+            HotKey(key: .w, modifiers: [.option, .shift, .control]) {
+                
+            },
+            
             // MARK: System Controls - macOS Only
             
             // Switch Dark/Day Mode
