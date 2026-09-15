@@ -1,8 +1,9 @@
-# Hot Keys
+# Key Commands
 
-These global hot keys are implemented by our own tool "SuperKeys."
-
-Hot keys are an aspect of the stack that we aim to document and somewhat align across macOS and Omarchy in order to ease switching between those systems.
+- Key commands are an aspect of the stack that we aim to document and somewhat align across macOS and Omarchy in order to ease switching between those systems.
+- The global key commands on macOS are implemented by our own tool `super-keys`.
+- the script `build.sh` builds `super-keys` and adds it to the stack's `bin` folder so it's available globally.
+- `super-keys` must of course be running in order to process the key commands.
 
 ## Launch Stuff
 

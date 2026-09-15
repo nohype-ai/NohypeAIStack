@@ -7,6 +7,9 @@ let package = Package(
     platforms: [
         .macOS(.v13),
     ],
+    products: [
+        .executable(name: "super-keys", targets: ["SuperKeys"]),
+    ],
     dependencies: [
         .package(url: "https://github.com/soffes/HotKey", from: "0.2.1"),
     ],
