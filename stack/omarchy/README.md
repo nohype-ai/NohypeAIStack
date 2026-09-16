@@ -1,6 +1,6 @@
-# my-system
+# Omarchy Stack
 
-Personal Omarchy / Hyprland setup notes. Goal: capture each desktop tweak here so the machine can be reproduced later.
+Personal Omarchy / Hyprland setup notes. Goal: capture each system tweak here so the machine can be reproduced later.
 
 ## Natural scroll
 
@@ -178,80 +178,42 @@ git fetch
 
 `git fetch` / `pull` / `push` against `https://github.com/…` remotes should not prompt. New clones: `gh repo clone USER/REPO` or `git clone https://github.com/USER/REPO.git`.
 
-## Lock without turning the display off (Studio Display + AMD iGPU)
+## Known issues
 
-This machine is a mini PC on an **Apple Studio Display** (`DP-5`, 5120×2880). Cutting the display signal (`DPMS off`) wedges the AMD iGPU: the panel stays black and does not come back. Suspend (`systemctl suspend`) is fine; the failure was display-off, not sleep.
+Observe stock Omarchy first, then measure, then maybe a small fix. Do not pile display-sleep workarounds onto the machine until the failure is understood. A previous approach solved “don’t lose windows overnight” by keeping the PC fully on (lock + black frame + backlight 0%, never s2idle). That is a lot of machinery for a habit you can change (shutdown) until you know what is actually broken.
 
-This Omarchy version does **not** use `hypridle` or `~/.config/hypr/hypridle.conf` (hypridle is not installed). Idle, screensaver, and lock are Quickshell services. The old “change the hypridle lock listener to lock only” advice maps to: **lock the session, never call DPMS off**.
+### Studio Display + AMD USB4
 
-### Default idle behavior (Omarchy)
+This Beelink SER9 (Ryzen 7 255 / Radeon 780M) talks to the **Apple Studio Display** over USB4 (`DP-5`, 5120×2880), not a dumb DisplayPort cable. Two host actions drop that tunnel; amdgpu then fails DPIA AUX and the panel stays black until a **power cycle**:
 
-| After idle | What happens |
-| --- | --- |
-| 150s | Screensaver (`omarchy-launch-screensaver`), unless `omarchy toggle screensaver` has turned it off |
-| 300s | Lock (`omarchy-system-lock` → `omarchy-shell lock lock`) |
-| 5s after lock | Packaged `omarchy.lock` runs `omarchy-brightness-display off`, which is `hyprctl dispatch 'hl.dsp.dpms({ action = "disable" })'` — this is the wedge |
+1. **DPMS off** — stock Omarchy lock blanks the output about 5s after lock.
+2. **s2idle** — power-menu Suspend. This CPU has no S3; “suspend” is light sleep. Same tunnel death.
 
-systemd-logind `IdleAction` is the default `ignore`. Inactivity does **not** suspend or hibernate. Sleep is only via the power menu / `systemctl suspend`.
+Resume logs look like:
 
-`omarchy toggle idle stay-awake` (Super+Ctrl+I) disables the idle cycle entirely (no screensaver, no auto-lock). This machine is set to **allow idle**.
-
-### Change (lock only)
-
-Do not edit `/usr/share/omarchy/` (package-owned). Clone the lock plugin and skip the blank/DPMS timer:
-
-```bash
-omarchy plugin clone omarchy.lock
+```text
+amdgpu: Skip DMUB HPD IRQ callback in suspend/resume
+amdgpu: DPIA AUX failed on 0x600(1), error 7
 ```
 
-That copies the plugin to `~/.config/omarchy/plugins/seb.lock`, enables it, and disables `omarchy.lock`. Then in `~/.config/omarchy/plugins/seb.lock/Service.qml` make the blank timer a no-op:
+A **full shutdown/reboot** re-inits the GPU. That is a different path. If the panel comes back after a clean boot, shutdown is fine. If it doesn’t, the display itself needs a power cycle even on cold start — worth knowing, and a 30-second test.
 
-```qml
-function armBlankTimer() {
-  // Lock-only: skip DPMS/blank. This AMD iGPU + Apple Studio Display
-  // wedges after `omarchy-brightness-display off` (hl.dsp.dpms disable).
-}
+### Workspaces are not persisted
 
-function runWake() {
-  if (!wakeProcess.running) wakeProcess.running = true
-}
+Hyprland/Omarchy do **not** restore windows after a reboot. Empty numbered workspaces come back; Ghostty/Brave/Zed do not. There are third-party session restorers, and they are their own project (relaunch apps, guess cwd, miss browser tabs). Not a one-line Omarchy setting. So “persist workspaces” is not a substitute for suspend until you’ve decided you want that product.
 
-function runBlank() {
-  logEvent("blank-skipped: lock-only")
-}
-```
+### What to measure, in this order
 
-`keepLoaded` lock code only loads on a shell restart:
+| Test | How | What you learn |
+| --- | --- | --- |
+| 1. Lock only | Super+Ctrl+L, wait 10s | Does stock DPMS-off already black the panel? Does a key bring it back? |
+| 2. Short suspend | Power menu Suspend, wait 20s, move mouse/keyboard | Does a *short* s2idle come back? (Sometimes short resume works and overnight doesn’t.) |
+| 3. Overnight suspend | Only if 2 worked | The original failure. If it wedges, you have a clean repro. |
+| 4. Shutdown | Power menu Shutdown, wait, power on | Does a cold GPU init bring the Studio Display back without touching its power button? |
+| 5. Logs if it wedges | After you get a picture again: `journalctl -b -1 \| grep -iE 'amdgpu\|DPIA\|suspend\|Studio'` | Same AUX errors vs something new. |
 
-```bash
-omarchy restart shell
-```
+If test 1 or 2 wedges the panel, don’t keep experimenting that night — power-cycle the display (or the mini PC). That’s the recovery, not a deeper Linux trick.
 
-Lock still happens (idle at 5 minutes, or Super+Ctrl+L / `omarchy system lock`). The panel stays lit behind the lock screen.
+**Omarchy updates** might improve lock/idle, not this hardware bug. The DPIA AUX failure is amdgpu + USB4 + this display. A kernel/`amdgpu` update is the plausible upstream fix; an Omarchy theme/lock tweak is not.
 
-### Practical setup on this machine
-
-| Behavior | Setting |
-| --- | --- |
-| Screensaver | On (150s) |
-| Auto-lock | On (300s) |
-| DPMS / display off | Off (cloned lock skips it) |
-| Suspend | OK — use Sleep / `systemctl suspend` |
-| Hibernate | Ignore |
-
-### Apply / confirm
-
-```bash
-omarchy plugin list --json | jq '.[] | select(.id | test("lock")) | {id,enabled,clonedFrom}'
-omarchy-shell idle status | jq '{enabled,stayAwake,screensaver,lock}'
-omarchy-shell lock status | jq '{locked,passwordPam,lastEvent}'
-hyprctl monitors -j | jq '.[] | {name,make,model,dpmsStatus}'
-```
-
-Expect `seb.lock` enabled, `omarchy.lock` disabled, idle `enabled: true`, `stayAwake: false`, screensaver 150, lock 300, `dpmsStatus: true`.
-
-Do **not** test with `omarchy brightness display off` or `hyprctl dispatch dpms off` — that is the command that bricks this display.
-
-To confirm lock-only by hand: Super+Ctrl+L, wait at least 6 seconds. The lock screen should stay visible (panel still lit). `hyprctl monitors -j` should still show `"dpmsStatus": true`. Unlock as usual.
-
-Omarchy updates do **not** overwrite the clone, but the clone can go stale if upstream lock-screen code changes. If lock breaks after an update: `omarchy plugin remove seb.lock --yes`, clone again, re-apply the `armBlankTimer` no-op, `omarchy restart shell`.
+Until then, the simple policy is: **shutdown when you’re done**, accept a fresh session in the morning, and treat Suspend as an experiment, not a habit. If you later want session restore, that’s a separate, explicit feature — not mixed into display-sleep hacks.
