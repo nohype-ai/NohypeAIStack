@@ -1,9 +1,70 @@
 # Key Commands
 
-- Key commands are an aspect of the stack that we aim to document and somewhat align across macOS and Omarchy in order to ease switching between those systems.
-- The global key commands on macOS are implemented by our own tool `super-keys`.
-- the script `build.sh` builds `super-keys` and adds it to the stack's `bin` folder so it's available globally.
-- `super-keys` must of course be running in order to process the key commands.
+Key commands are an aspect of the stack that we aim to document and somewhat align across macOS and Omarchy in order to ease switching between those systems.
+
+The tables below are the spec. On macOS they are implemented by `super-keys`.
+
+## super-keys
+
+A Swift package (`SuperKeys/`) that registers the global hotkeys. It is a CLI with an AppKit run loop, not an `.app`. `launchd` keeps it running.
+
+### Daily use
+
+Do nothing. After login it is already running. The shortcuts in this file should just work.
+
+If a Finder-folder shortcut asks for Automation (control Finder), allow it once.
+
+If keys do nothing after a reboot: System Settings → General → Login Items → allow `super-keys` in the background.
+
+Log: `~/Library/Logs/super-keys.log`
+
+### What runs it
+
+There is no LaunchAgent source in the Swift package. `launchd` runs whatever plist is registered for the user session.
+
+| Piece | Where | In git? |
+|--------|--------|---------|
+| Program | `stack/bin/super-keys` | yes (copied there by `build.sh`) |
+| Generator | `launch-agent.sh` | yes |
+| Installed agent | `~/Library/LaunchAgents/ai.nohype.super-keys.plist` | no — written on this Mac |
+| Identity | `ai.nohype.super-keys` (codesign + launchd label) | — |
+
+`launch-agent.sh` signs the binary (ad-hoc, identifier `ai.nohype.super-keys`), writes that plist, then `bootout` + `bootstrap` so `launchd` picks it up.
+
+Who registers it:
+
+1. **You, while developing** — `build.sh` builds, copies to `bin/`, then runs `launch-agent.sh`.
+2. **`mack update`** — `stack/update.sh` runs `launch-agent.sh` (reload only, no compile).
+3. **`launchd`, at login** — the installed plist has `RunAtLoad` and `KeepAlive`. After that, nothing in the stack needs to start it.
+
+### Work on it
+
+Bindings live in `SuperKeys/Sources/SuperKeys/SuperKeys.swift`.
+
+```bash
+# from this folder: rebuild, re-sign, rewrite plist, restart the running agent
+./build.sh
+```
+
+That is the update path while it is registered. `launch-agent.sh` unloads the old job, kills any other `super-keys`, loads the new job. `KeepAlive` then holds the new binary.
+
+Reload the agent without compiling (path/sign/plist only): `./launch-agent.sh`
+
+Stop it (until next login or next `launch-agent.sh`):
+
+```bash
+launchctl bootout gui/$(id -u)/ai.nohype.super-keys
+```
+
+Status: `launchctl print gui/$(id -u)/ai.nohype.super-keys`
+
+Do not run a second copy from Terminal or Xcode while the agent is up — they fight over the same hotkeys. To debug in Xcode: `bootout` first, run from Xcode, `./launch-agent.sh` when done.
+
+### Binary path
+
+Yes, the installed plist hardcodes an absolute path to `stack/bin/super-keys` (resolved when `launch-agent.sh` runs). `launchd` does not expand `$STACK` or `PATH`. If you move this repo, re-run `./launch-agent.sh` or `mack update`.
+
+A real `.app` avoids that by living at a stable location (`/Applications/…`) and registering a **bundle-relative** helper: macOS 13+ `BundleProgram` inside `Contents/Library/LaunchAgents/`, or `SMAppService` from ServiceManagement. The helper path is then relative to the `.app`, so moving the app does not break the agent. We skip that while SuperKeys stays a stack CLI.
 
 ## Launch Stuff
 

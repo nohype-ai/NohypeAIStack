@@ -26,6 +26,9 @@ silent uv tool install --python 3.13 --upgrade 'litellm[proxy]'
 echo "📝 Updating markitdown ..."
 silent uv tool install --upgrade --force 'markitdown[pptx,docx,xlsx,xls,pdf,outlook]'
 
+# Keep super-keys running (LaunchAgent)
+"$stack_folder/key commands/launch-agent.sh"
+
 # Fix Cursor CLI Issue
 # echo "🩹 Fixing Cursor CLI issue ..."
 # xattr -rd com.apple.quarantine /opt/homebrew/Caskroom/cursor-cli
