@@ -9,5 +9,6 @@ stack/symlinks to dotfiles/.*
 .obsidian/graph.json
 .obsidian/hotkeys.json
 .obsidian/plugins
+.obsidian/themes
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
