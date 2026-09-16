@@ -198,6 +198,26 @@ amdgpu: DPIA AUX failed on 0x600(1), error 7
 
 A **full shutdown/reboot** re-inits the GPU. That is a different path. If the panel comes back after a clean boot, shutdown is fine. If it doesn’t, the display itself needs a power cycle even on cold start — worth knowing, and a 30-second test.
 
+### Shutdown may not actually power off the Beelink
+
+Same hardware family (USB4 + Studio Display + SER9), **not** the s2idle AUX failure. That bug blacks the *panel* while Linux keeps running. This one is: did ACPI S5 cut power to the mini PC?
+
+Linux does *start* a real poweroff (`The system will power off now!`, then unmounts). The persistent journal always stops there, even on a clean shutdown, so missing a “Powering off” line proves nothing. What the logs do show:
+
+- Tue 21:08 — poweroff started. Next boot **Wed 03:50**. That 6.5h gap is either a hang (box never went off) or a successful off plus something turning it back on.
+- Thunderbolt (`NHI0` / `NHI1`) and several USB controllers are **wakeup-enabled**. The Studio Display sits on that USB4 bus; an Apple MagSafe Charging Case has also shown up through the display’s USB hub. Either can keep the box from staying off.
+- Omarchy sets `HandlePowerKey=ignore`. A **short press of the Beelink power button does nothing**. Only the power menu (or a long hold = hard cut) shuts down. Easy to think “shutdown doesn’t work” if you used the button.
+
+**One test, no extra config:** Power menu → Shutdown. Watch the **Beelink** (LED / fans), not the display, for 60 seconds. Do not touch the power button.
+
+| What you see | Meaning |
+| --- | --- |
+| LED/fans die and stay dead | Shutdown works. Black panel was just the display. |
+| LED/fans die, then the box comes back | S5 worked, then TB/USB woke it. Separate from “display won’t wake”. |
+| LED/fans never die | Shutdown hung at ACPI. Also separate; often Thunderbolt. |
+
+Long-hold to force off only after that minute, so the log still shows a clean poweroff attempt.
+
 ### Workspaces are not persisted
 
 Hyprland/Omarchy do **not** restore windows after a reboot. Empty numbered workspaces come back; Ghostty/Brave/Zed do not. There are third-party session restorers, and they are their own project (relaunch apps, guess cwd, miss browser tabs). Not a one-line Omarchy setting. So “persist workspaces” is not a substitute for suspend until you’ve decided you want that product.
@@ -209,8 +229,9 @@ Hyprland/Omarchy do **not** restore windows after a reboot. Empty numbered works
 | 1. Lock only | Super+Ctrl+L, wait 10s | Does stock DPMS-off already black the panel? Does a key bring it back? |
 | 2. Short suspend | Power menu Suspend, wait 20s, move mouse/keyboard | Does a *short* s2idle come back? (Sometimes short resume works and overnight doesn’t.) |
 | 3. Overnight suspend | Only if 2 worked | The original failure. If it wedges, you have a clean repro. |
-| 4. Shutdown | Power menu Shutdown, wait, power on | Does a cold GPU init bring the Studio Display back without touching its power button? |
-| 5. Logs if it wedges | After you get a picture again: `journalctl -b -1 \| grep -iE 'amdgpu\|DPIA\|suspend\|Studio'` | Same AUX errors vs something new. |
+| 4. Shutdown (Beelink) | Power menu Shutdown. Watch LED/fans 60s. Do not press the power button. | Does the mini PC actually stay off? See table above. |
+| 5. Shutdown (display) | After a real power-off, power on from the button | Does a cold GPU init bring the Studio Display back without touching *its* power button? |
+| 6. Logs if it wedges | After you get a picture again: `journalctl -b -1 \| grep -iE 'amdgpu\|DPIA\|suspend\|Studio\|power off'` | AUX errors vs a poweroff that never finished. |
 
 If test 1 or 2 wedges the panel, don’t keep experimenting that night — power-cycle the display (or the mini PC). That’s the recovery, not a deeper Linux trick.
 
