@@ -4,9 +4,12 @@ import HotKey
 @main
 struct SuperKeys {
     static func main() {
+        print("Preparing application ...")
         let app = NSApplication.shared
         app.setActivationPolicy(.prohibited) // no Dock, no menu bar
+        print("Registering key commands ...")
         let hotKeys = createHotKeys()
+        print("Waiting for key commands...\nℹ️ Leave this session open so SuperKeys can process key commands.\nℹ️ Cancel SuperKeys with Ctrl + C.")
         app.run()
     }
     
