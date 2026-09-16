@@ -1,5 +1,7 @@
 # Ignore the symlinks that get auto generated locally
 stack/symlinks to dotfiles/.*
+
+# Ignore local (symlinked) Obsidian settings
 .obsidian/app.json
 .obsidian/appearance.json
 .obsidian/backlink.json
@@ -12,3 +14,6 @@ stack/symlinks to dotfiles/.*
 .obsidian/themes
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
+
+# Other
+.build
