@@ -2,19 +2,27 @@ import AppKit
 import HotKey
 
 @main
+@MainActor
 struct SuperKeys {
+    // MainActor-isolated so Swift 6 allows a process-lifetime [HotKey] without nonisolated(unsafe).
+    // First access is from main(), after NSApplication.shared.
+    static let hotKeys = createHotKeys()
+
     static func main() {
+        // inspect logs via the file ~/Library/Logs/super-keys.log
         setlinebuf(stdout)
         setlinebuf(stderr)
+        
+        // get the app object
         print("Preparing application ...")
         let app = NSApplication.shared
-        app.setActivationPolicy(.prohibited) // no Dock, no menu bar
-        let hotKeys = createHotKeys()
-        print("Registering \(hotKeys.count) key commands.")
-        // HotKey.deinit unregisters. Release builds drop an unread `let` immediately.
-        withExtendedLifetime(hotKeys) {
-            app.run()
-        }
+        
+        // no Dock, no menu bar
+        app.setActivationPolicy(.prohibited)
+        
+        // run
+        print("Waiting for key commands to process ...")
+        app.run()
     }
     
     static func createHotKeys() -> [HotKey] {
