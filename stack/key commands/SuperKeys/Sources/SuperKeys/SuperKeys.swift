@@ -26,7 +26,8 @@ struct SuperKeys {
     }
     
     static func createHotKeys() -> [HotKey] {
-        [
+        print("Registering key commands ...")
+        return [
             // MARK: Launch Stuff - macOS + Omarchy (Omarchy Default)
             
             // Terminal
@@ -153,6 +154,7 @@ struct SuperKeys {
     }
     
     static func launch(app appPath: String) {
+        print("Launching app " + appPath)
         NSWorkspace.shared.openApplication(
             at: URL(fileURLWithPath: appPath),
             configuration: NSWorkspace.OpenConfiguration()
@@ -165,6 +167,7 @@ struct SuperKeys {
             return
         }
         
+        print("Opening website " + website)
         NSWorkspace.shared.open(
             [websiteURL],
             withApplicationAt: browserURL,
@@ -174,6 +177,8 @@ struct SuperKeys {
     
     static func openFinderFolder(in appPath: String) {
         guard let folder = finderFolder() else { return }
+        
+        print("Opening Finder folder in app " + appPath)
         NSWorkspace.shared.open(
             [URL(fileURLWithPath: folder)],
             withApplicationAt: URL(fileURLWithPath: appPath),
@@ -190,6 +195,8 @@ struct SuperKeys {
             url = folderURL.appendingPathComponent("_new \(n).md")
             n += 1
         }
+        
+        print("Creating file in Finder folder: " + url.lastPathComponent)
         FileManager.default.createFile(atPath: url.path, contents: Data())
         NSWorkspace.shared.activateFileViewerSelecting([url])
     }
