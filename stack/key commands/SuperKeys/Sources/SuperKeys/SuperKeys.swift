@@ -4,13 +4,17 @@ import HotKey
 @main
 struct SuperKeys {
     static func main() {
+        setlinebuf(stdout)
+        setlinebuf(stderr)
         print("Preparing application ...")
         let app = NSApplication.shared
         app.setActivationPolicy(.prohibited) // no Dock, no menu bar
-        print("Registering key commands ...")
         let hotKeys = createHotKeys()
-        print("Waiting for key commands.")
-        app.run()
+        print("Registering \(hotKeys.count) key commands.")
+        // HotKey.deinit unregisters. Release builds drop an unread `let` immediately.
+        withExtendedLifetime(hotKeys) {
+            app.run()
+        }
     }
     
     static func createHotKeys() -> [HotKey] {
