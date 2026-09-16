@@ -1,8 +1,67 @@
 # Key Commands
 
-Key commands are an aspect of the stack that we aim to document and somewhat align across macOS and Omarchy in order to ease switching between those systems.
+- Key commands are an aspect of the stack that we aim to document and somewhat align across macOS and Omarchy in order to ease switching between those systems.
+- The commands documented below are the spec. On macOS they are implemented by `super-keys`. which documented below also.
 
-The tables below are the spec. On macOS they are implemented by `super-keys`.
+## Launch Commands
+
+### macOS + Omarchy (Omarchy Default)
+
+| Destination / Intent | Shortcut | macOS App / Website |
+|--------|---------|-----|
+| Terminal | ⌘⏎ | Ghostty |
+| Internet Browser | ⌘⇧⏎ | Brave |
+| AI Assistant | ⌘⇧A | grok.com |
+| Email | ⌘⇧E | Mail |
+| Find(er) / File Manager | ⌘⇧F | Finder |
+| Organize / Obsidian | ⌘⇧O | Obsidian |
+| Music | ⌘⇧M | Music |
+| Music - Secondary| ⌘⇧⌥M | music.youtube.com |
+| Password Manager | ⌘⇧/ | Passwords |
+| Write | ⌘⇧W | Typora |
+| YouTube | ⌘⇧Y | YouTube Subscriptions URL |
+
+### macOS + Omarchy (Omarchy Customized)
+
+| Destination / Intent | Shortcut | macOS App / Website |
+|--------|---------|-----|
+| Develop | ⌘⇧D | Zed |
+| Git Client | ⌘⇧G | Fork |
+| Talk | ⌘⇧T | Telegram Web App URL |
+
+### macOS Only
+
+| Destination / Intent | Shortcut | macOS App / Website |
+|--------|---------|-----|
+| Develop - Secondary | ⌘⇧⌥D | Selected Xcode (`xcode-select -p`) |
+| System Settings | ⌘⇧S | System Settings |
+| Talk - Secondary | ⌘⇧⌥T | WhatsApp |
+| Trash | ⌘⇧⌫ | Open Trash |
+
+## Do Stuff In Active File Manager Folder (only macOS Finder so far)
+
+| Destination / Intent | Shortcut | macOS Action |
+|--------|---------|-----|
+| Terminal in folder | ⌘⌃⏎ | Open folder in Terminal |
+| Develop in folder | ⌘⇧⌃D | Open folder in Zed |
+| Create new file in folder | ⌘⇧⌃F | Create `_new.md` and select it in Finder |
+| Write in folder | ⌘⇧⌃W | Open folder in Typora |
+
+## System Control Commands
+
+### macOS + Omarchy (Omarchy Default)
+
+| Destination / Intent | Shortcut | macOS Action |
+|--------|---------|-----|
+| Control Audio | ⌃⌘A | Toggle SoundSource app (configure directly in SoundSource) |
+
+### macOS Only
+
+| Destination / Intent | Shortcut | macOS Action |
+|--------|---------|-----|
+| Switch Dark/Day Mode | ⌃⌘D | Toggle System Appearance |
+| Put System to Sleep | ⌃⌘S | System -> Sleep |
+| Empty the Trash | ⌃⌘⌫ | Empty Trash |
 
 ## super-keys
 
@@ -62,66 +121,6 @@ Do not run a second copy from Terminal or Xcode while the agent is up — they f
 
 ### Binary path
 
-Yes, the installed plist hardcodes an absolute path to `stack/bin/super-keys` (resolved when `launch-agent.sh` runs). `launchd` does not expand `$STACK` or `PATH`. If you move this repo, re-run `./launch-agent.sh` or `mack update`.
+The installed plist hardcodes an absolute path to `stack/bin/super-keys` (resolved when `launch-agent.sh` runs). `launchd` does not expand `$STACK` or `PATH`. If you move this repo, re-run `./launch-agent.sh` or `mack update`.
 
 A real `.app` avoids that by living at a stable location (`/Applications/…`) and registering a **bundle-relative** helper: macOS 13+ `BundleProgram` inside `Contents/Library/LaunchAgents/`, or `SMAppService` from ServiceManagement. The helper path is then relative to the `.app`, so moving the app does not break the agent. We skip that while SuperKeys stays a stack CLI.
-
-## Launch Stuff
-
-### macOS + Omarchy (Omarchy Default)
-
-| Destination / Intent | Shortcut | macOS App / Website |
-|--------|---------|-----|
-| Terminal | ⌘⏎ | Ghostty |
-| Internet Browser | ⌘⇧⏎ | Brave |
-| AI Assistant | ⌘⇧A | grok.com |
-| Email | ⌘⇧E | Mail |
-| Find(er) / File Manager | ⌘⇧F | Finder |
-| Organize / Obsidian | ⌘⇧O | Obsidian |
-| Music | ⌘⇧M | Music |
-| Music - Secondary| ⌘⇧⌥M | music.youtube.com |
-| Password Manager | ⌘⇧/ | Passwords |
-| Write | ⌘⇧W | Typora |
-| YouTube | ⌘⇧Y | YouTube Subscriptions URL |
-
-### macOS + Omarchy (Omarchy Customized)
-
-| Destination / Intent | Shortcut | macOS App / Website |
-|--------|---------|-----|
-| Develop | ⌘⇧D | Zed |
-| Git Client | ⌘⇧G | Fork |
-| Talk | ⌘⇧T | Telegram Web App URL |
-
-### macOS Only
-
-| Destination / Intent | Shortcut | macOS App / Website |
-|--------|---------|-----|
-| Develop - Secondary | ⌘⇧⌥D | Selected Xcode (`xcode-select -p`) |
-| System Settings | ⌘⇧S | System Settings |
-| Talk - Secondary | ⌘⇧⌥T | WhatsApp |
-| Trash | ⌘⇧⌫ | Open Trash |
-
-## Do Stuff In Active File Manager Folder (only macOS Finder so far)
-
-| Destination / Intent | Shortcut | macOS Action |
-|--------|---------|-----|
-| Terminal in folder | ⌘⌃⏎ | Open folder in Terminal |
-| Develop in folder | ⌘⇧⌃D | Open folder in Zed |
-| Create new file in folder | ⌘⇧⌃F | Create `_new.md` and select it in Finder |
-| Write in folder | ⌘⇧⌃W | Open folder in Typora |
-
-## System Controls
-
-### macOS + Omarchy (Omarchy Default)
-
-| Destination / Intent | Shortcut | macOS Action |
-|--------|---------|-----|
-| Control Audio | ⌃⌘A | Toggle SoundSource app (configure directly in SoundSource) |
-
-### macOS Only
-
-| Destination / Intent | Shortcut | macOS Action |
-|--------|---------|-----|
-| Switch Dark/Day Mode | ⌃⌘D | Toggle System Appearance |
-| Put System to Sleep | ⌃⌘S | System -> Sleep |
-| Empty the Trash | ⌃⌘⌫ | Empty Trash |
