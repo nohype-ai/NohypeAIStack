@@ -44,10 +44,10 @@
 
 | Destination / Intent | Shortcut | macOS Action |
 |--------|---------|-----|
-| Terminal in folder | ⌘⌃⏎ | 🚧 Open folder in Terminal |
-| Develop in folder | ⌘⇧⌃D | 🚧 Open folder in Zed |
+| Terminal in folder | ⌘⌃⏎ | Open folder in Terminal |
+| Develop in folder | ⌘⇧⌃D | Open folder in Zed |
 | Create new file in folder | ⌘⇧⌃F | Create `_new.md` and select it in Finder |
-| Write in folder | ⌘⇧⌃W | 🚧 Open folder in Typora |
+| Write in folder | ⌘⇧⌃W | Open folder in Typora |
 
 ## System Controls
 
