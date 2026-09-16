@@ -1,7 +1,7 @@
 # Key Commands
 
 - Key commands are an aspect of the stack that we aim to document and somewhat align across macOS and Omarchy in order to ease switching between those systems.
-- The commands documented below are the spec. On macOS they are implemented by `super-keys`. which documented below also.
+- The commands documented below are the spec. On macOS they are implemented by `super-keys` which documented below also.
 
 ## Launch Commands
 
