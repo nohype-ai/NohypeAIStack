@@ -85,15 +85,6 @@
       "key": "P"
     }
   ],
-  "app:open-vault": [
-    {
-      "modifiers": [
-        "Mod",
-        "Shift"
-      ],
-      "key": "O"
-    }
-  ],
   "editor:insert-link": [],
   "obsidian-kanban:toggle-kanban-view": [
     {
@@ -119,6 +110,15 @@
         "Shift"
       ],
       "key": "."
+    }
+  ],
+  "app:open-vault": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "O"
     }
   ]
 }
