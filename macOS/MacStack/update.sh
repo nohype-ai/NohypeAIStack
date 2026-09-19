@@ -27,7 +27,7 @@ echo "📝 Updating markitdown ..."
 silent uv tool install --upgrade --force 'markitdown[pptx,docx,xlsx,xls,pdf,outlook]'
 
 # Keep super-keys running (LaunchAgent)
-"$stack_folder/key commands/launch-agent.sh"
+"$stack_folder/../../general/key commands/launch-agent.sh"
 
 # Fix Cursor CLI Issue
 # echo "🩹 Fixing Cursor CLI issue ..."

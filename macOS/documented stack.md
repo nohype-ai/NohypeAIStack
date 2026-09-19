@@ -6,5 +6,3 @@ Some stack elements can neither be installed via the App Store nor via Homebrew,
   * (stored as "MagicMouseMenuApp.dmg" in iCloud (and not in repo) since it's neither available via Homebrew nor free ...)
 - [SoundSource](https://rogueamoeba.com/soundsource/): Volume control (in particular for pro audio interfaces)
 - [MWeb](https://www.mweb.im/onemarkdown-help): iOS/macOS markdown editor/renderer with iCloud Drive integration
-- [mega.io](https://mega.io)
-  - cloud drive, vpn, password manager, mac & linux

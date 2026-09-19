@@ -1,6 +1,6 @@
 # The Stack
 
-This folder defines the stack. It includes code (like scripts and JSON) as well as "infrastructure as documentation".
+This folder contains the inputs for MacStack, so it configures parts of the stack as code.
 
 ## Inputs
 

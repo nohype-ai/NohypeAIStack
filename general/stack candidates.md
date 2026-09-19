@@ -3,8 +3,6 @@
 This file documents interesting things to check out which might join the stack in the future, it does **not** document the current stack.
 
 ## System
-- [omarchy.org (linux distribution)](https://omarchy.org)
-- [OMAMAC](https://github.com/omacom-io/omamac)
 - [mise.jdx.dev (macOS environment manager)](https://mise.jdx.dev)
 - [DaisyDisk (disk usage inspection)](https://daisydiskapp.com/)
 - [cleanshot.com (screen recording)](https://cleanshot.com/features#recording)
