@@ -100,7 +100,9 @@ omarchy menu keybindings --print | grep -i 'SHIFT + G'
 
 Expect `SUPER SHIFT + G → Lazygit`. From Ghostty, `cd` into a git repo and press Super+Shift+G; Lazygit should open that repo. Signal is still launchable from the app menu (`omarchy launch signal`).
 
-## Installed apps
+## Installed Apps
+
+### Overview
 
 Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](install-apps.sh) (sudo for MEGA). Do not run that script until you mean to install.
 
@@ -109,6 +111,7 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 | Ghostty | `omarchy install terminal ghostty` |
 | Brave Origin | `omarchy install browser brave-origin` |
 | Zed | `omarchy install editor zed` |
+| Teams | Web app: https://teams.microsoft.com/v2/ |
 | MEGA Desktop | official `megasync` Arch package (see below) |
 | MEGA CMD | official `megacmd` Arch package (see below) |
 
@@ -227,7 +230,7 @@ tr '\0' '\n' < /proc/$(pgrep -n megasync)/environ | grep -E 'QT_SCALE_FACTOR|QT_
 
 Expect `QT_SCALE_FACTOR=2` and `QT_QPA_PLATFORM=xcb`. Super+Space → MEGAsync: the status card should appear in the center of the screen and stay until you close it.
 
-## Defaults
+## Default Apps
 
 These are the Omarchy defaults on this machine (terminal, browser, editor, and coding agent):
 
