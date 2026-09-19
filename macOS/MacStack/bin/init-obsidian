@@ -66,7 +66,7 @@ if [[ ! -d "$vault_folder" ]]; then
     return 1
 fi
 
-# this script lives in stack/bin/, so the obsidian source folder is one
+# this script lives in macOS/MacStack/bin/, so the obsidian source folder is one
 # directory up; :A canonicalizes, :h takes the head (parent dir)
 local source_folder="${0:A:h:h}/obsidian"
 local destination_folder="$vault_folder/.obsidian"

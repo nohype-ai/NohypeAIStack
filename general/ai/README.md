@@ -1,6 +1,6 @@
 # The AI Stack
 
-This README defines the general layers of an AI stack and selects specific tools at each layer. The coding-specific stack is defined in [coding/README.md](coding/README.md). General research and past decisions are documented in [research/](research/).
+This README defines the general layers of an AI stack and selects specific tools at each layer. The coding-specific stack is defined in [ai coding.md](ai%20coding.md). General research and past decisions are documented in [research/](research/).
 
 This stack does not yet involve local inference but still focusses on scaling up productivity. Research on local inference for privacy and cost-efficiency at scale [will follow in time](research/README.md).
 
@@ -21,7 +21,7 @@ Native macOS apps that offer GUI frontends to agents – natively or via ACP. Bu
 ## Agents
 
 ### Coding Agents
-Selection is explained in [coding/README.md](coding/README.md).
+Selection is explained in [ai coding.md](ai%20coding.md).
 - [Grok Build](https://x.ai/build)
 - [OpenCode](https://opencode.ai)
 - [Cursor CLI](https://cursor.com/cli)
@@ -86,4 +86,4 @@ These providers provide the inference and also train the models and are often th
 - Costs differ widely - more than performance.
 - https://arena.ai/leaderboard/text/coding?viewBy=plot&rankBy=labs
 - https://arena.ai/leaderboard/code?viewBy=plot&rankBy=labs
-- See the models overview in the [coding/README.md](coding/README.md)
+- See the models overview in the [ai coding.md](ai%20coding.md)

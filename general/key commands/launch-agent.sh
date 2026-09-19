@@ -3,7 +3,7 @@ set -e
 set -u
 
 here=${0:a:h}
-bin="${here:h}/bin/super-keys"
+bin="${here:h:h}/macOS/MacStack/bin/super-keys"
 label=ai.nohype.super-keys
 plist="$HOME/Library/LaunchAgents/${label}.plist"
 uid=$(id -u)

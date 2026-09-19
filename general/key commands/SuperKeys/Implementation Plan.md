@@ -4,13 +4,13 @@
 |--|--|
 | Date | 2026-09-16 |
 | Status | Plan — not implemented |
-| Config | `stack/key commands/bindings.toml` |
+| Config | `general/key commands/bindings.toml` |
 
 Move key → action mappings out of `createHotKeys()` into one TOML file SuperKeys reads at launch.
 
 ## Decisions
 
-- **One file**, sibling of this package: `stack/key commands/bindings.toml`. Not in `Sources/`, not in `~/.config`.
+- **One file**, sibling of this package: `general/key commands/bindings.toml`. Not in `Sources/`, not in `~/.config`.
 - **Runtime load.** Edit TOML → `./launch-agent.sh`. Swift change → `./build.sh`. No codegen, no file-watch.
 - **⌘ / Super is implicit.** TOML `command` is the key (`a`, `return`, …); `modifiers` are extras (`shift`, `option`, `control`). Putting `command`/`super`/`cmd` in `modifiers` is an error.
 - **Closed actions**, not a script: `launch`, `open-url`, `finder-open`, `finder-new-file`, `shell`, `applescript`, `open-trash`, `empty-trash`, `sleep`, `toggle-appearance`.
@@ -26,7 +26,7 @@ Non-goals: Omarchy generator, README generator, live reload, Hyper key, Xcode `.
 ## Layout
 
 ```
-stack/key commands/
+general/key commands/
   bindings.toml                 # NEW — source of truth
   launch-agent.sh               # ProgramArguments [bin, bindings.toml]
   SuperKeys/

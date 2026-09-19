@@ -3,9 +3,10 @@ set -e
 set -u
 
 here=${0:a:h}
-stack_folder=${here:h}
+repo_root=${here:h:h}
+dest="$repo_root/macOS/MacStack/bin/super-keys"
 
 swift build -c release --package-path "$here/SuperKeys"
 bin_dir=$(swift build -c release --package-path "$here/SuperKeys" --show-bin-path)
-cp -f "$bin_dir/super-keys" "$stack_folder/bin/super-keys"
+cp -f "$bin_dir/super-keys" "$dest"
 "$here/launch-agent.sh"

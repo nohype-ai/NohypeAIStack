@@ -83,7 +83,7 @@ There is no LaunchAgent source in the Swift package. `launchd` runs whatever pli
 
 | Piece | Where | In git? |
 |--------|--------|---------|
-| Program | `stack/bin/super-keys` | yes (copied there by `build.sh`) |
+| Program | `macOS/MacStack/bin/super-keys` | yes (copied there by `build.sh`) |
 | Generator | `launch-agent.sh` | yes |
 | Installed agent | `~/Library/LaunchAgents/ai.nohype.super-keys.plist` | no — written on this Mac |
 | Identity | `ai.nohype.super-keys` (codesign + launchd label) | — |
@@ -93,7 +93,7 @@ There is no LaunchAgent source in the Swift package. `launchd` runs whatever pli
 Who registers it:
 
 1. **You, while developing** — `build.sh` builds, copies to `bin/`, then runs `launch-agent.sh`.
-2. **`mack update`** — `stack/update.sh` runs `launch-agent.sh` (reload only, no compile).
+2. **`mack update`** — `macOS/MacStack/update.sh` runs `launch-agent.sh` (reload only, no compile).
 3. **`launchd`, at login** — the installed plist has `RunAtLoad` and `KeepAlive`. After that, nothing in the stack needs to start it.
 
 ### Work on it
@@ -121,6 +121,6 @@ Do not run a second copy from Terminal or Xcode while the agent is up — they f
 
 ### Binary path
 
-The installed plist hardcodes an absolute path to `stack/bin/super-keys` (resolved when `launch-agent.sh` runs). `launchd` does not expand `$STACK` or `PATH`. If you move this repo, re-run `./launch-agent.sh` or `mack update`.
+The installed plist hardcodes an absolute path to `macOS/MacStack/bin/super-keys` (resolved when `launch-agent.sh` runs). `launchd` does not expand `$STACK` or `PATH`. If you move this repo, re-run `./launch-agent.sh` or `mack update`.
 
 A real `.app` avoids that by living at a stable location (`/Applications/…`) and registering a **bundle-relative** helper: macOS 13+ `BundleProgram` inside `Contents/Library/LaunchAgents/`, or `SMAppService` from ServiceManagement. The helper path is then relative to the `.app`, so moving the app does not break the agent. We skip that while SuperKeys stays a stack CLI.

@@ -81,10 +81,10 @@ The basic category here is coding (not general purpose) and cloud inference (not
 #### Comments
 
 1. 🛑 OpenCode + OpenRouter: does currently not work in Zed at all, whether with free or paid models. Seems to be a known issue with OpenRouter, which does not even work in the Zed agent (without ACP).
-2. ℹ️ OpenCode + DeepInfra: The model list is outdated because DeepInfra updates its available models rapidly, while OpenCode relies on models.dev. Solution: add a opencode.json file in ~/.config/opencode/ and define some desired but missing models in there. Prefix their names with "di-custom: " or so to make them discoverable. Backup/example: [opencode.json](opencode/opencode.json). (Related GitHub issue: [#6231](https://github.com/anomalyco/opencode/issues/6231))
+2. ℹ️ OpenCode + DeepInfra: The model list is outdated because DeepInfra updates its available models rapidly, while OpenCode relies on models.dev. Solution: add a opencode.json file in ~/.config/opencode/ and define some desired but missing models in there. Prefix their names with "di-custom: " or so to make them discoverable. Backup/example: [opencode.json](../../../macOS/MacStack/ai/coding/opencode/opencode.json). (Related GitHub issue: [#6231](https://github.com/anomalyco/opencode/issues/6231))
 3. 🛑 Cursor CLI + Cursor free tier: ACP is [explicitly not offered on the free tier](https://cursor.com/blog/jetbrains-acp).
 4. ℹ️ Cursor CLI + Cursor paid subscription: Works comparatively well. Good ACP integration (tested with Sonnet 4.5 and 4.6).
-5. ℹ️ Gemini CLI: Tuning model params (temperature etc.) can impact agentic performance. My setup is documented [here](gemini/README.md). I could not fully verify that the custom config is also loaded in Zed via ACP, but it is strongly indicated.
+5. ℹ️ Gemini CLI: Tuning model params (temperature etc.) can impact agentic performance. My setup is documented [here](../../../macOS/MacStack/ai/coding/gemini/README.md). I could not fully verify that the custom config is also loaded in Zed via ACP, but it is strongly indicated.
 6. ❓ I have not yet tested Claude Code via ACP in Zed, only stand-alone Claude Code.
 7. ⚠️ Cursor CLI + Cursor free tier (TUI): Possible but rate limits are tight enough to possibly be annoying -> has to be used for short tasks only. And only would works via TUI anyway.
 8. 🛑 Cursor CLI + Cursor paid subscription:

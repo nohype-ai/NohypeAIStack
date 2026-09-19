@@ -11,7 +11,7 @@
 # AI-agent harness directly into each repo, so every repo benefits from the
 # same canonical Obsidian setup (hotkeys, plugins, appearance, etc.).
 #
-# Use this manually whenever the source configs in stack/obsidian/ have
+# Use this manually whenever the source configs in macOS/MacStack/obsidian/ have
 # changed in a way that warrants re-running init-obsidian across the fleet
 # (e.g. new top-level entries to be linked, or new auto-managed gitignore
 # entries). It is intentionally NOT wired into `mack update`.

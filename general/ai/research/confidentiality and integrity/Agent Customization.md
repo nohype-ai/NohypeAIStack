@@ -10,7 +10,7 @@ Allow tools at **user** level. Confine the filesystem at **user** level. Named e
 
 | Level | What | Where |
 |-------|------|--------|
-| User | Tools run without asking (`always-approve`). No `[permission]` deny list. | `stack/ai/coding/grok/config.toml` → `~/.grok/config.toml` |
+| User | Tools run without asking (`always-approve`). No `[permission]` deny list. | `macOS/MacStack/ai/coding/grok/config.toml` → `~/.grok/config.toml` |
 | User | Sandbox profile `cwd` extends `strict`: the process may read/write the launch directory only (plus system paths and `~/.grok`). Fail-closed: Grok refuses to start if the kernel policy cannot apply. | `config.toml` `[sandbox] profile = "cwd"` + `sandbox.toml` |
 | Project | Deny named secrets *inside* cwd (`.env`, `*.pem`, and home `.ssh`/`.gnupg` as belt-and-suspenders). | `<repo>/.grok/config.toml` `[permission] deny` |
 

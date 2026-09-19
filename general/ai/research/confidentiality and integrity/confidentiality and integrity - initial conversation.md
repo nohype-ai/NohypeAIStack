@@ -55,7 +55,7 @@ Specific examples of affected data locations together with solution ideas:
 Solving confidentiality and integrity is about controlling the boundaries between agent, your data, and the web.
 
 - **tasks**: Isolating critical from less critical tasks is the most basic and effective level of isolation. This comes down to "human in the loop" variants. For example: only the human has access to credentials and must get involved when it comes to pushing and pulling a repo. 
-- **agent customization**: Part of the confidentiality/integrity story is understanding, monitoring and controlling the agent's environment, including its tools, rules and ignore files. so one level is just [general ai research topics](README.md) like agent customization and agent environment.
+- **agent customization**: Part of the confidentiality/integrity story is understanding, monitoring and controlling the agent's environment, including its tools, rules and ignore files. so one level is just [general ai research topics](../README.md) like agent customization and agent environment.
 	- → ❗ agent ignore files could be the next major low hanging fruit for confidentiality and integrity. I need to explore that for cursor, opencode, gemeini cli and claude code, and add an overview here or in the agent customization overview ...
 - **network connection control**: firewalls, allowlist proxies, a dedicated network namespace, network monitors, DNS-level filtering etc. are ways to let the agent use the web but to control that usage.
 - **git working trees**: less about confidentiality or integrity and more about letting multiple agents work in parallel on the same repo.
@@ -247,7 +247,7 @@ Your formulation is excellent: this is still **prompt following**, which is a st
 
 ### Where your research is particularly strong
 
-The distinction you draw in [Encrypting Repos.md](/Users/seb/Desktop/Repos/nohype-ai/company/NohypeAIStack/stack/git/Encrypting%20Repos.md) (lines 88-90) between **hard boundaries** and **pseudo/flaky boundaries** is one of the cleanest and most useful framings I've seen on this topic. Most people never make that cut explicitly.
+The distinction you draw in [Encrypting Repos.md](../../../git/Encrypting%20Repos.md) (lines 88-90) between **hard boundaries** and **pseudo/flaky boundaries** is one of the cleanest and most useful framings I've seen on this topic. Most people never make that cut explicitly.
 
 Your threat model is also correctly scoped to your actual usage pattern: applying agentic systems to *all* knowledge work (not just code) means the sensitivity gradient inside your working context is no longer flat. That is a genuinely different regime from what most "100x with Cursor" people are optimizing for.
 
