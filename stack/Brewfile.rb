@@ -12,11 +12,15 @@ cask 'homebrew-app' # official Homebrew GUI app
 cask 'omnidisksweeper' # simple free disk usage inspection
 cask 'stats' # system health monitor, including chip temperature
 
+# data sync across operating systems
+cask 'megasync'                                     # mega.io
+cask 'megacmd-app'                                  # mega.io
+cask 'onedrive'                                     # share data with MS users
+
 # communication, browser
 cask 'WhatsApp'
 mas 'AdGuard Mini: Safari Adblock', id: 1440147259  # block ads in Safari, YT, YT-Music
 mas 'Noir – Dark Mode for Safari', id: 1592917505   # force dark mode on websites in Safari
-cask 'onedrive'                                     # share data with MS users
 
 # writing, diagramming, office
 cask 'obsidian' # 'process as documentation' + 'canvas as code' ...
