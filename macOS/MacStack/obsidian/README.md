@@ -3,6 +3,7 @@
 - This folder contains default Obsidian configs that any vault can symlink to
 	- use `init-obsidian` or `init-obsidian-in-repos` to set up the symlinks
 	- the two commands also take an option `--relative` that will use relative links in the symlinks, this is better for repos
+	- git vaults ignore the whole `.obsidian/` folder: shared settings are those symlinks, workspace and bookmarks stay local and untracked
 - The defaults use (git-) compatible open settings in the "Files and Links" settings:
 	- auto update links
 	- do NOT use wiki links

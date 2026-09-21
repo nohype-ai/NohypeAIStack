@@ -1,19 +1,8 @@
 # Ignore the auto-generated local symlinks in any "symlinks to dotfiles" folder
 **/symlinks to dotfiles/.*
 
-# Ignore local (symlinked) Obsidian settings
-.obsidian/app.json
-.obsidian/appearance.json
-.obsidian/backlink.json
-.obsidian/canvas.json
-.obsidian/community-plugins.json
-.obsidian/core-plugins.json
-.obsidian/graph.json
-.obsidian/hotkeys.json
-.obsidian/plugins
-.obsidian/themes
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
+# Obsidian vault state is local (shared configs are symlinked in)
+.obsidian/
 
 # Other
 .build
