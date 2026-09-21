@@ -7,6 +7,11 @@ omarchy install terminal ghostty
 omarchy install browser brave-origin
 omarchy install editor zed
 
+# Omarchy plugin installs
+# (pattern: try update, try install when update fails)
+omarchy plugin update omamail || \
+  omarchy plugin add https://github.com/huacnlee/omamail.git --enable --yes
+
 # MEGA Desktop
 if pacman -Q megasync >/dev/null 2>&1; then
   echo "megasync already installed"

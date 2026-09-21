@@ -1,121 +1,35 @@
 # Omarchy Stack
 
-Personal Omarchy / Hyprland setup notes. Goal: capture each system tweak here so the machine can be reproduced later.
+Personal Omarchy / Hyprland setup notes. Goal: capture each system tweak here so the machine can be reproduced later and via OmaStack.dev
 
-## Natural scroll
-
-Omarchy defaults to traditional scrolling (`natural_scroll = false`). This machine uses macOS-style natural scroll: content follows the fingers / mouse wheel.
-
-**File:** `~/.config/hypr/input.lua` (not `looknfeel.lua` — that file is appearance only)
-
-**Change:**
-
-```lua
-hl.config({
-  input = {
-    -- Natural (inverse) scrolling for mouse wheel and touchpad.
-    natural_scroll = true,
-    touchpad = {
-      natural_scroll = true,
-    },
-  },
-})
-```
-
-| Setting | Device |
-| --- | --- |
-| `input.natural_scroll` | Mouse wheel |
-| `input.touchpad.natural_scroll` | Touchpad |
-
-**Apply:** Hyprland reloads on save. Force with `hyprctl reload`, then check `hyprctl configerrors`. Confirm with:
-
-```bash
-hyprctl getoption input:natural_scroll
-hyprctl getoption input:touchpad:natural_scroll
-```
-
-Both should report `bool: true`.
-
-## Keybindings
-
-Personal overrides live in `~/.config/hypr/bindings.lua` (loaded after Omarchy defaults). Check current bindings with `omarchy menu keybindings --print`. If a key already has a default, `hl.unbind(...)` it before the new `o.bind(...)`.
-
-### Super + Shift + G → Lazygit (cwd of the open terminal)
-
-Omarchy default: **Signal**. This machine opens **Lazygit** instead, in the folder of the terminal you are in.
-
-Do **not** use `{ tui = "lazygit" }` and do **not** depend on an `omarchy tui install` desktop launcher. That runs `omarchy-launch-tui lazygit` with no working directory. Ghostty is `gtk-single-instance`, so the new window inherits a stale cwd instead of the folder you have open.
-
-`lazygit` is already on the Omarchy base install.
-
-**File:** `~/.config/hypr/bindings.lua`
-
-**Change:**
-
-```lua
--- Lazygit TUI — replaces default Signal on this key.
--- Start in the focused terminal's cwd (same helper as Super+Return). If the
--- focused window is not a terminal, use the Ghostty window's cwd instead.
--- The inner `cd` is required: Ghostty gtk-single-instance ignores launcher cwd.
-hl.unbind("SUPER + SHIFT + G")
-o.bind(
-  "SUPER + SHIFT + G",
-  "Lazygit",
-  "bash -lc "
-    .. o.shell_quote([=[
-cwd=$(omarchy-cmd-terminal-cwd)
-class=$(hyprctl activewindow -j | jq -r '.class // empty')
-case "$class" in
-  com.mitchellh.ghostty|foot|Alacritty|kitty|org.codeberg.dnkl.foot|wezterm|org.omarchy.*|TUI.*) ;;
-  *)
-    gpid=$(hyprctl clients -j | jq -r '.[] | select(.class=="com.mitchellh.ghostty") | .pid' | head -n1)
-    if [[ -n ${gpid:-} ]]; then
-      for sp in $(pgrep -P "$gpid"); do
-        exe=$(readlink -f "/proc/$sp/exe" 2>/dev/null) || continue
-        grep -Fqsx "$exe" /etc/shells || continue
-        d=$(readlink -f "/proc/$sp/cwd" 2>/dev/null)
-        [[ -d $d ]] && cwd=$d && break
-      done
-    fi
-    ;;
-esac
-exec omarchy-launch-tui --app-id=org.omarchy.lazygit bash -lc 'cd -- "$1" && exec lazygit' lazygit "$cwd"
-]=])
-)
-```
-
-What that does:
-
-1. `omarchy-cmd-terminal-cwd` — cwd of the focused terminal (same helper Super+Return uses).
-2. If the focused window is not a terminal, take the Ghostty window’s shell cwd so the shortcut still works from a browser, etc.
-3. `omarchy-launch-tui` starts Lazygit in the default terminal, then `cd`s into that folder before `exec lazygit`. The inner `cd` is what Ghostty cannot ignore.
-
-If the folder is not a git repo, Lazygit may offer recent repos — that is Lazygit, not the binding.
-
-**Apply:** Hyprland reloads on save. Force with `hyprctl reload`, then check `hyprctl configerrors`. Confirm with:
-
-```bash
-omarchy menu keybindings --print | grep -i 'SHIFT + G'
-```
-
-Expect `SUPER SHIFT + G → Lazygit`. From Ghostty, `cd` into a git repo and press Super+Shift+G; Lazygit should open that repo. Signal is still launchable from the app menu (`omarchy launch signal`).
-
-## Installed Apps
+## Installed Components
 
 ### Overview
 
 Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](install-apps.sh) (sudo for MEGA). Do not run that script until you mean to install.
 
-| App | Install |
+| Component | Install |
 | --- | --- |
 | Ghostty | `omarchy install terminal ghostty` |
 | Brave Origin | `omarchy install browser brave-origin` |
 | Zed | `omarchy install editor zed` |
+| OmaMail | `omarchy plugin add https://github.com/huacnlee/omamail.git --enable` |
 | Teams | Web app: https://teams.microsoft.com/v2/ |
 | MEGA Desktop | official `megasync` Arch package (see below) |
 | MEGA CMD | official `megacmd` Arch package (see below) |
 
-The three Omarchy `install` commands also set those apps as the terminal / browser / editor defaults.
+### App Defaults
+
+The above Omarchy `install` commands also set those apps as the terminal / browser / editor defaults.
+
+| Role | Choice | Set with |
+| --- | --- | --- |
+| Terminal | Ghostty | `omarchy default terminal ghostty` |
+| Browser | Brave Origin | `omarchy default browser brave-origin` |
+| Editor | Zed | `omarchy default editor zed` |
+| Agent | Grok | `omarchy default agent grok` |
+
+## MEGA Apps
 
 ### MEGA Cloud Drive
 
@@ -230,33 +144,103 @@ tr '\0' '\n' < /proc/$(pgrep -n megasync)/environ | grep -E 'QT_SCALE_FACTOR|QT_
 
 Expect `QT_SCALE_FACTOR=2` and `QT_QPA_PLATFORM=xcb`. Super+Space → MEGAsync: the status card should appear in the center of the screen and stay until you close it.
 
-## Default Apps
+## Natural scroll
 
-These are the Omarchy defaults on this machine (terminal, browser, editor, and coding agent):
+Omarchy defaults to traditional scrolling (`natural_scroll = false`). This machine uses macOS-style natural scroll: content follows the fingers / mouse wheel.
 
-| Role | Choice | Set with |
-| --- | --- | --- |
-| Terminal | Ghostty | `omarchy default terminal ghostty` |
-| Browser | Brave Origin | `omarchy default browser brave-origin` |
-| Editor | Zed | `omarchy default editor zed` |
-| Agent | Grok | `omarchy default agent grok` |
+**File:** `~/.config/hypr/input.lua` (not `looknfeel.lua` — that file is appearance only)
 
-The three apps above also get set as defaults when installed with the `omarchy install` commands. Grok is chosen separately:
+**Change:**
 
-```bash
-omarchy default agent grok
+```lua
+hl.config({
+  input = {
+    -- Natural (inverse) scrolling for mouse wheel and touchpad.
+    natural_scroll = true,
+    touchpad = {
+      natural_scroll = true,
+    },
+  },
+})
 ```
 
-That writes `grok` to `~/.config/omarchy/defaults/agent` and launches it. Super + agent / `omarchy agent` then open Grok.
+| Setting | Device |
+| --- | --- |
+| `input.natural_scroll` | Mouse wheel |
+| `input.touchpad.natural_scroll` | Touchpad |
 
-Check current values:
+**Apply:** Hyprland reloads on save. Force with `hyprctl reload`, then check `hyprctl configerrors`. Confirm with:
 
 ```bash
-omarchy default terminal
-omarchy default browser
-omarchy default editor
-omarchy default agent
+hyprctl getoption input:natural_scroll
+hyprctl getoption input:touchpad:natural_scroll
 ```
+
+Both should report `bool: true`.
+
+## Keybindings
+
+Personal overrides live in `~/.config/hypr/bindings.lua` (loaded after Omarchy defaults). Check current bindings with `omarchy menu keybindings --print`. If a key already has a default, `hl.unbind(...)` it before the new `o.bind(...)`.
+
+### Super + Shift + G → Lazygit (cwd of the open terminal)
+
+Omarchy default: **Signal**. This machine opens **Lazygit** instead, in the folder of the terminal you are in.
+
+Do **not** use `{ tui = "lazygit" }` and do **not** depend on an `omarchy tui install` desktop launcher. That runs `omarchy-launch-tui lazygit` with no working directory. Ghostty is `gtk-single-instance`, so the new window inherits a stale cwd instead of the folder you have open.
+
+`lazygit` is already on the Omarchy base install.
+
+**File:** `~/.config/hypr/bindings.lua`
+
+**Change:**
+
+```lua
+-- Lazygit TUI — replaces default Signal on this key.
+-- Start in the focused terminal's cwd (same helper as Super+Return). If the
+-- focused window is not a terminal, use the Ghostty window's cwd instead.
+-- The inner `cd` is required: Ghostty gtk-single-instance ignores launcher cwd.
+hl.unbind("SUPER + SHIFT + G")
+o.bind(
+  "SUPER + SHIFT + G",
+  "Lazygit",
+  "bash -lc "
+    .. o.shell_quote([=[
+cwd=$(omarchy-cmd-terminal-cwd)
+class=$(hyprctl activewindow -j | jq -r '.class // empty')
+case "$class" in
+  com.mitchellh.ghostty|foot|Alacritty|kitty|org.codeberg.dnkl.foot|wezterm|org.omarchy.*|TUI.*) ;;
+  *)
+    gpid=$(hyprctl clients -j | jq -r '.[] | select(.class=="com.mitchellh.ghostty") | .pid' | head -n1)
+    if [[ -n ${gpid:-} ]]; then
+      for sp in $(pgrep -P "$gpid"); do
+        exe=$(readlink -f "/proc/$sp/exe" 2>/dev/null) || continue
+        grep -Fqsx "$exe" /etc/shells || continue
+        d=$(readlink -f "/proc/$sp/cwd" 2>/dev/null)
+        [[ -d $d ]] && cwd=$d && break
+      done
+    fi
+    ;;
+esac
+exec omarchy-launch-tui --app-id=org.omarchy.lazygit bash -lc 'cd -- "$1" && exec lazygit' lazygit "$cwd"
+]=])
+)
+```
+
+What that does:
+
+1. `omarchy-cmd-terminal-cwd` — cwd of the focused terminal (same helper Super+Return uses).
+2. If the focused window is not a terminal, take the Ghostty window’s shell cwd so the shortcut still works from a browser, etc.
+3. `omarchy-launch-tui` starts Lazygit in the default terminal, then `cd`s into that folder before `exec lazygit`. The inner `cd` is what Ghostty cannot ignore.
+
+If the folder is not a git repo, Lazygit may offer recent repos — that is Lazygit, not the binding.
+
+**Apply:** Hyprland reloads on save. Force with `hyprctl reload`, then check `hyprctl configerrors`. Confirm with:
+
+```bash
+omarchy menu keybindings --print | grep -i 'SHIFT + G'
+```
+
+Expect `SUPER SHIFT + G → Lazygit`. From Ghostty, `cd` into a git repo and press Super+Shift+G; Lazygit should open that repo. Signal is still launchable from the app menu (`omarchy launch signal`).
 
 ## GitHub (HTTPS via `gh`)
 
