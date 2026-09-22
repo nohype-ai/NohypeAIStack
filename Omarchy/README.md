@@ -13,6 +13,7 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 | Ghostty | `omarchy install terminal ghostty` |
 | Brave Origin | `omarchy install browser brave-origin` |
 | Zed | `omarchy install editor zed` |
+| Flea | `omarchy pkg add flea` (see below) |
 | OmaMail | `omarchy plugin add https://github.com/huacnlee/omamail.git --enable` |
 | Teams | Web app: https://teams.microsoft.com/v2/ |
 | MEGA Desktop | official `megasync` Arch package (see below) |
@@ -20,7 +21,7 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 
 ### App Defaults
 
-The above Omarchy `install` commands also set those apps as the terminal / browser / editor defaults.
+The Omarchy `install` commands set the terminal, browser, and editor. Flea sets the file manager with its own command.
 
 | Role | Choice | Set with |
 | --- | --- | --- |
@@ -28,32 +29,80 @@ The above Omarchy `install` commands also set those apps as the terminal / brows
 | Browser | Brave Origin | `omarchy default browser brave-origin` |
 | Editor | Zed | `omarchy default editor zed` |
 | Agent | Grok | `omarchy default agent grok` |
+| File manager | Flea | `flea --default` |
+
+## Flea
+
+File manager from the Omarchy repo. This machine installed `flea 0.2.1-3` on 2026-09-22. `omarchy update` moves it to whatever the Omarchy repo has later.
+
+```bash
+omarchy pkg add flea
+flea --default
+systemctl --user restart xdg-desktop-portal
+```
+
+`omarchy pkg add flea` installs the package. It does not replace Nautilus as the default. `flea --default` does that, and it also makes Flea the file chooser. The portal reads its configuration at startup, so the `systemctl` line is what makes Open/Save dialogs use Flea in the session you are in.
+
+`flea --default` writes:
+
+| What | Where |
+| --- | --- |
+| `inode/directory` handler | `~/.config/mimeapps.list` (`com.thisisgm.flea.desktop`) |
+| “Show in folder” | `~/.local/share/dbus-1/services/org.freedesktop.FileManager1.service` |
+| Super+Shift+F and Super+Alt+Shift+F | marked block in `~/.config/hypr/bindings.lua` |
+| File chooser, with gtk behind flea | `~/.config/xdg-desktop-portal/portals.conf` |
+| Picker window floats | `flea --picker` block in `~/.config/hypr/bindings.lua` |
+
+Run it from a terminal inside the session so Hyprland reloads the keys. A second run reports that each step is already Flea and rewrites nothing. [`install-apps.sh`](install-apps.sh) is the same three commands.
+
+`flea --default off` removes those user files. The package stays until `omarchy pkg drop flea`. Run the off command while `flea` is still installed.
 
 ## MEGA Apps
 
 ### MEGA Cloud Drive
 
-MEGA is **not** in Arch `extra` or the Omarchy repo, so `omarchy pkg add megasync` fails. The MEGA download page label “Arch Extra” is **their** third-party repo (`[DEB_Arch_Extra]`), not Arch’s `extra`. Do not use Homebrew. Skip AUR `megasync` (slow source build, icu breakage) and `megasync-bin` (often behind). MEGA wants the **same desktop-app version on every machine**, so use their packages to match macOS.
+MEGA is not in Arch `extra` or the Omarchy repo, so `omarchy pkg add megasync` cannot install it. The download page calls the directory “Arch Extra”; that is MEGA’s file list at `https://mega.nz/linux/repo/Arch_Extra/x86_64/`, which is separate from Arch’s `extra`. Skip Homebrew, AUR `megasync` (slow source build, icu breakage), and `megasync-bin` (often behind). Install MEGA’s own packages so this machine matches the macOS apps.
 
-Desktop app:
-
-```bash
-wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst
-sudo pacman -U "$PWD/megasync-x86_64.pkg.tar.zst"
-```
-
-CLI (same tool as macOS MEGA CMD):
+`wget` is not installed on stock Omarchy. `curl` is. Desktop, then the CLI:
 
 ```bash
-wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megacmd-x86_64.pkg.tar.zst
-sudo pacman -U "$PWD/megacmd-x86_64.pkg.tar.zst"
+curl -fL -O https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst
+sudo pacman -U megasync-x86_64.pkg.tar.zst
+sudo sed -i '/###REPO for MEGA###/,/###END REPO for MEGA###/d' /etc/pacman.conf
+
+curl -fL -O https://mega.nz/linux/repo/Arch_Extra/x86_64/megacmd-x86_64.pkg.tar.zst
+sudo pacman -U megacmd-x86_64.pkg.tar.zst
+sudo sed -i '/###REPO for MEGA###/,/###END REPO for MEGA###/d' /etc/pacman.conf
 ```
 
-MEGA writes `wget`; [`install-apps.sh`](install-apps.sh) uses `curl` (already on Omarchy) for the same fetch, then `pacman -U`.
+Each fresh `pacman -U` runs MEGA’s `post_install`, which appends this to `/etc/pacman.conf`:
 
-The first `pacman -U` of either package appends MEGA’s repo to `/etc/pacman.conf` and locally-signs their key. After that, `omarchy update` / `pacman -Syu` can upgrade them.
+```ini
+###REPO for MEGA###
+[DEB_Arch_Extra]
+SigLevel = Required TrustedOnly
+Server = https://mega.nz/linux/repo/Arch_Extra/$arch
+###END REPO for MEGA###
+```
 
-Omarchy’s file manager is Nautilus. Optional integration from the same repo: `nautilus-megasync`. Not part of `install-apps.sh`.
+That block is MEGA’s update channel. A later `pacman -Syu` would upgrade `megasync` and `megacmd` from the same directory, and the script locally signs MEGA’s key so those packages verify. The script does not download `DEB_Arch_Extra.db`. It cannot from there: `post_install` runs while pacman holds its database lock. MEGA’s Arch instructions never add a sync step afterwards. Until that database file exists, pacman refuses every install with `could not find database`, including the `megacmd` install and `omarchy pkg add`.
+
+We delete the block. MEGA requires the same desktop version on every computer, and this machine should stay on the version installed on the Mac. Syncing the database would let `omarchy update` move Linux ahead of the Mac, and a bad signature on that repo would stop the whole system update. The `sed` runs after each fresh `pacman -U`, before the next pacman command. [`install-apps.sh`](install-apps.sh) does that even when the package was already installed, so a re-run clears a block left by a stopped install. `pacman -Rs megasync` does not remove the block.
+
+### Updating MEGA
+
+Update when the Mac apps move, and install that same version here. The directory listing has a versioned file per build, for example `megasync-6.6.2-1-x86_64.pkg.tar.zst` and `megacmd-2.6.0-2-x86_64.pkg.tar.zst`. The names without a version are whatever MEGA is publishing today. Download the version that matches the Mac, then:
+
+```bash
+sudo pacman -U megasync-VERSION-x86_64.pkg.tar.zst
+sudo pacman -U megacmd-VERSION-x86_64.pkg.tar.zst
+pacman -Q megasync megacmd
+grep -n DEB_Arch_Extra /etc/pacman.conf || echo "no MEGA repo"
+```
+
+An upgrade of a package that is already installed goes through `post_upgrade`. With MEGA’s key already in the keyring, that does not append the block again. If `DEB_Arch_Extra` shows up in `pacman.conf`, delete it with the same `sed` as the install. Update the desktop app and the CLI together. `omarchy update` does not upgrade these two.
+
+Stock Omarchy’s file manager is Nautilus. This machine uses Flea, above. Optional Nautilus integration from the same directory: `nautilus-megasync`. Not part of `install-apps.sh`.
 
 ### MEGAsync UI on the Studio Display
 
@@ -181,6 +230,8 @@ Both should report `bool: true`.
 ## Keybindings
 
 Personal overrides live in `~/.config/hypr/bindings.lua` (loaded after Omarchy defaults). Check current bindings with `omarchy menu keybindings --print`. If a key already has a default, `hl.unbind(...)` it before the new `o.bind(...)`.
+
+Super+Shift+F and Super+Alt+Shift+F belong to Flea. `flea --default` writes them between the `flea --default` marker lines, and `flea --default off` removes that block whole. Leave the marker block alone when editing other bindings.
 
 ### Super + Shift + G → Lazygit (cwd of the open terminal)
 
