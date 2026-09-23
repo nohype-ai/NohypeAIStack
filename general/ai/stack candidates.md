@@ -6,19 +6,12 @@ This file does **not** document the current stack but interesting things to chec
 - ACP agents in Obsidian: https://github.com/RAIT-09/obsidian-agent-client
 
 ## General Agents
-- [n8n.io (agent builder)](https://n8n.io)
-  - [n8n.io - Tutorial](https://www.youtube.com/watch?v=ONgECvZNI3o)
 - [pinokio.co](https://pinokio.co) not sure hat exactly it is. kiraa.ai recommended this for getting into local inference ...
-
-## IDEs with Integrated Agent UI
-- [TRAE](https://www.trae.ai/)
+- [Grok Bot](https://x.ai/bot)
+- [Hermes Agent](https://hermes-agent.nousresearch.com)
 
 ## Coding Agents
-- [kilocode.ai](https://kilocode.ai)
-  - apparently best open-source agent after OpenCode but not quite as powerful
-- [cline.bot](https://cline.bot)
-- [OpenHands](https://github.com/All-Hands-AI/OpenHands) (Autonomous Engineer Platform)
-- [Open Interpreter](https://openinterpreter.com) (System Automation)
+- amp
 
 ## AI Coding Helpers
 - [LeanCTX (Context compression for efficient token use)](https://leanctx.com)
