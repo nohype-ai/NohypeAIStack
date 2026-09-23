@@ -8,7 +8,7 @@ omarchy install browser brave-origin
 omarchy install editor zed
 
 # Flea
-omarchy pkg add flea
+omarchy pkg aur add flea-bin
 flea --default
 systemctl --user restart xdg-desktop-portal
 

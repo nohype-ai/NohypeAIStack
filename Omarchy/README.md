@@ -6,14 +6,14 @@ Personal Omarchy / Hyprland setup notes. Goal: capture each system tweak here so
 
 ### Overview
 
-Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](install-apps.sh) (sudo for MEGA). Do not run that script until you mean to install.
+Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](install-apps.sh) (sudo for Flea and MEGA). Do not run that script until you mean to install.
 
 | Component | Install |
 | --- | --- |
 | Ghostty | `omarchy install terminal ghostty` |
 | Brave Origin | `omarchy install browser brave-origin` |
 | Zed | `omarchy install editor zed` |
-| Flea | `omarchy pkg add flea` |
+| Flea | `omarchy pkg aur add flea-bin` |
 | OmaMail | `omarchy plugin add https://github.com/huacnlee/omamail.git --enable` |
 | Teams | Web app: https://teams.microsoft.com/v2/ |
 | Telegram | Web app: https://web.telegram.org/k/ |
@@ -30,7 +30,22 @@ The Omarchy `install` commands set the terminal, browser, and editor. Flea sets 
 | Browser | Brave Origin | `omarchy default browser brave-origin` |
 | Editor | Zed | `omarchy default editor zed` |
 | Agent | Grok | `omarchy default agent grok` |
-| File manager | Flea | `flea --default && systemctl --user restart xdg-desktop-portal` |
+| File manager | Flea | `flea --default` |
+
+### Flea
+
+Flea is the file manager. The package is `flea-bin` on the AUR: the tagged release, already built for x86_64. `omarchy update` installs a new release minutes after it ships.
+
+```bash
+omarchy pkg aur add flea-bin
+flea --default
+```
+
+`flea-bin`, the repository package `flea`, and `flea-git` each install `/usr/bin/flea`. This machine uses `flea-bin` only.
+
+Run `flea --default` in a terminal inside the session. It sets the `inode/directory` handler, Show in folder, Super+Shift+F, Super+Alt+Shift+F, and the file chooser, then restarts `xdg-desktop-portal` so file dialogs follow at once. When `~/.config/xdg-desktop-portal/hyprland-portals.conf` exists, the chooser line goes in that file, which is the one the portal reads. `flea --default off` puts the previous chooser back.
+
+[`install-apps.sh`](install-apps.sh) runs those two commands, then `systemctl --user restart xdg-desktop-portal`. That extra restart covers a script run whose output is captured: `flea --default` restarts the portal only when its own output is a terminal.
 
 ### MEGA Apps
 
