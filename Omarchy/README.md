@@ -13,7 +13,7 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 | Ghostty | `omarchy install terminal ghostty` |
 | Brave Origin | `omarchy install browser brave-origin` |
 | Zed | `omarchy install editor zed` |
-| Flea | `omarchy pkg add flea` (see below) |
+| Flea | `omarchy pkg add flea` |
 | OmaMail | `omarchy plugin add https://github.com/huacnlee/omamail.git --enable` |
 | Teams | Web app: https://teams.microsoft.com/v2/ |
 | Telegram | Web app: https://web.telegram.org/k/ |
@@ -30,37 +30,11 @@ The Omarchy `install` commands set the terminal, browser, and editor. Flea sets 
 | Browser | Brave Origin | `omarchy default browser brave-origin` |
 | Editor | Zed | `omarchy default editor zed` |
 | Agent | Grok | `omarchy default agent grok` |
-| File manager | Flea | `flea --default` |
+| File manager | Flea | `flea --default && systemctl --user restart xdg-desktop-portal` |
 
-## Flea
+### MEGA Apps
 
-File manager from the Omarchy repo. This machine installed `flea 0.2.1-3` on 2026-09-22. `omarchy update` moves it to whatever the Omarchy repo has later.
-
-```bash
-omarchy pkg add flea
-flea --default
-systemctl --user restart xdg-desktop-portal
-```
-
-`omarchy pkg add flea` installs the package. It does not replace Nautilus as the default. `flea --default` does that, and it also makes Flea the file chooser. The portal reads its configuration at startup, so the `systemctl` line is what makes Open/Save dialogs use Flea in the session you are in.
-
-`flea --default` writes:
-
-| What | Where |
-| --- | --- |
-| `inode/directory` handler | `~/.config/mimeapps.list` (`com.thisisgm.flea.desktop`) |
-| “Show in folder” | `~/.local/share/dbus-1/services/org.freedesktop.FileManager1.service` |
-| Super+Shift+F and Super+Alt+Shift+F | marked block in `~/.config/hypr/bindings.lua` |
-| File chooser, with gtk behind flea | `~/.config/xdg-desktop-portal/portals.conf` |
-| Picker window floats | `flea --picker` block in `~/.config/hypr/bindings.lua` |
-
-Run it from a terminal inside the session so Hyprland reloads the keys. A second run reports that each step is already Flea and rewrites nothing. [`install-apps.sh`](install-apps.sh) is the same three commands.
-
-`flea --default off` removes those user files. The package stays until `omarchy pkg drop flea`. Run the off command while `flea` is still installed.
-
-## MEGA Apps
-
-### MEGA Cloud Drive
+#### MEGA Cloud Drive
 
 MEGA is not in Arch `extra` or the Omarchy repo, so `omarchy pkg add megasync` cannot install it. The download page calls the directory “Arch Extra”; that is MEGA’s file list at `https://mega.nz/linux/repo/Arch_Extra/x86_64/`, which is separate from Arch’s `extra`. Skip Homebrew, AUR `megasync` (slow source build, icu breakage), and `megasync-bin` (often behind). Install MEGA’s own packages so this machine matches the macOS apps.
 
@@ -90,7 +64,7 @@ That block is MEGA’s update channel. A later `pacman -Syu` would upgrade `mega
 
 We delete the block. MEGA requires the same desktop version on every computer, and this machine should stay on the version installed on the Mac. Syncing the database would let `omarchy update` move Linux ahead of the Mac, and a bad signature on that repo would stop the whole system update. The `sed` runs after each fresh `pacman -U`, before the next pacman command. [`install-apps.sh`](install-apps.sh) does that even when the package was already installed, so a re-run clears a block left by a stopped install. `pacman -Rs megasync` does not remove the block.
 
-### Updating MEGA
+#### Updating MEGA
 
 Update when the Mac apps move, and install that same version here. The directory listing has a versioned file per build, for example `megasync-6.6.2-1-x86_64.pkg.tar.zst` and `megacmd-2.6.0-2-x86_64.pkg.tar.zst`. The names without a version are whatever MEGA is publishing today. Download the version that matches the Mac, then:
 
@@ -103,9 +77,9 @@ grep -n DEB_Arch_Extra /etc/pacman.conf || echo "no MEGA repo"
 
 An upgrade of a package that is already installed goes through `post_upgrade`. With MEGA’s key already in the keyring, that does not append the block again. If `DEB_Arch_Extra` shows up in `pacman.conf`, delete it with the same `sed` as the install. Update the desktop app and the CLI together. `omarchy update` does not upgrade these two.
 
-Stock Omarchy’s file manager is Nautilus. This machine uses Flea, above. Optional Nautilus integration from the same directory: `nautilus-megasync`. Not part of `install-apps.sh`.
+Stock Omarchy’s file manager is Nautilus. This machine uses Flea and removes Nautilus (see Uninstalled). `nautilus-megasync` from the same directory stays uninstalled.
 
-### MEGAsync UI on the Studio Display
+#### MEGAsync UI on the Studio Display
 
 MEGAsync is a Qt5 X11 app. On Hyprland it prints `Avoiding wayland` and runs under XWayland — that is expected. Two separate bugs show up on this machine (Beelink SER9, Studio Display `DP-5` at 5120×2880, Hyprland scale 2).
 
@@ -193,6 +167,30 @@ tr '\0' '\n' < /proc/$(pgrep -n megasync)/environ | grep -E 'QT_SCALE_FACTOR|QT_
 ```
 
 Expect `QT_SCALE_FACTOR=2` and `QT_QPA_PLATFORM=xcb`. Super+Space → MEGAsync: the status card should appear in the center of the screen and stay until you close it.
+
+## Uninstalled
+
+- Stock software this setup removes
+- [`install-apps.sh`](install-apps.sh) does not do the uninstalls
+- `omarchy pkg drop` skips a name that is already gone, then runs `sudo pacman -Rns --noconfirm`
+- `omarchy reinstall pkgs` installs the stock list again
+
+| Software | GB | Remove with |
+| --- | --- | --- |
+| Steam | 2.46 | `omarchy remove gaming steam` |
+| NVIDIA userspace | 1.40 | `omarchy pkg drop nvidia-utils lib32-nvidia-utils` |
+| Chromium | 0.41 | `omarchy pkg drop chromium` |
+| Signal | 0.40 | `omarchy pkg drop signal-desktop` |
+| RetroArch database | 0.33 | `omarchy pkg drop libretro-database-git` |
+| Nautilus | 0.03 | `omarchy pkg drop nautilus nautilus-python` |
+
+Drop Nautilus after `flea --default`. `nautilus-python` depends on `nautilus`, and both are explicit stock installs, so the command names both.
+
+To free up that space on disk, you may want to delete system snapshots also, using `snapper`:
+```bash
+sudo snapper -c root list
+sudo snapper -c root delete 1-5
+```
 
 ## Natural scroll
 
