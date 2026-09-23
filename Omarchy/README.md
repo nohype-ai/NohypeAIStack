@@ -16,6 +16,7 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 | Flea | `omarchy pkg add flea` (see below) |
 | OmaMail | `omarchy plugin add https://github.com/huacnlee/omamail.git --enable` |
 | Teams | Web app: https://teams.microsoft.com/v2/ |
+| Telegram | Web app: https://web.telegram.org/k/ |
 | MEGA Desktop | official `megasync` Arch package (see below) |
 | MEGA CMD | official `megacmd` Arch package (see below) |
 
