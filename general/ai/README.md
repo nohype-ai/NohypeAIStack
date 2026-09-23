@@ -40,52 +40,31 @@ Why Obsidian:
 
 ## General Stack Layers
 
-### Agent Clients
-
-- GUI frontends to agents – natively or via ACP.
-
-### Agents
-
-- Coding Agents
-- Personal Agents
-  - Not deeply explored yet. Grok Bot has good UX but didn't add value.
-  - Check out these:
-    - [Grok Bot](https://x.ai/bot)
-    - [Hermes Agent](https://hermes-agent.nousresearch.com)
-
-### Providers
-
-Cloud services that offer access to model inference. Related research is in [byok costs.md](research/byok%20costs.md) and [routers.md](research/routers.md).
-
-#### Routers (Aggregators)
-These poviders do not provide inference themselves but only act as gateways that aggregate- and route to other providers.
-
-#### Open Weights Providers
-These providers only provide the inference, hosting a wide range of publically available models.
-- [DeepInfra](https://deepinfra.com) (via GitHub account)
-  - cheap and fast inference provider for open models
-  - [Model Prices](https://deepinfra.com/models/text-generation)
-
-#### Proprietary Providers
-These providers provide the inference and also train the models and are often the only way to access these models.
-- [xAI](https://console.x.ai) (normal login)
-  - no free models
-  - good mix of cheap (Grok 4 Fast) and frontier (Grok 4.20)
-  - [Model Prices](https://docs.x.ai/developers/models#model-pricing)
-
-### Models
-
-- Available models are determined by each agent+provider combination.
-- Costs differ widely - more than performance.
-- https://arena.ai/leaderboard/text/coding?viewBy=plot&rankBy=labs
-- https://arena.ai/leaderboard/code?viewBy=plot&rankBy=labs
+1. Agent Clients
+  - GUI frontends to agents – natively or via ACP.
+2. Agents
+  - Coding Agents
+  - Personal Agents
+    - Not deeply explored yet. Grok Bot has good UX but didn't add value.
+3. Providers
+  - Cloud services that offer access to model inference. Related research is in [byok costs.md](research/byok%20costs.md) and [routers.md](research/routers.md).
+  - Routers (Aggregators)
+    - These poviders do not provide inference themselves but only act as gateways that aggregate- and route to other providers.
+  - Open Weights Providers
+    - These providers only provide the inference, hosting a wide range of publically available models.
+  - Proprietary Providers
+    - These providers provide the inference and also train the models and are often the only way to access these models.
+4. Models
+  - Available models are determined by each agent+provider combination.
+  - Costs differ widely - more than performance.
+  - https://arena.ai/leaderboard/text/coding?viewBy=plot&rankBy=labs
+  - https://arena.ai/leaderboard/code?viewBy=plot&rankBy=labs
 
 ## Other Preliminary Conclusions
 
-### Open-Source Models Are not Worth It
+### Open-Source Models Are Not Worth It
 
-Open-source remote models (like via DeepInfra)
- for knowledge work agents turned out as a dead end. The added complexity of comparing and testing models, working around issues, and staying up to date would not just be an initial investment but a repeated ongoing cost. This effort and cognitive load are not worth the potential marginal cost savings, in particular since Grok Build is finally out. Open-source models will only become relevant to us with local inference.
+Open-source remote models (like via DeepInfra) for knowledge work agents turned out as a dead end. The added complexity of comparing and testing models, working around issues, and staying up to date would not just be an initial investment but a repeated ongoing cost. This effort and cognitive load are not worth the potential marginal cost savings, in particular since Grok Build is finally out. Open-source models will only become relevant to us with local inference.
 
 ### Vertical Integration Crushes Open Modularity
 
