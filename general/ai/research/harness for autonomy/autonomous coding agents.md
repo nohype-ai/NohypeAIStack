@@ -7,10 +7,10 @@
 - long running time per-invocation is a result of mostly just the harness (like spec's scope) – not of the "right" agent or agent config itself
 - one invocation can run for hours but should be limited to one self contained task, like implementing one ticket.
 - a task like mowing through many tickets from a kanban board should be spread across multiple invocations (one per ticket) and requires some kind of wrapper script or dedicated conductor (like literally [Conductor](https://www.conductor.build))
-- ❗key to 100x productivity is having to review very little of the agent's output, which is a result of the output's quality, which is a result of quality gates in the agent-/project harness and scaffolding (well specified QA requirements, unit tests, architecture documentation, code metrics, QA sub-agents, cross validation with multiple models/agents etc.) and **not** of parallelism.
-- ❗quality gates then enable longer runtimes, wich is implemented by giving agents more well specified larger-scoped tasks and sufficient other elements in the harness (task completion guide, documentation, high-level objectives, etc.)
-- ❗parallelism is a consequence of (not a precondition for-) autonomy.
-  - quality gates + large-scope tasks enable long run times + short review times, which enable parallelism
+- ❗key to 100x productivity is having to review very little of the agent's output, which is a result of the output's quality, which is a result of quality gates in the agent-/project harness (well specified QA requirements, unit tests, architecture documentation, code metrics, QA sub-agents, cross validation with multiple models/agents etc.) and **not** of parallelism.
+- ❗quality gates then enable longer runtimes, wich means giving agents more well specified larger-scoped tasks and sufficient other elements in the harness (task completion guide, documentation, high-level objectives, etc.)
+- ❗parallelism is a consequence of autonomy - not a precondition for it.
+  - quality gates + large-scope tasks ➡️ short review times + long run times ➡️ parallelism possible
 - parallelism is less important than expected:
   - human review is the tighter bottle neck for a 24/7 agent until review time is significantly shorter than agent run time (requires optimizing QA loops and tasks/harness)
   - parallel work on overlapping scope would require merge conflict resolution, so parallelization requires isolation of some kind. low hanging fruit here is to simply start with fully independent work scopes like distinct folders or even projects.
