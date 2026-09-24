@@ -3,7 +3,7 @@
 **Elements of a project-level harness for long-running coding agents**
 
 - **Elements are tangible repo documents** that give coding agents durable context over long horizons. They are files (or in-repo doc surfaces) agents can open, link, and maintain.
-- Elements are not: the agent product’s built-in tools and model, config that is not checked into the repo, advice that never becomes files, any aspects that are already parts of other elements (like DoD being part of the task completion guide)
+- Elements are not: the agent product’s built-in tools and model, config that is not checked into the repo, advice that never becomes files, any aspects that are already parts of other elements (like DoD being part of the task execution template)
 
 ⚠️ This is a high-level conceptual framework for maximizing agent leverage in a project. It is not a requirement to implement every element, nor is it a reflection of the elements already used in any specific project. What most projects already use is a fraction of what we outline here, and each element can also be implemented to various degrees of completeness. In that sense all the identified elements are optional.
 
@@ -20,7 +20,7 @@
 | [3](#3-hierarchical-objectives)           | High-level objectives               | Where we are *going* (to-be / why)—goals, vision, target arch, epics; parents tasks       |
 | [4](#4-task-management)                   | Task management                     | Leaf workflow: what exists, state, what is in progress                                    |
 | [5](#5-task-template-dor)                 | Task template (DoR)                 | Schema + readiness bar for a card before work                                             |
-| [6](#6-task-completion-guide)             | Task completion guide               | How to *execute* any ready task (incl. DoD)                                               |
+| [6](#6-task-execution-template)           | Task execution template             | How to *execute* any ready task (incl. DoD)                                               |
 | [7](#7-toolbox)                           | Toolbox                             | Repo-checked means for implementation—skills, tool config, vendored tech docs            |
 | [8](#8-specialized-task-templates)        | Specialized template                | How to execute *this kind* of work or role pass                                           |
 | [9](#9-specific-task-card)                | Specific task card                  | This run’s goal, scope, acceptance                                                        |
@@ -57,7 +57,7 @@
 
 **Include**
 - Must-nots (secrets, protected paths, irreversible ops)
-- Pointers: §3 tree, §4 board, §5 DoR, §6 guide, §7 index, §10 convention; top §2 entry points
+- Pointers: §3 tree, §4 board, §5 DoR, §6 template, §7 index, §10 convention; top §2 entry points
 - Tiny high-frequency invariants; critical commands or link to build/test doc
 - Nested: local overrides/entrypoints only (additive—don’t copy root)
 
@@ -70,7 +70,7 @@
 ## 2. Comprehensive documentation
 
 - **What:** Ordinary project docs—*as-is* product/architecture, modules, setup, test, ADRs, deep-dives.
-- Agents navigate READMEs/links well; constitution/guide should **point**, not inline everything.
+- Agents navigate READMEs/links well; the constitution and the task execution template should **point**, not inline everything.
 - Quality of autonomous work tracks doc quality.
 
 **Typical content:** orientation index · module/architecture map · build/run/test · domain deep-dives · decision history · verification oracles (matrices, goldens) linked from §6
@@ -132,7 +132,7 @@ Tasks/   (entrypoint)
 ## 5. Task template (DoR)
 
 - **What:** Dedicated doc = **definition of ready**—how a card must look before work.
-- **Not:** filled card (§9) · execution guide (§6) · toolbox (§7) · specialized playbook (§8)
+- **Not:** filled card (§9) · task execution template (§6) · toolbox (§7) · specialized playbook (§8)
 
 **Defines**
 - Required fields (problem, outcome, scope, non-goals, acceptance, risks, deps, **parent objective**, pointers)
@@ -145,7 +145,7 @@ Tasks/   (entrypoint)
 
 ---
 
-## 6. Task completion guide
+## 6. Task execution template
 
 - **What:** How to **execute any** ready task. Central process doc.
 - **Holds:** DoD · verification · outputs · work-log/done filing (§10) · stop rules · scope discipline · when to start (→ §5) · read parents (§3) · doc entry points (§2/§3) · links to §7 means that every task or the DoD uses
@@ -257,7 +257,7 @@ hit friction in a real task
 | **3** | To-be / why; goal·epic tree; high-level priority | Local “done” drifts from vision / target arch / epic non-goals | Hierarchy + intent + priority at entry/mid; tasks under |
 | **4** | Leaf ready / in progress / done | No shared leaf queue/state | Board (or equiv.) → real cards |
 | **5** | Card schema + DoR | Underspecified cards; weak create/refine | Template for create / refine / gate |
-| **6** | Execute any task; global DoD | Inconsistent process; vague done | Guide: DoD, outputs, §10, parents, §7 links, stop rules |
+| **6** | Execute any task; global DoD | Inconsistent process; vague done | Template: DoD, outputs, §10, parents, §7 links, stop rules |
 | **7** | Repo means: skills, checked-in tool config, vendored tech docs | Rediscovered framework facts; missed skill or checker; means only outside the repo | In-repo; descriptions or an index make them findable; normative means linked from §6/§8/§9 |
 | **8** | Execute this *kind* / role | Reinvent procedure; miss pitfalls *(when recurring)* | Specialized templates where needed |
 | **9** | This change (filled instance) | Unbounded or invented goals | Cards meet §5; parented when epic-driven |

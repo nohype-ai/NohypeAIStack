@@ -57,7 +57,7 @@ Permission rules and hooks need folder trust before they run. A plugin in `.grok
 | 3 | High-level objectives | | |
 | 4 | Task management | | |
 | 5 | Task template (DoR) | A skill for authoring or gating a card | The same kind of skill in `.grok/skills/`, with Grok invocation frontmatter |
-| 6 | Task completion guide | A skill for executing any ready task. This is the quality gate: plan, fit to the existing code, implement, fresh review, checks. | `.grok/agents/*.md` for a fresh reviewer with its own context. Grok invocation flags on that skill. Legacy `.grok/commands/*.md`. A `Stop` hook that blocks done until checks pass. A workflow when the gate is a host-run sequence of agents. |
+| 6 | Task execution template | A skill for executing any ready task. This is the quality gate: plan, fit to the existing code, implement, fresh review, checks. | `.grok/agents/*.md` for a fresh reviewer with its own context. Grok invocation flags on that skill. Legacy `.grok/commands/*.md`. A `Stop` hook that blocks done until checks pass. A workflow when the gate is a host-run sequence of agents. |
 | 7 | Toolbox | `.agents/skills/` (including `scripts/`, `references/`, `assets/` for a CLI, a checker, or downloaded framework docs). Root `.mcp.json`. | `.grok/agents/*.md` as an invocable specialist. `.grok/skills/`. `[mcp_servers]` in `.grok/config.toml`. `.grok/plugins/` as the bundle. `.grok/lsp.json`. |
 | 8 | Specialized template | One skill per recurring job or role | `.grok/agents/*.md` for a specialist. `.grok/personas/*.toml` for a lighter subagent overlay. A workflow when the pass is a fixed multi-agent pipeline. |
 | 9 | Specific task card | | |

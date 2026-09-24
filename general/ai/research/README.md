@@ -17,11 +17,11 @@ Next research topics are prioritized to scale up productivity quickly, even at t
 	- ✅ generally: [autonomous coding agents](harness%20for%20autonomy/autonomous%20coding%20agents.md)
 	- ✅ still boken: [Agent Failures in Codeface](harness%20for%20autonomy/Agent%20Failures%20in%20Codeface.md)
 	- ✅ solution concept: [Dev Harness Playbook](harness%20for%20autonomy/Dev%20Harness%20Playbook.md)
-		- in particular the quality gate (in task completion instructions, could be a skill)
+		- in particular the quality gate (in the task execution template, could be a skill)
 	- 🚧 solution in practice:
 		- ✅ [Agentic Engineering - voice conversation](harness%20for%20autonomy/Agentic%20Engineering%20-%20voice%20conversation.md)
 		- ✅ [Practical Means](harness%20for%20autonomy/Practical%20Means.md) — general means vs Grok Build, mapped onto the 11 elements
-		- 🚧 gather a basic template here for a harness, tested and proven in one specific project
+		- 🚧 template, exemplary only: [project-harness-template](harness%20for%20autonomy/project-harness-template) — fill with practice-ready contents in a real project
 - evals / quality gates (deeper dive into this part of the harness)
    - automated quality assessment of agent output
    - generating tests alongside code (even for shell scripts?)
