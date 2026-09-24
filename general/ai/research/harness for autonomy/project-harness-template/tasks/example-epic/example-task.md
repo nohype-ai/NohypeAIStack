@@ -10,7 +10,6 @@ Exemplary card. Replace every field.
 - **Outcome:** what is true when this card is done.
 - **Scope:** `src/example/` and `ExampleType`.
 - **Non-goals:** what it will not touch.
-- **Acceptance:** the check that shows the outcome.
 - **Risks / deps:** none.
 
 ## Plan
@@ -19,5 +18,9 @@ Exemplary card. Replace every field.
 - **Steps:**
   1. Add the one behavior in `src/example/`. Leave every other type alone.
 - **Open:** none.
+
+## Acceptance criteria
+
+`ExampleType` performs the new behavior. Nothing else in `src/example/` changed.
 
 ## Log

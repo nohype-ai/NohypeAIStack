@@ -6,7 +6,8 @@ Exemplary entry, for a person or an agent. Replace this with the project.
 
 - What it does: one sentence.
 - Where to start in the code: `src/` (example).
-- Build, run, test: the commands a newcomer runs.
+- Build: `swift build`
+- Test: `swift test`
 
 As-is detail, high-level goals, and philosophy live in [docs/](docs/README.md). Development management lives under [tasks/](tasks/README.md).
 
