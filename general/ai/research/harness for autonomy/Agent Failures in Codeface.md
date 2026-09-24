@@ -46,5 +46,5 @@
   ## Grok's Prescription
 
 - Card asks “which type owns this?” Guide says: if the hub would grow, or a file is already over a hard limit, or a structural question is open → stop and ask, do not implement around it. Next task then finds the type this task was forced to create. That is the loop.
--  You already have a working §7: language workflow + profile template + test matrix. That is the pattern to copy, not a 10-element playbook completeness project.
+-  You already have a working §8: language workflow + profile template + test matrix. That is the pattern to copy, not an 11-element playbook completeness project.
 - Habit change, not a doc: any feature that would touch the window hub gets a human design beat before implement: “which type owns this, and what is the hub allowed to gain?” You already do this when you slow down. Vibe-coding skipped it.
