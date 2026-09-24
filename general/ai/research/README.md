@@ -19,11 +19,9 @@ Next research topics are prioritized to scale up productivity quickly, even at t
 	- ✅ solution concept: [Dev Harness Playbook](harness%20for%20autonomy/Dev%20Harness%20Playbook.md)
 		- in particular the quality gate (in task completion instructions, could be a skill)
 	- 🚧 solution in practice:
-		- process [Agentic Engineering - voice conversation](harness%20for%20autonomy/Agentic%20Engineering%20-%20voice%20conversation.md)
-		- Relate/apply the explicit practical means and conventions beyond just general markdown:
-			- Agents.md, agentskills.io, custom agents
-			- and what's possibly specific to Grok Build: plugins, personas, hooks, workflows
-		- gather a basic template here for a harness, tested and proven in one specific project
+		- ✅ [Agentic Engineering - voice conversation](harness%20for%20autonomy/Agentic%20Engineering%20-%20voice%20conversation.md)
+		- ✅ [Practical Means](harness%20for%20autonomy/Practical%20Means.md) — general means vs Grok Build, mapped onto the 11 elements
+		- 🚧 gather a basic template here for a harness, tested and proven in one specific project
 - evals / quality gates (deeper dive into this part of the harness)
    - automated quality assessment of agent output
    - generating tests alongside code (even for shell scripts?)
