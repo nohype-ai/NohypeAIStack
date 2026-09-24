@@ -13,4 +13,11 @@ Exemplary card. Replace every field.
 - **Acceptance:** the check that shows the outcome.
 - **Risks / deps:** none.
 
+## Plan
+
+- **Fit:** `ExampleType` already owns this behavior. The change extends it there.
+- **Steps:**
+  1. Add the one behavior in `src/example/`. Leave every other type alone.
+- **Open:** none.
+
 ## Log
