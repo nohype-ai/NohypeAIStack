@@ -503,6 +503,52 @@ Do **not** disable USB autosuspend or add a kernel quirk yet. One timeout is a r
 
 `sudo rmmod btusb && sudo modprobe btusb` recovered it without a reboot. Firmware loaded in ~1.4s, same sequence as a healthy cold boot (`ibt-20-1-3.sfi`, revision 0.3 build 193 week 33 2024). BlueZ then had `Controller A8:59:5F:9C:59:04 beelink [default]`, `Powered: yes`. USB reset and power-off were not needed.
 
+### Modern standby never reaches its deepest idle
+
+Suspend on this SER9 is already modern standby. The firmware advertises S0, S4, and S5, and no S3. The kernel logs `Low-power S0 idle used by default for system suspend`, and `/sys/power/mem_sleep` is `[s2idle]`. Power-menu Suspend runs `systemctl suspend`. No `suspend-off` flag is set, so the item is in the menu.
+
+The machine wakes back to the desktop, and the idle it reached is shallower than the one the firmware claims. Eight s2idles from Sun 2026-09-20 21:33 through Thu 2026-09-24 02:34, and another at 13:07 that same morning, all logged:
+
+```text
+amd_pmc AMDI0009:00: Last suspend didn't reach deepest state
+```
+
+Every wake also aborted the embedded-controller method the firmware runs on the way out of sleep:
+
+```text
+ACPI Error: Region EmbeddedControl (ID=3) has no handler
+ACPI Error: Aborting method \_SB.PCI0.SBRG.EC0.UPHK due to previous error (AE_NOT_EXIST)
+ACPI Error: Aborting method \_SB.PEP._DSM due to previous error (AE_NOT_EXIST)
+```
+
+The session came back each time, including on the HDMI Sony TV, and Wi-Fi reassociated after the 13:08 wake. A hibernate half a minute later still entered S4, so this shallow wake does not by itself reproduce the hibernate panic below.
+
+**Dead end.** Nothing on this box can make that idle deep. Suspend is already s2idle. `amd_pmc` workarounds are already on (`disable_workarounds=N`, SMU 76.87.0). No Omarchy setting and no kernel parameter installs the missing EC handler. Beelink ships the board without S3, and AMI `SER9L106` has no option that adds it. Only a BIOS that repairs `EC0.UPHK` / `\_SB.PEP._DSM` would. Until then, Suspend is a light sleep that returns the desktop.
+
+#### Where a BIOS update would show up
+
+This board is AZW SER9, Ryzen 7 255. The running firmware is AMI `SER9L106`, dated 2026-07-10 (`/sys/class/dmi/id/bios_version` and `bios_date`).
+
+Public files for this CPU live in one folder:
+
+[https://dr.bee-link.cn/?dir=uploads%2FSER%2FSER9-H255%2FBIOS](https://dr.bee-link.cn/?dir=uploads%2FSER%2FSER9-H255%2FBIOS)
+
+Only the subfolders whose names say **Only-SER9L10X-can-flash** match this board. As of 2026-09-24 the newest of those is `SER9L106` (uploaded 2026-07-13), which is what is already installed. The `SER9T50X` folders in that same directory are a different firmware. The HX 370 packages (`T2xx`, `T4xx`, `V2xx`) and SER9 MAX are other machines. Flashing one of those has bricked SER9s; a CMOS clear does not always bring the board back. Beelink’s quarterly posts, such as [BIOS Update Summary For Q1 2026](https://www.bee-link.com/blogs/all/bios-update-summary-for-q1-2026), mix all of those models in one list. Use them as a changelog, then confirm the file is an `SER9L10X` build newer than `SER9L106`. Forum support often asks for a photo of the BIOS main page and sends a zip by private message. Check the version prefix on that zip yourself. They have sent the wrong image before.
+
+When a newer `SER9L10X` folder appears, it contains a zip and a PDF named like `Use-USB-to-flash-BIOS`. Follow that PDF. Beelink’s method is their USB stick procedure, not a flash from inside Omarchy. Secure Boot on this machine is already off, which those tutorials require. Do not cut power while it flashes.
+
+### Hibernate panicked once, then resumed
+
+Thu 2026-09-24 02:57:29, power menu, HDMI Sony TV. The journal ends on:
+
+```text
+PM: hibernation: hibernation entry
+```
+
+Hard power-off. The 12:02 boot logged `PM: Image not found (code -22)` and had no `HibernateLocation`. The signature was never written. The fresh desktop is [Workspaces are not persisted](#workspaces-are-not-persisted). That session had been up since Sun 20 Sep: Flea, Zed, Brave Origin, Ghostty, and the shell with Omamail. `kdenlive` pid 495202 was still running from 13:52 the previous afternoon after its window was closed; the kernel never names it. Swap was already configured (`resume=/dev/mapper/root resume_offset=1950296`). Not the empty `resume_offset` bug.
+
+Same day, still platform mode, with `loglevel=7 no_console_suspend`: a 12:59 hibernate on a 9-minute Ghostty-only boot woke from S4 at 13:00, same session. After the shallow s2idle above, a 13:08 hibernate woke from S4 at 13:09, same session. Both resumes logged `iwlwifi CSR_RESET = 0x10` and the interface associated again within seconds. One short suspend does not reproduce the panic. The test command line (`loglevel=7 no_console_suspend`) was put back to `quiet splash`. The stock file remains `omarchy-defaults.conf.before-hibernate-test`.
+
 ### Workspaces are not persisted
 
 Hyprland/Omarchy do **not** restore windows after a reboot. Empty numbered workspaces come back; Ghostty/Brave/Zed do not. There are third-party session restorers, and they are their own project (relaunch apps, guess cwd, miss browser tabs). Not a one-line Omarchy setting. Session restore is not a substitute for the Studio Display suspend investigation above.
@@ -528,6 +574,8 @@ A real **fix** is almost never this machine’s Hyprland config. Local work stay
 | --- | --- | --- | --- | --- |
 | Studio Display black on lock/suspend (`DPIA AUX failed`) | **AMD `amdgpu`** (+ DMUB). Apple’s USB4 sink will not change for Linux. | Don’t DPMS-off USB4/Studio Display on lock; don’t sell s2idle as Suspend on no-S3 APUs. Carry an `amdgpu` USB4/DPIA backport **if** one lands upstream. | Idle/lock policy in `~/.config` (avoid the path). | Beelink. Theme/lock chrome. |
 | Shutdown doesn’t stay off / long-hold | **Beelink AMI BIOS** (ACPI S5, `NHI0`/`NHI1` wakeup). | Turn off USB4 wakeup as a SER9 quirk; hide Suspend; `HandlePowerKey` UX. | Disable specific wakeup sources if you choose to. | Omarchy cannot make S5 cut the DC rail. |
+| Modern standby never deepest; EC handler missing on wake | **Beelink AMI BIOS only** (`EC0.UPHK` / `\_SB.PEP._DSM`). | Don’t describe menu Suspend as deep sleep on SER9. | Dead end. Already s2idle; `amd_pmc` workarounds already on. | A local quirk, a menu change, or a BIOS toggle that adds S3. |
+| Hibernate panicked once; two later S4 cycles resumed | Unknown. The 02:57 oops was not saved. Platform S4 woke the same session at 13:00 and again at 13:09, the second time after one shallow s2idle. | Don’t treat that single panic as proof SER9 cannot hibernate. | Shutdown mode is untested. Quiet splash is restored. | The empty `resume_offset` bug. |
 | Wi-Fi gone, `CSR_RESET`, CMOS | **Beelink BIOS / board power** (no rail-reset on reboot; D3cold). Same class as soldered RTL8125 vanishing until CLR CMOS on Windows. | Detect probe `-110` and tell the user to CLR CMOS / unplug DC. | CMOS pinhole. Unplug DC. Don’t hard-cut. | `iwlwifi` cannot talk to a chip in reset. |
 | Bluetooth `-110`, Wi-Fi still up | **Kernel `btusb`/`btintel`** (USB autosuspend vs firmware load on AMD xHCI). | `omarchy restart bluetooth` reloads `btusb` when there is no controller; udev `8087:0029` `power/control=on`; kernel `btusb.enable_autosuspend=0` or a device quirk. | [`reload-btusb.sh`](reload-btusb.sh). Optional udev if it repeats. | CMOS is the wrong hammer. |
 | Power button does nothing | **Omarchy** (`HandlePowerKey=ignore` in `/etc/systemd/logind.conf.d/10-ignore-power-button.conf`) | Short press → poweroff or power menu. | User logind drop-in. | Not a hardware bug. |
@@ -553,3 +601,21 @@ That is the DPMS-off that kills the USB4 tunnel. Skipping connector DPMS on this
 | SER9 DSDT overlay / “fix” CMOS Wi-Fi in the kernel | Theatre; BIOS still owns rail-reset |
 
 Do not pile the local equivalents (idle hacks, wakeup masks, autosuspend-off) onto this machine until one of those is chosen on purpose. The display-sleep pile is exactly what the Studio Display section refuses to build.
+
+## Potential Alternative PCs
+
+A different chip would not clear the list above. The Ryzen 7 255 is a current Hawk Point laptop processor. What is cheap on this box is Beelink’s firmware. What is awkward for Linux is the Studio Display on USB4. A newer or more expensive PC often keeps both.
+
+**Beelink does publish BIOS files**, on [dr.bee-link.cn](https://dr.bee-link.cn/?dir=uploads%2FSER%2FSER9-H255%2FBIOS). This machine’s folder tops out at `SER9L106`, which is already installed, and that file did not repair the embedded controller. The notes are one line (“optimize Wi-Fi”, “solve login network”). The more expensive, newer SER9 with the Ryzen AI 9 HX 370 is in the same catalog and has the same “no S3, suspend never really sleeps” behavior. A download site is not a firmware team.
+
+**GMKtec is the same kind of company.** Boards are often a third-party design (Sixunited and similar), BIOS files are split across support posts, and Linux users end up toggling ACPI wake bits by hand. An EVO-X2 is a faster chip in that same firmware situation.
+
+Mini PCs whose vendors ship a BIOS for one known model, with notes, and then update it:
+
+| Machine | What you actually get |
+| --- | --- |
+| **System76 Meerkat** | The small one. System76 writes the firmware (coreboot on the open-firmware models), publishes a changelog, and delivers updates through their own tool. The notes include real ACPI and resume fixes. |
+| **Framework Desktop** | A small desktop, not a 13 cm cube. Ryzen AI Max. BIOS is on their download page with a version history, and Linux updates go through `fwupd`. They do fix power bugs. They also shipped a laptop BIOS that left some boards unable to boot, so a public update process is not a promise that a flash cannot fail. |
+| **Lenovo ThinkCentre Tiny, Dell OptiPlex Micro, HP Elite Mini, ASUS NUC** | Business machines. Look up the exact model or service tag and get a BIOS with a changelog from that vendor’s support site. Sleep is still modern standby, and it is usually less broken than a Beelink AMI image. These are not Linux companies. |
+
+None of those make a Studio Display on USB4 safe. That bug is the AMD or Intel USB4 tunnel plus that display, and it shows up on expensive machines too. What the extra money buys is a vendor that will still be patching the embedded controller next year, and a model name that maps to one firmware instead of eight.
