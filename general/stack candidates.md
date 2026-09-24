@@ -3,9 +3,9 @@
 This file documents interesting things to check out which might join the stack in the future, it does **not** document the current stack.
 
 ## System
-- [mise.jdx.dev (macOS environment manager)](https://mise.jdx.dev)
-- [DaisyDisk (disk usage inspection)](https://daisydiskapp.com/)
-- [cleanshot.com (screen recording)](https://cleanshot.com/features#recording)
+- [mise.jdx.dev (environment manager)](https://mise.jdx.dev)
+- [DaisyDisk (macOS disk usage inspection)](https://daisydiskapp.com/)
+- [cleanshot.com (macOS screen recording)](https://cleanshot.com/features#recording)
 - Raycast
   - THE macOS swiss army knife for productivity
   - BUT: needed 750 MB memory with not even UI open, and config cannot even be installed via script
@@ -13,7 +13,7 @@ This file documents interesting things to check out which might join the stack i
 ## Collaboration, Web
 - [Basecamp (project management)](https://basecamp.com)
 - [Fizzy (Team Task Manager)](https://www.fizzy.do/)
-- [Hey (email + calendar)](https://www.hey.com)
+- [Hey (email + calendar, soon as native apps)](https://www.hey.com)
 - [ladybird.org (independent browser)](https://ladybird.org)
 - [lazygit](https://github.com/jesseduffield/lazygit)
 
@@ -23,8 +23,8 @@ This file documents interesting things to check out which might join the stack i
 - [SSH Config Editor](https://www.hejki.org/ssheditor/)
 - [DigitalOcean (hosting, cloud AI)](https://www.digitalocean.com/)
 - [Radio Silence](https://radiosilenceapp.com)
+  - macOS firewall & network monitor
   - `cask "radio-silence"`
-  - firewall & network monitor
   - I still own a license
   - 🚨 BUT: last time i had it running it caused all kinds of networking issues, did cost me days of productivity until i found out
 - Tailscale: business VPN ... easy/secure/fast remote access (ZTNA)
@@ -33,8 +33,8 @@ This file documents interesting things to check out which might join the stack i
 
 ## Hardware
 - [Melt Mouse](https://www.melt-interface.com/melt-mouse)
-- [AMD Ryzen AI Max+ 395 PCs](https://docs.google.com/spreadsheets/d/1QOvILBE7BZHICVWJ1ylmlO3jIMig1HYW6gIeZ1jhQXE/)
-- [bee-link.com (mini PC)](https://www.bee-link.com/products/beelink-gtr9-pro-amd-ryzen-ai-max-395)
-- [gmktec.com (mini PC)](https://de.gmktec.com/products/gmktec-evo-x2-amd-ryzen™-ai-max-395-mini-pc-1)
+- [Meerkat (linux mini pc)](https://system76.com/mini/meerkat)
+  - mini pc with likely better hardware compatability than beelink, gmktec etc.
+  - better linux support and firmware updates, including ACPI and resume fixes
 - [frame.work (laptops and mini PC)](https://frame.work)
 - [kuycon.us (apple like monitors)](https://kuycon.us)
