@@ -1,0 +1,12 @@
+https://github.com/nohype-ai/AppKitToolz.git
+https://github.com/nohype-ai/CloudKid
+https://github.com/nohype-ai/FoundationToolz
+https://github.com/nohype-ai/GetLaid
+https://github.com/nohype-ai/LSPService
+https://github.com/nohype-ai/LSPServiceKit
+https://github.com/nohype-ai/SwiftAI
+https://github.com/nohype-ai/SwiftLSP
+https://github.com/nohype-ai/SwiftNodes
+https://github.com/nohype-ai/SwiftUINodes
+https://github.com/nohype-ai/SwiftUIToolz
+https://github.com/nohype-ai/SwiftyToolz
