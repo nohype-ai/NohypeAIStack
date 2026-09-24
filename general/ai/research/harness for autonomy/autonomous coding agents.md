@@ -14,7 +14,7 @@
 - parallelism is less important than expected:
   - human review is the tighter bottle neck for a 24/7 agent until review time is significantly shorter than agent run time (requires optimizing QA loops and tasks/harness)
   - parallel work on overlapping scope would require merge conflict resolution, so parallelization requires isolation of some kind. low hanging fruit here is to simply start with fully independent work scopes like distinct folders or even projects.
-- 90% of what unlocks autonomous agents is known good practices that apply to managing human dev teams as well
+- 90% of what unlocks autonomous parallel agents is known good practices that apply to managing human dev teams as well
 - the main difference between human and agent engineers is cost structure: agents cost much less to begin with, discarding results becomes viable (for best-of-N, retries etc.), zero cost for onboarding and idle time, nor any social cost or friction.
   - secondary differences: all knowledge must be explicit, zero initiative unless explicitly engineered, confidently-inconsistent (requires stricter verification gates)
 - in principle, agents can accumulate long-term knowledge similar to humans, since agents can be empowered to evolve a project's knowledge base ([LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)) or even their own scaffolding and harness
