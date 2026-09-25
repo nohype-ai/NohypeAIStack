@@ -686,3 +686,5 @@ The fragility is this **box’s sleep stack**, not Linux as a daily OS. Work (Gh
 Linux on a maintained laptop or business Tiny, powered off or using that vendor’s suspend, is ordinary and boring. Linux hibernate through `amdgpu` TTM with Chromium, Vulkan, and Qt after S4 is a known sharp edge. This SER9 adds a BIOS that never finished sleep. That combination is why it stopped being fun — you have been living in the sharp edge.
 
 Use **(1)** until you decide whether **(2)** is worth money. The README alternative-PC table is already that shopping list.
+
+> sorry but the issues from a user perspective is that the whole power cycle is fucked: shutdown, suspend/standby, hibernate. plus the system can freeze suddenly. plus all the other issues. and yes, some form of actual fan powerdown that restores window states is essential for using the system.
