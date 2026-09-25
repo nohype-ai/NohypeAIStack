@@ -537,21 +537,65 @@ Only the subfolders whose names say **Only-SER9L10X-can-flash** match this board
 
 When a newer `SER9L10X` folder appears, it contains a zip and a PDF named like `Use-USB-to-flash-BIOS`. Follow that PDF. Beelink’s method is their USB stick procedure, not a flash from inside Omarchy. Secure Boot on this machine is already off, which those tutorials require. Do not cut power while it flashes.
 
-### Hibernate panicked once, then resumed
+### Hibernate panicked twice; two short S4 cycles resumed
 
-Thu 2026-09-24 02:57:29, power menu, HDMI Sony TV. The journal ends on:
+Overnight panics Thu 2026-09-24 02:57 and Fri 2026-09-25 02:42, HDMI Sony TV, power menu. Both journals end on:
 
 ```text
 PM: hibernation: hibernation entry
 ```
 
-Hard power-off. The 12:02 boot logged `PM: Image not found (code -22)` and had no `HibernateLocation`. The signature was never written. The fresh desktop is [Workspaces are not persisted](#workspaces-are-not-persisted). That session had been up since Sun 20 Sep: Flea, Zed, Brave Origin, Ghostty, and the shell with Omamail. `kdenlive` pid 495202 was still running from 13:52 the previous afternoon after its window was closed; the kernel never names it. Swap was already configured (`resume=/dev/mapper/root resume_offset=1950296`). Not the empty `resume_offset` bug.
+Photos of both blue screens exist. They show Omarchy’s drm-panic overlay:
 
-Same day, still platform mode, with `loglevel=7 no_console_suspend`: a 12:59 hibernate on a 9-minute Ghostty-only boot woke from S4 at 13:00, same session. After the shallow s2idle above, a 13:08 hibernate woke from S4 at 13:09, same session. Both resumes logged `iwlwifi CSR_RESET = 0x10` and the interface associated again within seconds. One short suspend does not reproduce the panic. The test command line (`loglevel=7 no_console_suspend`) was put back to `quiet splash`. The stock file remains `omarchy-defaults.conf.before-hibernate-test`.
+```text
+KERNEL PANIC! Please reboot your computer.
+Fatal exception in interrupt
+```
+
+The QR is CPU arch + Omarchy version, not the oops. No RIP or Call Trace was on those frames. Die reason is a fatal exception in interrupt (IRQ context, after userspace is frozen): a driver/firmware path (ACPI / `amdgpu` / radio). Hypothesis: extra GPU clients put that path into a bad state. Ghostty + MEGAsync S4 worked. After the loud UKI reboot, two short S4s also completed: Brave+Zed+OmaWrite+Ghostty+MEGAsync (~12:13), then the same plus Flea+OmaMail (~12:21). S4 returning is a different failure from [desktop frozen after hibernate resume](#desktop-frozen-after-hibernate-resume-amdgpu-ttm). Swap is already `resume=/dev/mapper/root resume_offset=1950296`. Not the empty `resume_offset` bug.
+
+The 02:57 session had been up since Sun 20 Sep (Flea, Zed, Brave Origin, Ghostty, Omamail; leftover `kdenlive`). The 02:42 panic was the same boot as the successful afternoon S4s, with Brave Origin, Zed, OmaWrite, Ghostty, MEGAsync, Omamail. A manual shell restart at 02:29 logged amdgpu `VM memory stats … non-zero when fini` for quickshell. After 02:42 the TV-off framebuffer still showed the panic; reboot + LUKS panicked again; BIOS then the 11:19 boot logged `PM: Image not found (code -22)` and no `HibernateLocation` (same as the 12:02 boot after 02:57). Fresh desktop is [Workspaces are not persisted](#workspaces-are-not-persisted).
+
+Same afternoon 24 Sep, platform mode: 12:59 Ghostty-only S4 woke 13:00; 13:08 after one s2idle woke 13:09. Both `iwlwifi CSR_RESET = 0x10` then reassociated. Loud cmdline is restored (`loglevel=7 no_console_suspend`, no `quiet splash`; stock copy `omarchy-defaults.conf.before-hibernate-test`). `omarchy update` puts quiet back; rerun [`hibernate-loud-cmdline.sh`](hibernate-loud-cmdline.sh). LUKS prompt is visible among kernel logs.
+
+### Desktop frozen after hibernate resume (amdgpu TTM)
+
+Hibernate wrote RAM to disk and came back. The **GPU’s memory bookkeeping did not**. A few minutes later, moving windows asked the GPU to shuffle buffers, those lists were already garbage, and the compositor locked up on the last frame.
+
+This is an **AMD `amdgpu` / TTM bug in Linux** (TTM = the kernel GPU buffer allocator). The code lives in `linux-omarchy` because that is this machine’s kernel; AMD writes it, not Omarchy and not this repo. Hyprland config cannot repair the allocator. Omarchy’s only kernel move is to **carry an upstream TTM/S4 patch if one lands**. Until then, nobody here ships a fix.
+
+Distinct from [hibernate entry panic](#hibernate-panicked-twice-two-short-s4-cycles-resumed) (kernel died *entering* S4; no image) and from [Studio Display DPIA](#studio-display--amd-usb4) (panel black). Here S4 returned, then the desktop died.
+
+Fri 2026-09-25, loud cmdline (`loglevel=7 no_console_suspend`). Two loaded S4 cycles returned (12:13 Brave+Zed+OmaWrite+Ghostty+MEGAsync; 12:21 the same plus Flea+OmaMail). About 80s after the second resume, a new Ghostty surface opened (12:24:23) and window layout froze the desktop: last frame stayed on screen, no input. Force power-off.
+
+Journal, boot `12373b577ac54da7935b6510a2bff714`:
+
+```text
+12:25:30  list_add corruption. prev->next should be next ...
+          WARNING: lib/list_debug.c:32 at __list_add_valid_or_report
+          CPU: brave:cs0   ttm_bo_populate → amdgpu_cs_ioctl
+12:25:30  list_del corruption ... ttm_resource_fini / amdgpu_bo_move
+12:25:39  BUG: kernel NULL pointer dereference
+          Oops: 0002 [#1]  Comm: QSGRenderThread
+          RIP: ttm_lru_bulk_move_tail+0x13c/0x1e0 [ttm]
+12:26:05  watchdog: BUG: soft lockup
+          kworker commit_work  amdgpu_dm_atomic_commit_tail
+          also stuck: brave, zed-editor, quickshell:cs0
+```
+
+Brave’s GPU thread hit corrupt TTM lists first. Qt’s `QSGRenderThread` then Oopsed. Hyprland’s next atomic commit (`amdgpu_dm_atomic_commit_tail` / plane unpin) deadlocked. The Ghostty TUI in that new window is not in the stack.
+
+**Avoid**
+
+- Shutdown when Brave, Zed, Flea, OmaWrite, or the shell have been using the GPU.
+- If a loaded hibernate does come back, reboot before doing more work. Do not rearrange windows in that session.
+- Ghostty + MEGAsync only has completed S4 without this hang; that mix is the safer hibernate.
+
+App isolation is done. There is no `~/.config` workaround.
 
 ### Workspaces are not persisted
 
-Hyprland/Omarchy do **not** restore windows after a reboot. Empty numbered workspaces come back; Ghostty/Brave/Zed do not. There are third-party session restorers, and they are their own project (relaunch apps, guess cwd, miss browser tabs). Not a one-line Omarchy setting. Session restore is not a substitute for the Studio Display suspend investigation above.
+Hyprland/Omarchy do **not** restore windows after a reboot. Empty numbered workspaces come back; Ghostty/Brave/Zed do not. A layout script can relaunch apps onto numbered workspaces; notes and an example live in [`Restoring Workspaces/hyprctl.md`](Restoring%20Workspaces/hyprctl.md). That relaunches, guesses cwd, and misses unsaved buffers — it is not hibernate. Not a substitute for the Studio Display or TTM issues above.
 
 ### Who can fix these (and what Omarchy could do)
 
@@ -575,11 +619,12 @@ A real **fix** is almost never this machine’s Hyprland config. Local work stay
 | Studio Display black on lock/suspend (`DPIA AUX failed`) | **AMD `amdgpu`** (+ DMUB). Apple’s USB4 sink will not change for Linux. | Don’t DPMS-off USB4/Studio Display on lock; don’t sell s2idle as Suspend on no-S3 APUs. Carry an `amdgpu` USB4/DPIA backport **if** one lands upstream. | Idle/lock policy in `~/.config` (avoid the path). | Beelink. Theme/lock chrome. |
 | Shutdown doesn’t stay off / long-hold | **Beelink AMI BIOS** (ACPI S5, `NHI0`/`NHI1` wakeup). | Turn off USB4 wakeup as a SER9 quirk; hide Suspend; `HandlePowerKey` UX. | Disable specific wakeup sources if you choose to. | Omarchy cannot make S5 cut the DC rail. |
 | Modern standby never deepest; EC handler missing on wake | **Beelink AMI BIOS only** (`EC0.UPHK` / `\_SB.PEP._DSM`). | Don’t describe menu Suspend as deep sleep on SER9. | Dead end. Already s2idle; `amd_pmc` workarounds already on. | A local quirk, a menu change, or a BIOS toggle that adds S3. |
-| Hibernate panicked once; two later S4 cycles resumed | Unknown. The 02:57 oops was not saved. Platform S4 woke the same session at 13:00 and again at 13:09, the second time after one shallow s2idle. | Don’t treat that single panic as proof SER9 cannot hibernate. | Shutdown mode is untested. Quiet splash is restored. | The empty `resume_offset` bug. |
+| Hibernate panicked twice; two short S4s resumed | Unknown IRQ `Fatal exception in interrupt` at hibernation entry. Photos have no RIP. Ghostty+MEGAsync and later loaded S4s *did* return. | Don’t treat SER9 as unable to S4. | Loud cmdline ([`hibernate-loud-cmdline.sh`](hibernate-loud-cmdline.sh)). | The empty `resume_offset` bug. The TTM freeze below. |
+| Desktop frozen after hibernate resume (TTM) | **AMD `amdgpu` / TTM in Linux** (buffer lists corrupt after loaded S4). This machine and Omarchy do not author that driver. | Carry a TTM/S4 backport **if** one lands upstream. That is a pickup, not a rewrite. | Shutdown instead of loaded hibernate. Reboot if a loaded S4 returns. Ghostty+MEGAsync only is the safer mix. | Hyprland/`~/.config`. Writing `amdgpu`. The entry panic above. |
 | Wi-Fi gone, `CSR_RESET`, CMOS | **Beelink BIOS / board power** (no rail-reset on reboot; D3cold). Same class as soldered RTL8125 vanishing until CLR CMOS on Windows. | Detect probe `-110` and tell the user to CLR CMOS / unplug DC. | CMOS pinhole. Unplug DC. Don’t hard-cut. | `iwlwifi` cannot talk to a chip in reset. |
 | Bluetooth `-110`, Wi-Fi still up | **Kernel `btusb`/`btintel`** (USB autosuspend vs firmware load on AMD xHCI). | `omarchy restart bluetooth` reloads `btusb` when there is no controller; udev `8087:0029` `power/control=on`; kernel `btusb.enable_autosuspend=0` or a device quirk. | [`reload-btusb.sh`](reload-btusb.sh). Optional udev if it repeats. | CMOS is the wrong hammer. |
 | Power button does nothing | **Omarchy** (`HandlePowerKey=ignore` in `/etc/systemd/logind.conf.d/10-ignore-power-button.conf`) | Short press → poweroff or power menu. | User logind drop-in. | Not a hardware bug. |
-| Workspaces empty after boot | **Hyprland/Omarchy product** | Session restore as an explicit feature. | Third-party restorer, if you want that product. | Not mixed into display-sleep. |
+| Workspaces empty after boot | **Hyprland/Omarchy product** | Session restore as an explicit feature. | Layout script: [`Restoring Workspaces/hyprctl.md`](Restoring%20Workspaces/hyprctl.md). | Not mixed into display-sleep or hibernate. |
 
 **Omarchy already has the display hook and does not use it for `off`.** Brightness up/down special-cases Apple panels (`omarchy-brightness-display-apple`). Lock waits 5s, then `omarchy-brightness-display off`, which is always:
 
@@ -619,3 +664,25 @@ Mini PCs whose vendors ship a BIOS for one known model, with notes, and then upd
 | **Lenovo ThinkCentre Tiny, Dell OptiPlex Micro, HP Elite Mini, ASUS NUC** | Business machines. Look up the exact model or service tag and get a BIOS with a changelog from that vendor’s support site. Sleep is still modern standby, and it is usually less broken than a Beelink AMI image. These are not Linux companies. |
 
 None of those make a Studio Display on USB4 safe. That bug is the AMD or Intel USB4 tunnel plus that display, and it shows up on expensive machines too. What the extra money buys is a vendor that will still be patching the embedded controller next year, and a model name that maps to one firmware instead of eight.
+
+## Verdict
+
+> what are MY true practical options? switch to a intel machine? is this really the state of linux? this system seems extremely fragile to the point were i am losing trust and it's not fun to use anymore.
+
+The fragility is this **box’s sleep stack**, not Linux as a daily OS. Work (Ghostty, Brave, Zed) on a machine you **turn off** is a different product from “hibernate a GPU-heavy Wayland session on a Beelink SER9.” You have been using the second one. That path is thin, under-tested, and on this board it is stacked on unfinished AMI ACPI plus AMD’s TTM.
+
+**Intel does not buy you a trustworthy sleep button.** It drops *this* `amdgpu` TTM bug. Intel’s `i915`/`Xe` has its own resume bugs. A Beelink Intel mini is the same AMI firmware process. Apple Studio Display over USB4/Thunderbolt stays a vendor joint on Intel Linux too. A newer/pricier SER9 also keeps the no-S3 EC mess.
+
+**True options**
+
+1. **Keep this machine. Stop sleeping it.** End of day: shutdown. No hibernate, no Suspend. If a loaded S4 ever comes back, reboot before you touch windows. Ghostty+MEGAsync only if you insist on hibernate. That is the option that restores trust *this week*. The CPU, disk, and apps are fine; the power states are not.
+
+2. **Want “leave it and come back” as a product.** Replace the **mini PC vendor**, not the CPU brand. Framework Desktop, System76 Meerkat, ThinkCentre Tiny / OptiPlex Micro / Elite Mini / ASUS NUC — a model with a real BIOS changelog and `fwupd`. Sleep there is still modern standby, and it is usually less broken than this AMI image. AMD or Intel is secondary.
+
+3. **Want hibernate with Brave/Zed open.** That is AMD TTM + a full GPU session. Neither you nor Omarchy can patch it. A different Linux box can still hit it on Hawk Point/Strix. Shutdown stays the reliable close.
+
+4. **Do not buy another Beelink/GMKtec** to fix this. Same firmware shop.
+
+Linux on a maintained laptop or business Tiny, powered off or using that vendor’s suspend, is ordinary and boring. Linux hibernate through `amdgpu` TTM with Chromium, Vulkan, and Qt after S4 is a known sharp edge. This SER9 adds a BIOS that never finished sleep. That combination is why it stopped being fun — you have been living in the sharp edge.
+
+Use **(1)** until you decide whether **(2)** is worth money. The README alternative-PC table is already that shopping list.

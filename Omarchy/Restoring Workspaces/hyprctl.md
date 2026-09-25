@@ -1,6 +1,6 @@
 # hyprctl for scripted layouts
 
-`hyprctl` talks to the running Hyprland compositor. Restoration here means: **launch apps onto workspaces, then nudge focus / splits**. It does not snapshot RAM or reopen unsaved buffers. That is still hibernate.
+`hyprctl` talks to the running Hyprland compositor. Restoration here means: **launch apps onto workspaces, then nudge focus / splits**. It does not snapshot RAM or reopen unsaved buffers. That is still hibernate, and on this machine loaded S4 is a [known issue](../README.md#desktop-frozen-after-hibernate-resume-amdgpu-ttm) — use a layout script after a normal boot, not as a substitute for resume.
 
 Inspect first, then dispatch.
 
@@ -66,9 +66,9 @@ Window rules on `exec` attach to the **spawned PID**. Apps that reuse a single p
 ### Folders
 
 ```bash
-hyprctl dispatch exec "[workspace 1 silent] nautilus $HOME/Projects"
+hyprctl dispatch exec "[workspace 1 silent] flea $HOME/Projects"
 hyprctl dispatch exec "[workspace 2 silent] ghostty --working-directory=$HOME/Projects"
-hyprctl dispatch exec "[workspace 3 silent] code $HOME/Projects"
+hyprctl dispatch exec "[workspace 3 silent] zeditor $HOME/Projects"
 ```
 
 ### Websites (Brave Origin)
@@ -176,9 +176,9 @@ sleep 0.3
 #!/usr/bin/env bash
 # ~/.local/bin/layout-work
 
-hyprctl dispatch exec "[workspace 1 silent] nautilus $HOME/Projects"
+hyprctl dispatch exec "[workspace 1 silent] flea $HOME/Projects"
 hyprctl dispatch exec "[workspace 2 silent] ghostty --working-directory=$HOME/Projects"
-hyprctl dispatch exec "[workspace 3 silent] code $HOME/Projects"
+hyprctl dispatch exec "[workspace 3 silent] zeditor $HOME/Projects"
 hyprctl dispatch exec "[workspace 4 silent] brave-origin --new-window https://github.com"
 hyprctl dispatch exec "[workspace 4 silent] brave-origin --new-window https://docs.hypr.land"
 hyprctl dispatch exec "[workspace 5 silent] brave-origin --new-window https://mail.google.com"
