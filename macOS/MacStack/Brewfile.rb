@@ -48,7 +48,7 @@ cask 'font-fira-code'          # monospaced font with coding ligatures
 brew 'gh'                      # for open-source release automation, https://cli.github.com
 
 # (Coding-) Agents and Lean IDEs
-cask 'grok-build'  # https://x.ai/cli
+cask 'grok-build'  # https://x.ai/build
 cask 'grok-bot'    # https://x.ai/bot
 cask 'zed'         # https://zed.dev, lean and fast IDE
 
@@ -60,7 +60,7 @@ cask 'sf-symbols' # https://developer.apple.com/sf-symbols
 # mas 'TestFlight', id: 899247664
 mas 'Developer', id: 640199958
 mas 'Icon Generator', id: 1631880470 # for scaling macOS app icons
-brew 'asc' # https://asccli.sh
+brew 'asc' # for release automation https://asccli.sh
 
 # Apple fonts: https://developer.apple.com/fonts
 cask 'font-sf-pro'
