@@ -244,9 +244,25 @@ Brave’s GPU thread hit corrupt TTM lists first. Qt’s `QSGRenderThread` then 
 
 App isolation is done. There is no `~/.config` workaround.
 
+## LG power button drops the DisplayPort link
+
+The **LG UltraGear+** power button, pressed while the session keeps running, drops the DisplayPort link. When the panel is switched back on, amdgpu fails to train it and the last frame stays frozen. The PC itself keeps running. A hard power-off and a reboot brought the picture back.
+
+Lock and suspend do not do this. Same panel, same evening, native DisplayPort on `DP-1` (5120×2880@120):
+
+| Action | Result |
+| --- | --- |
+| Monitor power button, session left up for about an hour | Frozen screensaver. `SST Update Payload: Link loss occurred while polling for ACT handled.` Hard power-off. |
+| Lock, 20:31:52–20:32:35 | Panel lost the signal and entered power saving. Space restored the picture. |
+| Suspend, 20:37:06–20:37:41 | s2idle. Did not reach deepest idle. Picture back. No link error. |
+
+Sat 2026-09-26, boot `3eb79df4493e4ad7874e40b9bd637339`, kernel `linux-omarchy` 7.2.5-3. The USB-C cable was already unplugged (16:37); that only removed the monitor’s USB hub. The brightness shim is a `ddcutil` wrapper and was not in the 19:51 trace. No hibernate and no TTM corruption. Studio Display `DP-5` was disconnected, and there is no `DPIA AUX failed`.
+
+**Leave the monitor power button alone.** Lock or suspend when you want the panel dark. The failed retrain is AMD’s display-link code. There is no `~/.config` switch.
+
 ## Workspaces are not persisted
 
-Hyprland/Omarchy do **not** restore windows after a reboot. Empty numbered workspaces come back; Ghostty/Brave/Zed do not. A layout script can relaunch apps onto numbered workspaces; notes and an example live in [`Restoring Workspaces/hyprctl.md`](Restoring%20Workspaces/hyprctl.md). That relaunches, guesses cwd, and misses unsaved buffers — it is not hibernate. Not a substitute for the Studio Display or TTM issues above.
+Hyprland/Omarchy do **not** restore windows after a reboot. Empty numbered workspaces come back; Ghostty/Brave/Zed do not. A layout script can relaunch apps onto numbered workspaces; notes and an example live in [`Restoring Workspaces/hyprctl.md`](Restoring%20Workspaces/hyprctl.md). That relaunches, guesses cwd, and misses unsaved buffers — it is not hibernate. Not a substitute for the Studio Display, TTM, or LG power-button issues above.
 
 ## Who can fix these (and what Omarchy could do)
 
@@ -272,6 +288,7 @@ A real **fix** is almost never this machine’s Hyprland config. Local work stay
 | Modern standby never deepest; EC handler missing on wake | **Beelink AMI BIOS only** (`EC0.UPHK` / `\_SB.PEP._DSM`). | Don’t describe menu Suspend as deep sleep on SER9. | Dead end. Already s2idle; `amd_pmc` workarounds already on. | A local quirk, a menu change, or a BIOS toggle that adds S3. |
 | Hibernate panicked twice; two short S4s resumed | Unknown IRQ `Fatal exception in interrupt` at hibernation entry. Photos have no RIP. Ghostty+MEGAsync and later loaded S4s *did* return. | Don’t treat SER9 as unable to S4. | Loud cmdline ([`hibernate-loud-cmdline.sh`](hibernate-loud-cmdline.sh)). | The empty `resume_offset` bug. The TTM freeze below. |
 | Desktop frozen after hibernate resume (TTM) | **AMD `amdgpu` / TTM in Linux** (buffer lists corrupt after loaded S4). This machine and Omarchy do not author that driver. | Carry a TTM/S4 backport **if** one lands upstream. That is a pickup, not a rewrite. | Shutdown instead of loaded hibernate. Reboot if a loaded S4 returns. Ghostty+MEGAsync only is the safer mix. | Hyprland/`~/.config`. Writing `amdgpu`. The entry panic above. |
+| LG power button drops the DisplayPort link | **AMD `amdgpu` display link** (lanes dropped while applying the SST payload after the panel power button). | Carry a display-link patch **if** one lands upstream. | Lock or suspend. Leave the monitor power button alone. | Hyprland/`~/.config`. The TTM freeze. The Studio Display USB4 path. |
 | Wi-Fi gone, `CSR_RESET`, CMOS | **Beelink BIOS / board power** (no rail-reset on reboot; D3cold). Same class as soldered RTL8125 vanishing until CLR CMOS on Windows. | Detect probe `-110` and tell the user to CLR CMOS / unplug DC. | CMOS pinhole. Unplug DC. Don’t hard-cut. | `iwlwifi` cannot talk to a chip in reset. |
 | Bluetooth `-110`, Wi-Fi still up | **Kernel `btusb`/`btintel`** (USB autosuspend vs firmware load on AMD xHCI). | `omarchy restart bluetooth` reloads `btusb` when there is no controller; udev `8087:0029` `power/control=on`; kernel `btusb.enable_autosuspend=0` or a device quirk. | [`reload-btusb.sh`](reload-btusb.sh). Optional udev if it repeats. | CMOS is the wrong hammer. |
 | Power button does nothing | **Omarchy** (`HandlePowerKey=ignore` in `/etc/systemd/logind.conf.d/10-ignore-power-button.conf`) | Short press → poweroff or power menu. | User logind drop-in. | Not a hardware bug. |
@@ -326,7 +343,7 @@ The fragility is this **box’s sleep stack**, not Linux as a daily OS. Work (Gh
 
 **True options**
 
-1. **Keep this machine. Stop sleeping it.** End of day: shutdown. No hibernate, no Suspend. If a loaded S4 ever comes back, reboot before you touch windows. Ghostty+MEGAsync only if you insist on hibernate. That is the option that restores trust *this week*. The CPU, disk, and apps are fine; the power states are not.
+1. **Keep this machine. Stop sleeping it.** End of day: shutdown. No hibernate, no Suspend. If a loaded S4 ever comes back, reboot before you touch windows. Ghostty+MEGAsync only if you insist on hibernate. That is the option that restores trust *this week*. The CPU, disk, and apps are fine; the power states are not. The LG power button is the one that still drops the link. Lock and suspend both brought that panel back the same evening. See [LG power button drops the DisplayPort link](#lg-power-button-drops-the-displayport-link).
 
 2. **Want “leave it and come back” as a product.** Replace the **mini PC vendor**, not the CPU brand. Framework Desktop, System76 Meerkat, ThinkCentre Tiny / OptiPlex Micro / Elite Mini / ASUS NUC — a model with a real BIOS changelog and `fwupd`. Sleep there is still modern standby, and it is usually less broken than this AMI image. AMD or Intel is secondary.
 
