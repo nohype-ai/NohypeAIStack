@@ -2,21 +2,25 @@
 set -e
 set -u
 
-here=${0:a:h}
-bin="${here:h:h}/macOS/MacStack/bin/super-keys"
 label=ai.nohype.super-keys
 plist="$HOME/Library/LaunchAgents/${label}.plist"
 uid=$(id -u)
 domain="gui/${uid}"
 log="$HOME/Library/Logs/super-keys.log"
 
-if [[ ! -x $bin ]]; then
-    echo "🛑 $bin is missing or not executable"
+# Installed by Homebrew because the MacStack formula depends on super-keys.
+# opt/ is a stable symlink to the current keg, so the plist survives upgrades.
+if ! command -v brew >/dev/null 2>&1; then
+    echo "🛑 Homebrew is required. super-keys is installed with MacStack."
     exit 1
 fi
 
-codesign --sign - --identifier "$label" --force "$bin"
-xattr -d com.apple.quarantine "$bin" 2>/dev/null || true
+prefix="$(brew --prefix super-keys 2>/dev/null || true)"
+bin="${prefix}/bin/super-keys"
+if [[ ! -x $bin ]]; then
+    echo "🛑 super-keys is not installed. It comes with MacStack: brew install nohype-ai/tap/macstack"
+    exit 1
+fi
 
 mkdir -p "$HOME/Library/LaunchAgents" "$HOME/Library/Logs"
 

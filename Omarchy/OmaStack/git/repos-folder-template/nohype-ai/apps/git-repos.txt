@@ -10,4 +10,5 @@ https://github.com/nohype-ai/Moovees
 https://github.com/nohype-ai/Paretospeak
 https://github.com/nohype-ai/Portfolio
 https://github.com/nohype-ai/PortfolioOLD
+https://github.com/nohype-ai/SuperKeys
 https://github.com/nohype-ai/xHale
