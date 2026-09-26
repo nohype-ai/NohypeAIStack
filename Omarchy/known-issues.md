@@ -85,7 +85,7 @@ If Wi-Fi still works and only Bluetooth is missing, that is the [Bluetooth subse
 3. Wait several minutes (they say ~10).
 4. Plug back in, power on. First boot after a CMOS clear can take a minute.
 
-That restores BIOS defaults, including the [quiet fan curve](README.md#cpu-smart-fan-quiet-curve). Enter those values again after a clear.
+That restores BIOS defaults, including the [quiet fan curve](fan.md#cpu-smart-fan-quiet-curve). Enter those values again after a clear.
 
 **This occurrence (2026-09-16):** Afternoon after the Studio Display / shutdown experiments. Boot 14:43: `probe with driver iwlwifi failed with error -110`, `CSR_RESET = 0x10`. Same failure at 15:29 (retry on that boot), then 15:39, 15:44, 15:59. Next boot **15:59:17** loaded `iwlwifi` firmware `77.aa2dd297.0` and renamed `wlan0` → `wlp2s0` — after the CMOS reset.
 
