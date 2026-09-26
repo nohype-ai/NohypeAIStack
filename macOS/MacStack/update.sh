@@ -26,8 +26,9 @@ silent uv tool install --python 3.13 --upgrade 'litellm[proxy]'
 echo "📝 Updating markitdown ..."
 silent uv tool install --upgrade --force 'markitdown[pptx,docx,xlsx,xls,pdf,outlook]'
 
-# Keep super-keys running (LaunchAgent)
-"$stack_folder/../../cross-platform/key commands/launch-agent.sh"
+# Re-register super-keys so launchd is running the current Homebrew binary.
+# The tool writes its own LaunchAgent; this stack does not.
+super-keys
 
 # Fix Cursor CLI Issue
 # echo "🩹 Fixing Cursor CLI issue ..."

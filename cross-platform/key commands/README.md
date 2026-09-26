@@ -65,9 +65,9 @@
 
 ## super-keys
 
-On macOS the shortcuts above are registered by [`super-keys`](https://github.com/nohype-ai/SuperKeys). It is a CLI with an AppKit run loop, not an `.app`. `launchd` keeps it running.
+On macOS the shortcuts above are registered by [`super-keys`](https://github.com/nohype-ai/SuperKeys). It is a CLI with an AppKit run loop, not an `.app`. The tool registers its own login agent. This stack does not.
 
-MacStack's Homebrew formula depends on `super-keys`, so installing MacStack installs the command. This stack does not build or store the binary.
+MacStack's Homebrew formula depends on `super-keys`, so installing MacStack installs the command.
 
 ### Daily use
 
@@ -79,34 +79,12 @@ If keys do nothing after a reboot: System Settings → General → Login Items �
 
 Log: `~/Library/Logs/super-keys.log`
 
-### What runs it
-
-| Piece | Where | In git? |
-|--------|--------|---------|
-| Program | `$(brew --prefix super-keys)/bin/super-keys` | no — Homebrew |
-| Generator | `launch-agent.sh` | yes |
-| Installed agent | `~/Library/LaunchAgents/ai.nohype.super-keys.plist` | no — written on this Mac |
-| launchd label | `ai.nohype.super-keys` | — |
-
-`launch-agent.sh` writes that plist with the Homebrew binary, then `bootout` + `bootstrap`. It does not sign the binary. Homebrew owns the install.
-
-Who registers it:
-
-1. **`mack update`** — Homebrew upgrades packages first (including `super-keys`, via the MacStack formula). Then `macOS/MacStack/update.sh` runs `launch-agent.sh`.
-2. **`launchd`, at login** — the installed plist has `RunAtLoad` and `KeepAlive`.
-
-The plist uses Homebrew's `opt/super-keys` symlink, so the path stays valid across upgrades. `mack update` still restarts the agent so the process is the new binary.
-
-Bindings are compiled into the SuperKeys repo (`Sources/SuperKeys/SuperKeys.swift`). Change them there, release, then `mack update`.
-
-Reload the agent without a Homebrew upgrade: `./launch-agent.sh`
-
-Stop it (until next login or next `launch-agent.sh`):
+`mack update` upgrades Homebrew first, then runs `super-keys`. That refreshes the agent onto the current binary. Running `super-keys` yourself does the same thing.
 
 ```bash
-launchctl bootout gui/$(id -u)/ai.nohype.super-keys
+super-keys stop
 ```
 
 Status: `launchctl print gui/$(id -u)/ai.nohype.super-keys`
 
-Do not run a second copy from Terminal while the agent is up — they fight over the same hotkeys.
+Bindings are compiled into the SuperKeys repo (`Sources/SuperKeys/SuperKeys.swift`). Change them there, release, then `mack update`.
