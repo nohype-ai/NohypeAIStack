@@ -87,4 +87,4 @@ super-keys stop
 
 Status: `launchctl print gui/$(id -u)/ai.nohype.super-keys`
 
-Bindings are compiled into the SuperKeys repo (`Sources/SuperKeys/SuperKeys.swift`). Change them there, release, then `mack update`.
+Bindings are read from `~/.config/super-keys/bindings.toml`. This stack keeps a copy at [macOS/MacStack/super-keys/bindings.toml](../../macOS/MacStack/super-keys/bindings.toml). Restoring that copy is not wired up yet. Edit `~/.config/super-keys/bindings.toml`, then run `super-keys` again.
