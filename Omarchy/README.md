@@ -2,7 +2,7 @@
 
 Personal Omarchy / Hyprland setup notes. Goal: capture each system tweak here so the machine can be reproduced later and via OmaStack.dev
 
-## Installed Components
+## Installed
 
 ### Overview
 
@@ -32,13 +32,10 @@ The Omarchy `install` commands set the terminal, browser, and editor. Flea sets 
 | Agent | Grok | `omarchy default agent grok` |
 | File manager | Flea | `flea --default` |
 
-### Flea
+### App Specifics
 
-File manager. Install, `flea --default`, and the portal restart are in [flea.md](flea.md).
-
-### MEGA Apps
-
-Desktop and CLI packages, version pinning, and the Hyprland window rules are in [mega.md](mega.md).
+- File manager Flae: [flea.md](flea.md)
+- Cloud drive MEGA: [mega.md](mega.md)
 
 ## Uninstalled
 
@@ -64,6 +61,14 @@ sudo snapper -c root list
 sudo snapper -c root delete 1-5
 ```
 
+## Keybindings
+
+Personal overrides live in `~/.config/hypr/bindings.lua` (loaded after Omarchy defaults). Check current bindings with `omarchy menu keybindings --print`. If a key already has a default, `hl.unbind(...)` it before the new `o.bind(...)`.
+
+Super+Shift+F and Super+Alt+Shift+F belong to Flea ([flea.md](flea.md)). `flea --default` writes them between the `flea --default` marker lines, and `flea --default off` removes that block whole. Leave the marker block alone when editing other bindings.
+
+Super + Shift + G → Lazygit (cwd of the open terminal): [lazygit.md](lazygit.md)
+
 ## Natural scroll
 
 Omarchy defaults to traditional scrolling. For natural scrolling set `input.natural_scroll` and `input.touchpad.natural_scroll` in `~/.config/hypr/input.lua`:
@@ -80,14 +85,6 @@ hl.config({
 ```
 
 Hyprland reloads on save. Force apply with `hyprctl reload`, then check `hyprctl configerrors`.
-
-## Keybindings
-
-Personal overrides live in `~/.config/hypr/bindings.lua` (loaded after Omarchy defaults). Check current bindings with `omarchy menu keybindings --print`. If a key already has a default, `hl.unbind(...)` it before the new `o.bind(...)`.
-
-Super+Shift+F and Super+Alt+Shift+F belong to Flea ([flea.md](flea.md)). `flea --default` writes them between the `flea --default` marker lines, and `flea --default off` removes that block whole. Leave the marker block alone when editing other bindings.
-
-Super + Shift + G → Lazygit (cwd of the open terminal): [lazygit.md](lazygit.md)
 
 ## Other
 
