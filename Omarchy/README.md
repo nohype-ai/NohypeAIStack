@@ -347,6 +347,24 @@ git fetch
 
 `git fetch` / `pull` / `push` against `https://github.com/…` remotes should not prompt. New clones: `gh repo clone USER/REPO` or `git clone https://github.com/USER/REPO.git`.
 
+## CPU Smart Fan (quiet curve)
+
+Beelink SER9, AMI setup. **Advanced → CPU Smart Fan Mode → Automatic.**
+
+Stock spins the fan through normal idle. This curve keeps it off until the CPU is actually working, and starts it at the quietest duty the BIOS allows. Noise on this machine dropped a lot.
+
+| Setting | Stock (approx.) | This machine | Why |
+| --- | --- | --- | --- |
+| Fan OFF temperature | 30–35 °C | 45 °C | Fan stays off for normal idle |
+| Fan ON temperature | 35–40 °C | 50 °C | Starts only when load actually builds |
+| Full PWM temperature | 90 °C | 90 °C | Unchanged; AMD is fine until ~90–95 |
+| Start PWM | ~80 | 65 | Beelink minimum; quieter spin-up |
+| Slope PWM | 1 | 1 | Slow ramp; raise it only if the fan lags behind the temperature |
+
+Power limit stays **Balanced (~54 W)**. Keep Balanced when quiet is the goal. Performance is 65 W, runs hotter, and the fan follows.
+
+A [CMOS reset](#intel-ax200-wi-fi-gone-until-cmos-reset) restores the stock curve. Enter these values again after a clear.
+
 ## Known issues
 
 Observe stock Omarchy first, then measure, then maybe a small fix.
@@ -434,7 +452,7 @@ If Wi-Fi still works and only Bluetooth is missing, that is the [Bluetooth subse
 3. Wait several minutes (they say ~10).
 4. Plug back in, power on. First boot after a CMOS clear can take a minute.
 
-That restores BIOS defaults. Re-check anything you had changed in firmware setup.
+That restores BIOS defaults, including the [quiet fan curve](#cpu-smart-fan-quiet-curve). Enter those values again after a clear.
 
 **This occurrence (2026-09-16):** Afternoon after the Studio Display / shutdown experiments. Boot 14:43: `probe with driver iwlwifi failed with error -110`, `CSR_RESET = 0x10`. Same failure at 15:29 (retry on that boot), then 15:39, 15:44, 15:59. Next boot **15:59:17** loaded `iwlwifi` firmware `77.aa2dd297.0` and renamed `wlan0` → `wlp2s0` — after the CMOS reset.
 
