@@ -18,9 +18,10 @@ cask 'megacmd-app'                                  # mega.io
 cask 'onedrive'                                     # share data with MS users
 
 # communication, browser
-cask 'WhatsApp'
+cask 'brave-browser'                                # works better with AI chats than Safari
 mas 'AdGuard Mini: Safari Adblock', id: 1440147259  # block ads in Safari, YT, YT-Music
 mas 'Noir – Dark Mode for Safari', id: 1592917505   # force dark mode on websites in Safari
+cask 'WhatsApp'
 
 # writing, diagramming, office
 cask 'obsidian' # 'process as documentation' + 'canvas as code' ...
