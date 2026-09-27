@@ -11,6 +11,7 @@ This file documents interesting things to check out which might join the stack i
   - BUT: needed 750 MB memory with not even UI open, and config cannot even be installed via script
 
 ## Collaboration, Web
+- [ZapFast (efficient WhatysApp client)](https://zapfast.rocks)
 - [Basecamp (project management)](https://basecamp.com)
 - [Fizzy (Team Task Manager)](https://www.fizzy.do/)
 - [Hey (email + calendar, soon as native apps)](https://www.hey.com)
