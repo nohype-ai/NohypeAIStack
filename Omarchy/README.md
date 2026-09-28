@@ -18,6 +18,7 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 | OmaMail | `omarchy plugin add https://github.com/huacnlee/omamail.git --enable` |
 | Teams | Web app: https://teams.microsoft.com/v2/ |
 | Telegram | Web app: https://web.telegram.org/k/ |
+| ePost | Web app: https://app.epost.ch/ |
 | Steam | `omarchy install gaming steam` |
 | MEGA Desktop | official `megasync` Arch package ([mega.md](mega.md)) |
 | MEGA CMD | official `megacmd` Arch package ([mega.md](mega.md)) |
