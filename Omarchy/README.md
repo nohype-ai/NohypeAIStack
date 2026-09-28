@@ -18,6 +18,7 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 | OmaMail | `omarchy plugin add https://github.com/huacnlee/omamail.git --enable` |
 | Teams | Web app: https://teams.microsoft.com/v2/ |
 | Telegram | Web app: https://web.telegram.org/k/ |
+| Steam | `omarchy install gaming steam` |
 | MEGA Desktop | official `megasync` Arch package ([mega.md](mega.md)) |
 | MEGA CMD | official `megacmd` Arch package ([mega.md](mega.md)) |
 
@@ -37,6 +38,7 @@ The Omarchy `install` commands set the terminal, browser, and editor. Flea sets 
 
 - File manager Flae: [flea.md](flea.md)
 - Cloud drive MEGA: [mega.md](mega.md)
+- Steam is installed again. Closing its window only hides the client, which keeps `steam` and the `steamwebhelper` processes resident. `steam -shutdown` unloads them. Steam → Exit does the same. `omarchy remove gaming steam` removes the package and `~/.local/share/Steam`.
 
 ## Uninstalled
 
@@ -47,7 +49,6 @@ The Omarchy `install` commands set the terminal, browser, and editor. Flea sets 
 
 | Software | GB | Remove with |
 | --- | --- | --- |
-| Steam | 2.46 | `omarchy remove gaming steam` |
 | NVIDIA userspace | 1.40 | `omarchy pkg drop nvidia-utils lib32-nvidia-utils` |
 | Chromium | 0.41 | `omarchy pkg drop chromium` |
 | Signal | 0.40 | `omarchy pkg drop signal-desktop` |
