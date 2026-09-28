@@ -1,0 +1,75 @@
+{
+  "agent_servers": {
+    "Grok": {
+      "type": "custom",
+      "command": "grok",
+      "args": [
+        "agent",
+        "stdio"
+      ]
+    }
+  },
+  "autosave": "on_focus_change",
+  "indent_guides": {
+    "enabled": false
+  },
+  "status_bar": {
+    "experimental.show": false
+  },
+  "toolbar": {
+    "agent_review": false,
+    "selections_menu": false,
+    "quick_actions": false,
+    "breadcrumbs":false
+  },
+  "markdown_preview_font_size": 24.0,
+  "terminal": {
+    "font_size":24.0
+  },
+  "agent_buffer_font_size": 24.0,
+  "ui_font_family": ".ZedSans",
+  "ui_font_size": 24.0,
+  "buffer_font_size": 22.0,
+  "inline_code_actions": false,
+  "gutter": {
+    "git_gutter_width": "default",
+    "min_line_number_digits": 1,
+    "line_numbers": false,
+    "folds": false,
+    "bookmarks": false,
+    "runnables": false,
+    "breakpoints":false
+  },
+  "agent": {
+    "sidebar_side": "right",
+    "dock":"right",
+    "favorite_models":[],
+    "model_parameters":[]
+  },
+  "collaboration_panel": {
+    "dock":"left"
+  },
+  "git_panel": {
+    "dock":"left"
+  },
+  "project_panel": {
+    "dock":"left"
+  },
+  "outline_panel": {
+    "dock":"right"
+  },
+  "cli_default_open_behavior": "existing_window",
+  "icon_theme": {
+    "mode": "system",
+    "light": "Colored Zed Icons Theme Light",
+    "dark": "Colored Zed Icons Theme Dark"
+  },
+  "session": {
+    "trust_all_worktrees":true
+  },
+  "theme": {
+    "mode": "system",
+    "light": "Omazed",
+    "dark": "Omazed"
+  }
+}
