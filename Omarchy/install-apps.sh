@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
-# Extra Omarchy apps from README.md (Installed apps). Sudo for Flea and MEGA.
+# Extra Omarchy apps from README.md (Installed apps). Sudo for Flea, GNOME Podcasts, and MEGA.
 set -euo pipefail
 
 # Omarchy package installs
 omarchy install terminal ghostty
 omarchy install browser brave-origin
 omarchy install editor zed
+
+# GNOME Podcasts
+omarchy pkg add gnome-podcasts
 
 # Flea
 omarchy pkg aur add flea-bin

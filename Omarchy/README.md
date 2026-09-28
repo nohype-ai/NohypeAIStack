@@ -6,13 +6,14 @@ Personal Omarchy / Hyprland setup notes. Goal: capture each system tweak here so
 
 ### Overview
 
-Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](install-apps.sh) (sudo for Flea and MEGA). Do not run that script until you mean to install.
+Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](install-apps.sh) (sudo for Flea, GNOME Podcasts, and MEGA). Do not run that script until you mean to install.
 
 | Component | Install |
 | --- | --- |
 | Ghostty | `omarchy install terminal ghostty` |
 | Brave Origin | `omarchy install browser brave-origin` |
 | Zed | `omarchy install editor zed` |
+| GNOME Podcasts | `omarchy pkg add gnome-podcasts` |
 | Flea | `omarchy pkg aur add flea-bin` ([flea.md](flea.md)) |
 | OmaMail | `omarchy plugin add https://github.com/huacnlee/omamail.git --enable` |
 | Teams | Web app: https://teams.microsoft.com/v2/ |
