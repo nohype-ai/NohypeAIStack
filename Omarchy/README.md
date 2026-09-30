@@ -93,5 +93,6 @@ Hyprland reloads on save. Force apply with `hyprctl reload`, then check `hyprctl
 
 - CPU Smart Fan (quiet curve): [fan.md](fan.md)
 - Brightness Control: [brightness.md](brightness.md)
+- Obsidian Manage vaults dialog: [obsidian.md](obsidian.md)
 - git authentication via `gh`: [git-auth.md](git-auth.md)
 - Known issues (hardware failures, alternative PCs, and verdict): [known-issues.md](known-issues.md)
