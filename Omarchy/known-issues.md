@@ -95,7 +95,7 @@ Same Beelink SER9, same AX200 card as the Wi-Fi issue above. **Not** the Studio 
 
 **Symptom:** Omarchy Bluetooth panel empty. `bluetoothctl list` / `show` print `No default controller available`. Wi-Fi still works. `bluetooth.service` is running. `rfkill` shows `hci0` unblocked. `/sys/class/bluetooth/hci0` exists. The USB device is still enumerated.
 
-That means the kernel has a zombie `hci0` and BlueZ has nothing to power on. It is not “Bluetooth was switched off.”
+That means the kernel has a zombie `hci0` and BlueZ has nothing to power on. It is not “Bluetooth was switched off.” A controller that is already up, while the panel cancels a headset pair, is [Jabra Elite 85h](#jabra-elite-85h-pairing-cancelled-while-the-controller-is-up). Do not reload `btusb` or clear CMOS for that.
 
 **Log line that proves it** (this boot, 2026-09-19 12:59:41, ~2s after bluetoothd started):
 
@@ -153,6 +153,56 @@ Do **not** disable USB autosuspend or add a kernel quirk yet. One timeout is a r
 **This occurrence (2026-09-19):** Cold boot 12:59 after shutdown at 02:30. `-110` at 12:59:41. Wi-Fi on `FRIZZ`. `omarchy restart bluetooth` ×2 did nothing.
 
 `sudo rmmod btusb && sudo modprobe btusb` recovered it without a reboot. Firmware loaded in ~1.4s, same sequence as a healthy cold boot (`ibt-20-1-3.sfi`, revision 0.3 build 193 week 33 2024). BlueZ then had `Controller A8:59:5F:9C:59:04 beelink [default]`, `Powered: yes`. USB reset and power-off were not needed.
+
+## Jabra Elite 85h: pairing cancelled while the controller is up
+
+The AX200 controller is already up. This is not the [firmware timeout](#intel-ax200-bluetooth-no-default-controller). `bluetoothctl show` prints `Controller A8:59:5F:9C:59:04`, `Powered: yes`, and the Keychron and Lofree stay connected. Do not reload `btusb` or clear CMOS.
+
+**Symptom:** Elite 85h in pairing mode, not linked to another device. Hold the multi-function button on the right earcup until the voice announcement and the LED flashes blue. The Bluetooth panel (Super+Ctrl+B) then says the connection was cancelled and leaves the headset unpaired.
+
+The panel runs `omarchy-bluetooth-device pair`. That helper runs `bluetoothctl pair` and `bluetoothctl connect` under `timeout` and discards both outputs, so the only thing on screen is the cancel.
+
+**Log line from the cancelled attempt** (2026-09-29 18:47:51, BlueZ 5.87-2):
+
+```text
+bluetoothd: src/profile.c:record_cb() Unable to get Hands-Free Voice gateway SDP record: Host is down
+```
+
+The link was up far enough for BlueZ to ask for the hands-free channel. That SDP query failed and BlueZ cancelled the connection. PipeWire 1.6.8 has the telephony profile registered (`org.pipewire.Telephony`); that is the profile the query belongs to. The headset stayed `Paired: no` and `Bonded: no` while inquiry still showed it at about −54 dBm (`50:C2:ED:E4:36:AB`).
+
+A later `pair` against a device object whose RSSI had already expired failed in about five seconds with `org.bluez.Error.ConnectionAttemptFailed` (page timeout). `bluetoothctl devices` can still list the name after the object is stale. That timeout is what you get by pairing too late, not a second fault.
+
+`Connectable` on `hci0` was false at the start of this session. BlueZ’s default is true, so the procedure sets it. `busctl … StartDiscovery` returned success while `Discovering` stayed false. `bluetoothctl scan on` is what started inquiry.
+
+**What does not fix it:** clicking the panel again, `omarchy restart bluetooth` (rfkill only), `reload-btusb.sh`, a CMOS clear. The 3.5 mm jack on these headphones turns their Bluetooth off. If scan never prints the name, unplug that jack and enter pairing mode again.
+
+**Recovery that worked** (2026-09-30 11:16):
+
+```bash
+busctl set-property org.bluez /org/bluez/hci0 org.bluez.Adapter1 Connectable b true
+
+bluetoothctl scan on
+# stop at: [NEW] Device 50:C2:ED:E4:36:AB Jabra Elite 85h
+bluetoothctl scan off
+
+bluetoothctl --agent NoInputNoOutput pair 50:C2:ED:E4:36:AB
+bluetoothctl trust 50:C2:ED:E4:36:AB
+bluetoothctl connect 50:C2:ED:E4:36:AB
+```
+
+Pair as soon as the headset is seen, with an agent. Success is `Pairing successful`, then `Paired: yes`, `Bonded: yes`, `Trusted: yes`, `Connected: yes`, `ServicesResolved: yes`. The battery percentage started updating (55, then 60).
+
+That pair does not move desktop audio. The panel only switches the sink when its own click sees `connected`. PipeWire created `bluez_output.50_C2_ED_E4_36_AB.1` while the default stayed on the LG HDMI sink (volume 0). `wpctl set-default` takes the numeric id from `wpctl status`, not the node name:
+
+```bash
+wpctl status
+# Sinks: the number on "Jabra Elite 85h" (82 in this session)
+wpctl set-default 82
+```
+
+The star moves to that sink. cliamp was then playing through it. The id changes between sessions; match the Jabra name. The next power-on reconnects from the saved bond. Pairing mode is only for this first bond.
+
+This is BlueZ cancelling the link when the hands-free SDP query fails, plus Omarchy’s pair helper hiding the error and not passing `--agent`. No `~/.config` change and no WirePlumber role change. Telephony stayed loaded.
 
 ## Modern standby never reaches its deepest idle
 
@@ -291,6 +341,7 @@ A real **fix** is almost never this machine’s Hyprland config. Local work stay
 | LG power button drops the DisplayPort link | **AMD `amdgpu` display link** (lanes dropped while applying the SST payload after the panel power button). | Carry a display-link patch **if** one lands upstream. | Lock or suspend. Leave the monitor power button alone. | Hyprland/`~/.config`. The TTM freeze. The Studio Display USB4 path. |
 | Wi-Fi gone, `CSR_RESET`, CMOS | **Beelink BIOS / board power** (no rail-reset on reboot; D3cold). Same class as soldered RTL8125 vanishing until CLR CMOS on Windows. | Detect probe `-110` and tell the user to CLR CMOS / unplug DC. | CMOS pinhole. Unplug DC. Don’t hard-cut. | `iwlwifi` cannot talk to a chip in reset. |
 | Bluetooth `-110`, Wi-Fi still up | **Kernel `btusb`/`btintel`** (USB autosuspend vs firmware load on AMD xHCI). | `omarchy restart bluetooth` reloads `btusb` when there is no controller; udev `8087:0029` `power/control=on`; kernel `btusb.enable_autosuspend=0` or a device quirk. | [`reload-btusb.sh`](reload-btusb.sh). Optional udev if it repeats. | CMOS is the wrong hammer. |
+| Jabra Elite 85h pair cancelled, controller already up | **BlueZ** (hands-free SDP failure cancels the ACL). Omarchy’s `omarchy-bluetooth-device pair` hides the error and does not pass `--agent`. | Surface the `bluetoothctl` error. Pair with an agent while the headset is freshly seen, then select its sink. | The command sequence in [Jabra Elite 85h](#jabra-elite-85h-pairing-cancelled-while-the-controller-is-up). | `btusb` reload and CMOS. Turning telephony off was not required. |
 | Power button does nothing | **Omarchy** (`HandlePowerKey=ignore` in `/etc/systemd/logind.conf.d/10-ignore-power-button.conf`) | Short press → poweroff or power menu. | User logind drop-in. | Not a hardware bug. |
 | Workspaces empty after boot | **Hyprland/Omarchy product** | Session restore as an explicit feature. | Layout script: [`Restoring Workspaces/hyprctl.md`](Restoring%20Workspaces/hyprctl.md). | Not mixed into display-sleep or hibernate. |
 
