@@ -6,6 +6,7 @@ We assume here that the CLI should run on macOS and Linux.
 
 - https://www.swift.org/getting-started/cli-swiftpm/
 - https://www.swift.org/get-started/command-line-tools/
+- https://clig.dev/
 
 ## Stack
 
