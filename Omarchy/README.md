@@ -89,6 +89,30 @@ hl.config({
 
 Hyprland reloads on save. Force apply with `hyprctl reload`, then check `hyprctl configerrors`.
 
+## German umlauts
+
+US letters stay as they are. Right Alt is AltGr. The layout is `us` with variant `de_se_fi` (keymap name `German, Swedish and Finnish (US)`), in the same `hl.config` input table in `~/.config/hypr/input.lua`:
+
+```lua
+kb_layout = "us",
+kb_variant = "de_se_fi",
+```
+
+| Chord | Character |
+| --- | --- |
+| AltGr + A | ä |
+| AltGr + Shift + A | Ä |
+| AltGr + O | ö |
+| AltGr + Shift + O | Ö |
+| AltGr + U | ü |
+| AltGr + Shift + U | Ü |
+| AltGr + S | ß |
+| AltGr + Shift + S | ẞ |
+
+AltGr + E is €, AltGr + P is å, and AltGr + Q is @. Left Alt remains the shortcut Alt. Caps Lock remains the compose key from Omarchy's default `kb_options` (`compose:caps,shift:both_capslock_cancel`). Fcitx stays on `keyboard-us` and uses this keymap.
+
+Hyprland reloads on save. Force apply with `hyprctl reload`, then check `hyprctl configerrors`. `hyprctl devices` should show variant `de_se_fi` and keymap `German, Swedish and Finnish (US)`.
+
 ## Other
 
 - CPU Smart Fan (quiet curve): [fan.md](fan.md)
