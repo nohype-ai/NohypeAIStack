@@ -8,5 +8,6 @@
   "alwaysUpdateLinks": true,
   "newLinkFormat": "relative",
   "livePreview": true,
-  "showIndentGuide": false
+  "showIndentGuide": false,
+  "settingsPopoutWindow": true
 }

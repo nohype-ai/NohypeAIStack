@@ -120,5 +120,14 @@
       ],
       "key": "O"
     }
+  ],
+  "agent-client:open-chat-view": [
+    {
+      "modifiers": [
+        "Meta",
+        "Shift"
+      ],
+      "key": "."
+    }
   ]
 }
