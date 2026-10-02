@@ -3,7 +3,7 @@
   "showInlineTitle": false,
   "defaultViewMode": "source",
   "useMarkdownLinks": true,
-  "showUnsupportedFiles": false,
+  "showUnsupportedFiles": true,
   "spellcheck": false,
   "alwaysUpdateLinks": true,
   "newLinkFormat": "relative",

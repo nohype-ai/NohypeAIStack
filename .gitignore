@@ -4,5 +4,9 @@
 # Obsidian vault state is local (shared configs are symlinked in)
 .obsidian/
 
+# Agent Client stores live session state locally
+macOS/MacStack/obsidian/plugins/agent-client/sessions/
+macOS/MacStack/obsidian/plugins/agent-client/data.json
+
 # Other
 .build
