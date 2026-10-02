@@ -21,6 +21,7 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 | Teams | Web app: https://teams.microsoft.com/v2/ |
 | Telegram | Web app: https://web.telegram.org/k/ |
 | ePost | Web app: https://app.epost.ch/ |
+| Grokipedia | Web app: https://grokipedia.com/ |
 | Steam | `omarchy install gaming steam` |
 | MEGA Desktop | official `megasync` Arch package ([mega.md](mega.md)) |
 | MEGA CMD | official `megacmd` Arch package ([mega.md](mega.md)) |
