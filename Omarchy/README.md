@@ -6,13 +6,14 @@ Personal Omarchy / Hyprland setup notes. Goal: capture each system tweak here so
 
 ### Overview
 
-Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](install-apps.sh) (sudo for Flea, GNOME Podcasts, WeasyPrint, and MEGA). Do not run that script until you mean to install.
+Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](install-apps.sh) (sudo for Typora, Flea, GNOME Podcasts, WeasyPrint, and MEGA). Do not run that script until you mean to install.
 
 | Component | Install |
 | --- | --- |
 | Ghostty | `omarchy install terminal ghostty` |
 | Brave Origin | `omarchy install browser brave-origin` |
 | Zed | `omarchy install editor zed` |
+| Typora | `omarchy pkg add typora` |
 | GNOME Podcasts | `omarchy pkg add gnome-podcasts` |
 | WeasyPrint | `omarchy pkg add python-weasyprint` |
 | Flea | `omarchy pkg aur add flea-bin` ([flea.md](flea.md)) |
@@ -26,7 +27,7 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 
 ### App Defaults
 
-The Omarchy `install` commands set the terminal, browser, and editor. Flea sets the file manager with its own command.
+The Omarchy `install` commands set the terminal, browser, and editor. Flea sets the file manager with its own command. There is no text-editor role. `omarchy default editor` is the coding editor used by `omarchy-launch-editor` (Super+Shift+N), and Typora is not one of its choices, so that role stays Zed.
 
 | Role | Choice | Set with |
 | --- | --- | --- |
@@ -35,9 +36,11 @@ The Omarchy `install` commands set the terminal, browser, and editor. Flea sets 
 | Editor | Zed | `omarchy default editor zed` |
 | Agent | Grok | `omarchy default agent grok` |
 | File manager | Flea | `flea --default` |
+| Markdown files | Typora | `xdg-mime default typora.desktop text/markdown text/x-markdown` |
 
 ### App Specifics
 
+- Typora is the writing app on Super+Shift+W, and the opener for a single Markdown file (`*.md`, `*.mkd`, `*.markdown`). Those names are `text/markdown`, with alias `text/x-markdown`. Both are set to `typora.desktop` in `~/.config/mimeapps.list`. `text/plain` stays Neovim. Typora keeps its own themes, so an Omarchy theme switch does not recolor it. A license is a one-time purchase for three devices, with a 15-day trial; activate it from Help → My license…. Linux counts as its own device beside the Mac copy. OmaWrite stays installed.
 - File manager Flae: [flea.md](flea.md)
 - Cloud drive MEGA: [mega.md](mega.md)
 - Steam is installed again. Closing its window only hides the client, which keeps `steam` and the `steamwebhelper` processes resident. `steam -shutdown` unloads them. Steam → Exit does the same. `omarchy remove gaming steam` removes the package and `~/.local/share/Steam`.
@@ -72,6 +75,13 @@ Personal overrides live in `~/.config/hypr/bindings.lua` (loaded after Omarchy d
 Super+Shift+F and Super+Alt+Shift+F belong to Flea ([flea.md](flea.md)). `flea --default` writes them between the `flea --default` marker lines, and `flea --default off` removes that block whole. Leave the marker block alone when editing other bindings.
 
 Super + Shift + G → Lazygit (cwd of the open terminal): [lazygit.md](lazygit.md)
+
+Super+Shift+W was OmaWrite. It is unbound, then bound to Typora:
+
+```lua
+hl.unbind("SUPER + SHIFT + W")
+o.bind("SUPER + SHIFT + W", "Typora", { launch = "typora" })
+```
 
 ## Natural scroll
 
