@@ -41,7 +41,7 @@ The Omarchy `install` commands set the terminal, browser, and editor. Flea sets 
 
 ### App Specifics
 
-- Typora is the writing app on Super+Shift+W, and the opener for a single Markdown file (`*.md`, `*.mkd`, `*.markdown`). Those names are `text/markdown`, with alias `text/x-markdown`. Both are set to `typora.desktop` in `~/.config/mimeapps.list`. `text/plain` stays Neovim. Typora keeps its own themes, so an Omarchy theme switch does not recolor it. A license is a one-time purchase for three devices, with a 15-day trial; activate it from Help → My license…. Linux counts as its own device beside the Mac copy. OmaWrite stays installed.
+- Typora is the writing app on Super+Shift+W, and the opener for a single Markdown file (`*.md`, `*.mkd`, `*.markdown`). Those names are `text/markdown`, with alias `text/x-markdown`. Both are set to `typora.desktop` in `~/.config/mimeapps.list`. `text/plain` stays Neovim. Typora keeps its own themes, so an Omarchy theme switch does not recolor it. A license is a one-time purchase for three devices, with a 15-day trial; activate it from Help → My License…. Linux counts as its own device beside the Mac copy. The license dialog stays inside its frame on this display: [typora.md](typora.md). OmaWrite stays installed.
 - File manager Flae: [flea.md](flea.md)
 - Cloud drive MEGA: [mega.md](mega.md)
 - Steam is installed again. Closing its window only hides the client, which keeps `steam` and the `steamwebhelper` processes resident. `steam -shutdown` unloads them. Steam → Exit does the same. `omarchy remove gaming steam` removes the package and `~/.local/share/Steam`.
@@ -130,5 +130,6 @@ Hyprland reloads on save. Force apply with `hyprctl reload`, then check `hyprctl
 - CPU Smart Fan (quiet curve): [fan.md](fan.md)
 - Brightness Control: [brightness.md](brightness.md)
 - Obsidian Manage vaults dialog: [obsidian.md](obsidian.md)
+- Typora license dialog: [typora.md](typora.md)
 - git authentication via `gh`: [git-auth.md](git-auth.md)
 - Known issues (hardware failures, alternative PCs, and verdict): [known-issues.md](known-issues.md)
