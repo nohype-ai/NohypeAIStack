@@ -6,12 +6,13 @@ Personal Omarchy / Hyprland setup notes. Goal: capture each system tweak here so
 
 ### Overview
 
-Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](install-apps.sh) (sudo for Typora, Flea, GNOME Podcasts, WeasyPrint, and MEGA). Do not run that script until you mean to install.
+Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](install-apps.sh) (sudo for Typora, Qutebrowser, Flea, GNOME Podcasts, WeasyPrint, and MEGA). Do not run that script until you mean to install.
 
 | Component | Install |
 | --- | --- |
 | Ghostty | `omarchy install terminal ghostty` |
 | Brave Origin | `omarchy install browser brave-origin` |
+| Qutebrowser | `omarchy pkg add qutebrowser` |
 | Zed | `omarchy install editor zed` |
 | Typora | `omarchy pkg add typora` |
 | GNOME Podcasts | `omarchy pkg add gnome-podcasts` |
@@ -39,12 +40,15 @@ The Omarchy `install` commands set the terminal, browser, and editor. Flea sets 
 | File manager | Flea | `flea --default` |
 | Markdown files | Typora | `xdg-mime default typora.desktop text/markdown text/x-markdown` |
 
+Qutebrowser is installed as well. The default browser stays Brave Origin.
+
 ### App Specifics
 
 - Typora is the writing app on Super+Shift+W, and the opener for a single Markdown file (`*.md`, `*.mkd`, `*.markdown`). Those names are `text/markdown`, with alias `text/x-markdown`. Both are set to `typora.desktop` in `~/.config/mimeapps.list`. `text/plain` stays Neovim. Typora keeps its own themes, so an Omarchy theme switch does not recolor it. A license is a one-time purchase for three devices, with a 15-day trial; activate it from Help → My License…. Linux counts as its own device beside the Mac copy. The license dialog stays inside its frame on this display: [typora.md](typora.md). OmaWrite stays installed.
 - File manager Flae: [flea.md](flea.md)
 - Cloud drive MEGA: [mega.md](mega.md)
 - Steam is installed again. Closing its window only hides the client, which keeps `steam` and the `steamwebhelper` processes resident. `steam -shutdown` unloads them. Steam → Exit does the same. `omarchy remove gaming steam` removes the package and `~/.local/share/Steam`.
+- Qutebrowser: [qutebrowser/README.md](qutebrowser/README.md)
 
 ## Uninstalled
 

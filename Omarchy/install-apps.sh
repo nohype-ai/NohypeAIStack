@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
-# Extra Omarchy apps from README.md (Installed apps). Sudo for Typora, Flea, GNOME Podcasts, WeasyPrint, and MEGA.
+# Extra Omarchy apps from README.md (Installed apps). Sudo for Typora, Qutebrowser, Flea, GNOME Podcasts, WeasyPrint, and MEGA.
 set -euo pipefail
 
 # Omarchy package installs
 omarchy install terminal ghostty
 omarchy install browser brave-origin
+
+# Qutebrowser
+omarchy pkg add qutebrowser
+
 omarchy install editor zed
 
 # GNOME Podcasts
