@@ -2,6 +2,17 @@
 
 This file documents interesting things to check out which might join the stack in the future, it does **not** document the current stack.
 
+## Light Weight Markdown Editors
+
+❗ because Obsidian and Typora are Electron app and devour RAM
+
+- https://getferrite.dev/
+  - https://github.com/OlaProeis/Ferrite
+- https://mdhero.app/
+  - https://github.com/vaibhav-kakde-in/mdhero
+- https://bokuchi.com/
+  - https://github.com/Bokuchi-Editor/bokuchi
+
 ## System
 - [mise.jdx.dev (environment manager)](https://mise.jdx.dev)
 - [DaisyDisk (macOS disk usage inspection)](https://daisydiskapp.com/)
