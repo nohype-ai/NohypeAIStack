@@ -10,6 +10,13 @@ It is on this machine for three reasons that suit a tiling desktop:
 
 `python-adblock`, `python-pygments`, and `pdfjs-legacy` stay uninstalled. `:adblock-update` still fills the hosts blocker and rewrites `~/.local/share/qutebrowser/blocked-hosts` from the default StevenBlack list, one host per line. That file is the list in use.
 
+## Hide Scroll Bar
+
+Hide it entirely:
+`:set scrolling.bar never`
+
+Value `overlay` still permanently showed the scrollbar which was ugly and too useless.
+
 ## Ctrl+Super+F
 
 Ctrl+Super+F is Omarchy's tiled fullscreen (default binding Super+Ctrl+F, label "Tiled full screen"). The window stays in its tile, and Hyprland marks the client fullscreen. Brave hides its toolbar from that flag. Copy [`qutebrowser/config.py`](qutebrowser/config.py) to `~/.config/qutebrowser/config.py`. While the flag is on, that window's tab bar is hidden. The status bar is hidden in normal mode and shown in command, hint, insert, and the other key modes, so `:` and hints still have a line to draw on. A window that is not in tiled fullscreen keeps both bars. Press Ctrl+Super+F again and the bars come back with the tile.
