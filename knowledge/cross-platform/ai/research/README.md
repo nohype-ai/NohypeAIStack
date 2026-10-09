@@ -1,6 +1,6 @@
 # AI Stack Research
 
-This folder contains ongoing research, some research topics are further along than others. gnarly extensive details here get continuously pruned as research closes in on conclusions and decisions.
+This folder contains ongoing research, some research topics are further along than others. gnarly extensive details here get continuously pruned as research closes in on conclusions and decisions. Settled conclusions go in [General AI Stack](../README.md). The current choice of tools is [The AI Stack](../../../../cross-platform/ai/README.md).
 
 ## To Do
 
@@ -10,7 +10,7 @@ Next research topics are prioritized to scale up productivity quickly, even at t
 	- ✅ customization of Grok Build, storing its config in stack, automate via MacStack
 - ✅ [autonomous coding agents](harness%20for%20autonomy/autonomous%20coding%20agents.md)
 - ✅ [confidentiality and integrity - initial conversation](confidentiality%20and%20integrity/confidentiality%20and%20integrity%20-%20initial%20conversation.md)
-	- ✅ Repo encryption: [Encrypting Repos](../../git/Encrypting%20Repos.md)
+	- ✅ Repo encryption: [Encrypting Repos](../../../../cross-platform/git/Encrypting%20Repos.md)
 	- ✅ Agent isolation: [Agent Isolation](confidentiality%20and%20integrity/Agent%20Isolation.md)
 	- ✅ Agent customization (here grok build): [Agent Customization](confidentiality%20and%20integrity/Agent%20Customization.md)
 	- "Sandbox" and "Permissions" settings in Zed (IDE level) ... what can they do?
@@ -22,7 +22,7 @@ Next research topics are prioritized to scale up productivity quickly, even at t
 	- 🚧 solution in practice:
 		- ✅ [Agentic Engineering - voice conversation](harness%20for%20autonomy/Agentic%20Engineering%20-%20voice%20conversation.md)
 		- ✅ [Practical Means](harness%20for%20autonomy/Practical%20Means.md) — general means vs Grok Build, mapped onto the 11 elements
-		- 🚧 template, exemplary only: [project-harness-template](harness%20for%20autonomy/project-harness-template) — fill with practice-ready contents in a real project
+		- 🚧 template, exemplary only: [project-harness-template](../../../../cross-platform/ai/project-harness-template) — fill with practice-ready contents in a real project
 - evals / quality gates (deeper dive into this part of the harness)
    - automated quality assessment of agent output
    - generating tests alongside code (even for shell scripts?)

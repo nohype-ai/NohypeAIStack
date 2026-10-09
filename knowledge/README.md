@@ -16,6 +16,9 @@ Full index of everything in this folder follows below.
 * [cross-platform/Flutter/flutter and android development setup.md](cross-platform/Flutter/flutter%20and%20android%20development%20setup.md)
 * [cross-platform/Flutter/Flutter Cheat Sheet.md](cross-platform/Flutter/Flutter%20Cheat%20Sheet.md)
 * [cross-platform/Mathe Skript.pdf](cross-platform/Mathe%20Skript.pdf)
+* [cross-platform/ai/README.md](cross-platform/ai/README.md)
+* [cross-platform/ai/research/](cross-platform/ai/research/)
+* [cross-platform/research/](cross-platform/research/)
 
 ## macOS
 
@@ -34,7 +37,3 @@ Full index of everything in this folder follows below.
 ## Omarchy
 
 Empty.
-
-## research
-
-* [research/](research/)

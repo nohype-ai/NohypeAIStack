@@ -184,7 +184,7 @@ A couple of implications that fall out of this framing:
 
 Some past research as context:
 [Above file content]
-[Encrypting Repos](../../../git/Encrypting%20Repos.md)
+[Encrypting Repos](../../../../../cross-platform/git/Encrypting%20Repos.md)
 [coding agent customization](../agent%20customization/coding%20agent%20customization.md)
 
 Some think differently about the confidentiality issue in some ways. here are 2 common working assumptions:
@@ -247,7 +247,7 @@ Your formulation is excellent: this is still **prompt following**, which is a st
 
 ### Where your research is particularly strong
 
-The distinction you draw in [Encrypting Repos.md](../../../git/Encrypting%20Repos.md) (lines 88-90) between **hard boundaries** and **pseudo/flaky boundaries** is one of the cleanest and most useful framings I've seen on this topic. Most people never make that cut explicitly.
+The distinction you draw in [Encrypting Repos.md](../../../../../cross-platform/git/Encrypting%20Repos.md) (lines 88-90) between **hard boundaries** and **pseudo/flaky boundaries** is one of the cleanest and most useful framings I've seen on this topic. Most people never make that cut explicitly.
 
 Your threat model is also correctly scoped to your actual usage pattern: applying agentic systems to *all* knowledge work (not just code) means the sensitivity gradient inside your working context is no longer flat. That is a genuinely different regime from what most "100x with Cursor" people are optimizing for.
 

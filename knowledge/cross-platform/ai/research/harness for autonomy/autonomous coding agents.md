@@ -31,7 +31,7 @@
 >
 >write me an overview of this topic into [@autonomous coding agents.md](autonomous%20coding%20agents.md) and also address my 3 main lines of thought.
 
-Research notes, not decisions. Decisions will move into [ai coding.md](../../ai%20coding.md) once tested.
+Research notes, not decisions. Decisions will move into [General AI Stack](../../README.md) once tested.
 
 ### Why this is the central topic
 
@@ -130,7 +130,7 @@ Tooling that already wraps this:
 | Claude Code (CLI) | local | ✅ | ❌ (single agent per invocation) | Strongest single-agent loop. Pair with worktrees + scripts to scale out. |
 | OpenCode (CLI) | local | ✅ | partial (subagents) | BYOK, open-source, scriptable. Best fit for self-built orchestration. |
 | Codex CLI | local | ✅ | ❌ | OpenAI's CLI; mirrors Claude Code's shape. |
-| Cursor CLI | local | ✅ | ❌ | Tied to Cursor subscription. See [coding stack notes](../../ai%20coding.md). |
+| Cursor CLI | local | ✅ | ❌ | Tied to Cursor subscription. See [coding stack notes](../../../../../cross-platform/ai/README.md). |
 | Amp (CLI/web) | hybrid | ✅ | ✅ (Threads) | Multi-model routing built in. Costs add up fast. |
 | Conductor | local | — | ✅ (over Claude Code) | A thin orchestration shell around Claude Code. Worth watching. |
 | Cursor Background Agents | hosted | ✅ | ✅ | MicroVM per task, opens PRs. Tied to Cursor account. |
@@ -253,7 +253,7 @@ Useful as a checklist of what to expect when starting before the rest of the [RE
 
 Smallest thing that exercises the whole stack and exposes its weaknesses:
 
-1. **One frontier coding agent** (Claude Code or Amp), driven from the terminal. CLI not IDE. (See [coding stack](../../ai%20coding.md).)
+1. **One frontier coding agent** (Claude Code or Amp), driven from the terminal. CLI not IDE. (See [coding stack](../../../../../cross-platform/ai/README.md).)
 2. **Worktrees** as the isolation primitive: `git worktree add ../proj-task-N`.
 3. **Plan files in Obsidian** as the task source. One markdown file per task, with acceptance criteria explicit.
 4. **`AGENTS.md` + good `README.md`s** as the standing context. (Already covered in [agent customization](../agent%20customization/coding%20agent%20customization.md).)
