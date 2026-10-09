@@ -6,7 +6,13 @@ git@github.com:nohype-ai/FILMABEND
 git@github.com:nohype-ai/Flowlist
 git@github.com:nohype-ai/flowlistapp-com.github.io
 git@github.com:nohype-ai/iMember
+git@github.com:nohype-ai/MacStack
+git@github.com:nohype-ai/macstack-dev.github.io
 git@github.com:nohype-ai/Moovees
+git@github.com:nohype-ai/olive-mail
+git@github.com:nohype-ai/olive-mail.github.io
+git@github.com:nohype-ai/OmaStack
+git@github.com:nohype-ai/omastack-dev.github.io
 git@github.com:nohype-ai/Paretospeak
 git@github.com:nohype-ai/Portfolio
 git@github.com:nohype-ai/PortfolioOLD

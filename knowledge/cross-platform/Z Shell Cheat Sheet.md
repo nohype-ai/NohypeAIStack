@@ -76,20 +76,8 @@
 | Increase Font Size | ⌘= |
 | Decrease Font Size | ⌘- |
 | Cancel a running program/job/command | ⌃C |
-| Show auto completion (only in [iTerm2](https://iterm2.com)) | ⌘; |
-| Open URL (only in [iTerm2](https://iterm2.com)) | ⌘Click |
 
 ## Configuration
-
-### Specific Customizations
-
-* The [MacStack repo](https://github.com/nohype-ai/MacStack) demonstrates how to pimp the Z Shell.
-
-* Avoid error "Operation not permitted" (for example with command "find") by giving Terminal/iTerm2 full disk access:
-
-    1. Go to System Settings / Privacy & Security / Full Disk Access
-    2. Add or activate Terminal/iTerm2 in the list
-    3. Relaunch Terminal/iTerm
 
 ### Configuration Files: Overview
 

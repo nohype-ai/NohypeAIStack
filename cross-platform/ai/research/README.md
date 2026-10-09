@@ -13,6 +13,7 @@ Next research topics are prioritized to scale up productivity quickly, even at t
 	- ✅ Repo encryption: [Encrypting Repos](../../git/Encrypting%20Repos.md)
 	- ✅ Agent isolation: [Agent Isolation](confidentiality%20and%20integrity/Agent%20Isolation.md)
 	- ✅ Agent customization (here grok build): [Agent Customization](confidentiality%20and%20integrity/Agent%20Customization.md)
+	- "Sandbox" and "Permissions" settings in Zed (IDE level) ... what can they do?
 - 🚧 harness + scaffolding for coding and knowledge work
 	- ✅ generally: [autonomous coding agents](harness%20for%20autonomy/autonomous%20coding%20agents.md)
 	- ✅ still boken: [Agent Failures in Codeface](harness%20for%20autonomy/Agent%20Failures%20in%20Codeface.md)

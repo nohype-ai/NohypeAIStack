@@ -106,19 +106,3 @@ Some common GitHub workflows rely on features that are **not** part of git but o
 
 * Pull Requests
 * Forks
-
-## Setup
-
-Have a look at the shell customizations and other git setup codified in [MacStack](https://github.com/nohype-ai/MacStack).
-
-* The scripts offer two major conveniences:
-  1. A function to add, commit and push all unstaged changes like so: `gitty "Fix UI bug"`
-  2. Aliases that allow omitting `git` with all git commands
-
-* Font: To see nice code-oriented ligatures, use the [Fira Code font](https://fonts.google.com/specimen/Fira+Code).
-
-## Free Graphical Clients
-
-* [Fork](https://git-fork.com)
-* [Sourcetree](https://www.sourcetreeapp.com)
-* [GitKraken](https://www.gitkraken.com)
