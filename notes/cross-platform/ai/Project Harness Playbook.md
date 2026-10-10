@@ -1,4 +1,4 @@
-# Dev Harness Playbook
+# Project Harness Playbook
 
 **Elements of a project-level harness for long-running coding agents**
 

@@ -1,4 +1,4 @@
-# The Downstream Costs of "Good Enough"
+# "Good Enough" Has Downstream Costs
 
 *A conversation summary by Grok 4.7 (High) on September 30, 2026*.
 

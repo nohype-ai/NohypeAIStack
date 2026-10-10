@@ -1,13 +1,9 @@
 {
-  "promptDelete": false,
-  "showInlineTitle": false,
-  "defaultViewMode": "source",
+  "alwaysUpdateLinks": true,
   "useMarkdownLinks": true,
   "showUnsupportedFiles": true,
-  "spellcheck": false,
-  "alwaysUpdateLinks": true,
+  "promptDelete": false,
   "newLinkFormat": "relative",
-  "livePreview": true,
-  "showIndentGuide": false,
-  "settingsPopoutWindow": true
+  "spellcheck": false,
+  "showInlineTitle": false
 }

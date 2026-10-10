@@ -1,4 +1,4 @@
-# Agent Customization
+# Agent Customization Levels
 
 ## Levels
 
@@ -53,7 +53,7 @@ Custom instructions, rules and configurations can be injected into an agentic co
 * ⚠️8) Sandbox profiles are defined in `sandbox.toml` (global or per-project) and selected at runtime with `--sandbox`. Enforcement uses kernel primitives (Seatbelt on macOS / Landlock on Linux) and is irreversible once applied.
 * ⚠️9) `PreToolUse` hooks can deny tool calls (including reads) as a final safeguard that overrules other customizations. Project hooks require explicit trust (`/hooks-trust`).
 * ⚠️10) `AGENTS.md` variants, in load order: `Agents.md`, `Claude.md`, `CLAUDE.md`, `CLAUDE.local.md`, `AGENT.md`, `AGENTS.md`. They load hierarchically from global → repo root → subfolders; deeper files take precedence. Per-folder `.grok/rules/`, `.grok/config.toml`, and `.grok/skills/` (plus `commands/`) also apply from repo root down to cwd.
-* [Amp's customization options](amp%20customization.md) are arguably richer than for other agents. But importantly, Amp supports `AGENTS.md` at user- (`~/.config/amp/AGENTS.md`), project- and folder level.
+* [Amp's customization options](research/amp%20customization.md) are arguably richer than for other agents. But importantly, Amp supports `AGENTS.md` at user- (`~/.config/amp/AGENTS.md`), project- and folder level.
 
 ## Conclusions
 

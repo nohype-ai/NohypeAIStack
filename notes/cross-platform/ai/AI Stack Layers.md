@@ -1,8 +1,8 @@
-# General AI Stack
+# AI Stack Layers
 
 The layers of an AI stack, and conclusions that outlive a particular choice of tools. Our current stack is [The AI Stack](../../../cross-platform/ai/README.md). Open research is in [research/](research/).
 
-## General Stack Layers
+## The Layers
 
 1. Agent Clients
   - GUI frontends to agents – natively or via ACP.
@@ -11,7 +11,7 @@ The layers of an AI stack, and conclusions that outlive a particular choice of t
   - Personal Agents
     - Not deeply explored yet. Grok Bot has good UX but didn't add value.
 3. Providers
-  - Cloud services that offer access to model inference. Related research is in [byok costs.md](research/byok%20costs.md) and [routers.md](research/routers.md).
+  - Cloud services that offer access to model inference. Related research is in [byok costs.md](research/byok%20costs.md) and [routers.md](Routers.md).
   - Routers (Aggregators)
     - These poviders do not provide inference themselves but only act as gateways that aggregate- and route to other providers.
   - Open Weights Providers
@@ -24,7 +24,7 @@ The layers of an AI stack, and conclusions that outlive a particular choice of t
   - [Coding leaderboard](https://arena.ai/leaderboard/text/coding?viewBy=plot&rankBy=labs)
   - [Code leaderboard](https://arena.ai/leaderboard/code?viewBy=plot&rankBy=labs)
 
-## Preliminary Conclusions
+## Preliminary Conclusions on Open Layers
 
 ### Open-Source Models Are Not Worth It
 

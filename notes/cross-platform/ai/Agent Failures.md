@@ -1,3 +1,11 @@
+# Agent Failures
+
+These failures were mainly observed and documented during work on Codeface. The failures were real. Feature development drove into a temporary dead end where extensive refactoring was the only way out.
+
+A positive observation was also made: Clearly isolated, unit-testable, repetitive tasks like adding language support and improving dependency detection had huge productivity gains, because they allowed for more agent autonomy: long agent run times and short human reviews.
+
+This contrast between failures in some areas and gains in others allowed drawing conclusions on how to improve the project harness.
+
 ## Observations
 
 - tunnel vision, rarely takes a step back, optimizes what should not exist
@@ -5,7 +13,7 @@
 - produces much more code than necessary, never weighs compexity versus value added
 - tacks stuff on instead of integrating it into what pre-exists in the way what pre-exists intends
 - prefers adding code over adjusting code, leading to a disintegrated bloated codebase
-- writes comments that describe what it did instead of the result
+- writes comments that describe what it did or reference what existed before instead of describing the result
 	- for example comments that explain how the new code relates to the old code that doesn't even exist anymore, as if the comment is part of the answer in the conversation in that moment
 - rarely adds files and types, tries to stuff new code into existing files and folders, inflating their scope and watering down their concern
 - overzealous: does too much too early, mindlessly, without considering the direction in which things actually should move or what a meaningful iteration/step would be at that moment
@@ -42,8 +50,8 @@
 - “Rarely adds files and types” is the root bias. Entanglement, cycles, 1750 LoC, and “one thing works while another breaks” are downstream.
 - Language support went the other way because that domain already had the opposite default: specialized templates, a test matrix as oracle, and a bounded module (LanguageProfile). The agent extended a system that **intended to be extended**. Window/map never got that. Every new slice landed on WindowSession because that was the object the last session already had open.
 - A complete §5+§6 that “ensures” architectural taste is that failure, one level up. Your working style is rapid, opinionated, interrupt-driven. A heavy DoR that gates all implement work will be skipped for “small” slices — which is exactly how hover, mute VMs, and union-mount got in.
-  
-  ## Grok's Prescription
+
+## Grok's Prescription
 
 - Card asks “which type owns this?” Guide says: if the hub would grow, or a file is already over a hard limit, or a structural question is open → stop and ask, do not implement around it. Next task then finds the type this task was forced to create. That is the loop.
 -  You already have a working §8: language workflow + profile template + test matrix. That is the pattern to copy, not an 11-element playbook completeness project.

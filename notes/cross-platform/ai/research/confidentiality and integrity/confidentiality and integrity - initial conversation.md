@@ -185,7 +185,7 @@ A couple of implications that fall out of this framing:
 Some past research as context:
 [Above file content]
 [Encrypting Repos](../../../../../cross-platform/git/Encrypting%20Repos.md)
-[coding agent customization](../agent%20customization/coding%20agent%20customization.md)
+[Agent Customization Levels](../../Agent%20Customization%20Levels.md)
 
 Some think differently about the confidentiality issue in some ways. here are 2 common working assumptions:
 1. agents do actually NOT read files outside the project folder.

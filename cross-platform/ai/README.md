@@ -2,7 +2,7 @@
 
 ## Intro
 
-Here we cover our current AI stack. General layers, and conclusions that are not a choice of tools, are in [General AI Stack](../../notes/cross-platform/ai/README.md). Open research is in [research/](../../notes/cross-platform/ai/research/).
+Here we cover our current AI stack. General layers, and conclusions that are not a choice of tools, are in [General AI Stack](../../notes/cross-platform/ai/AI%20Stack%20Layers.md). Open research is in [research/](../../notes/cross-platform/ai/research/).
 
 Coding is the most impactful use case, applicable to any work on markdown files, and most indicative of agentic performance, so **this stack is a coding stack**. This baseline may later inform other specialized use cases.
 

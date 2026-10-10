@@ -11,8 +11,8 @@ A full index of all entry points follows below.
 ## Cross-Platform
 
 ### AI
-* [ai/README.md](cross-platform/ai/README.md)
-* [ai/research/](cross-platform/ai/research/)
+* Preliminary results in [ai/](cross-platform/ai/)
+* Ongoing research in [ai/research/](cross-platform/ai/research/)
 
 ### Coding
 * [Z Shell Cheat Sheet.md](cross-platform/Z%20Shell%20Cheat%20Sheet.md)

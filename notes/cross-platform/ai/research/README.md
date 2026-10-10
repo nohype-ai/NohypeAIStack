@@ -1,27 +1,27 @@
 # AI Stack Research
 
-This folder contains ongoing research, some research topics are further along than others. gnarly extensive details here get continuously pruned as research closes in on conclusions and decisions. Settled conclusions go in [General AI Stack](../README.md). The current choice of tools is [The AI Stack](../../../../cross-platform/ai/README.md).
+This folder contains ongoing research, some research topics are further along than others. gnarly extensive details here get continuously pruned as research closes in on conclusions and decisions. Results manifest in [our AI Stack](../../../../cross-platform/ai/README.md) or just move out of this research folder.
 
 ## To Do
 
 Next research topics are prioritized to scale up productivity quickly, even at the cost of didactics:
 
-- ✅ [coding agent customization](agent%20customization/coding%20agent%20customization.md)
+- ✅ [Agent Customization Levels](../Agent%20Customization%20Levels.md)
 	- ✅ customization of Grok Build, storing its config in stack, automate via MacStack
-- ✅ [autonomous coding agents](harness%20for%20autonomy/autonomous%20coding%20agents.md)
+- ✅ [Agent Autonomy](../Agent%20Autonomy.md)
 - ✅ [confidentiality and integrity - initial conversation](confidentiality%20and%20integrity/confidentiality%20and%20integrity%20-%20initial%20conversation.md)
 	- ✅ Repo encryption: [Encrypting Repos](../../../../cross-platform/git/Encrypting%20Repos.md)
 	- ✅ Agent isolation: [Agent Isolation](confidentiality%20and%20integrity/Agent%20Isolation.md)
-	- ✅ Agent customization (here grok build): [Agent Customization](confidentiality%20and%20integrity/Agent%20Customization.md)
+	- ✅ Agent customization (here grok build): [Grok Build Permissions](confidentiality%20and%20integrity/Grok%20Build%20Permissions.md)
 	- "Sandbox" and "Permissions" settings in Zed (IDE level) ... what can they do?
 - 🚧 harness + scaffolding for coding and knowledge work
-	- ✅ generally: [autonomous coding agents](harness%20for%20autonomy/autonomous%20coding%20agents.md)
-	- ✅ still boken: [Agent Failures in Codeface](harness%20for%20autonomy/Agent%20Failures%20in%20Codeface.md)
-	- ✅ solution concept: [Dev Harness Playbook](harness%20for%20autonomy/Dev%20Harness%20Playbook.md)
+	- ✅ generally: [Agent Autonomy](../Agent%20Autonomy.md)
+	- ✅ still boken: [Agent Failures](../Agent%20Failures.md)
+	- ✅ solution concept: [Project Harness Playbook](../Project%20Harness%20Playbook.md)
 		- in particular the quality gate (in the task execution template, could be a skill)
 	- 🚧 solution in practice:
-		- ✅ [Agentic Engineering - voice conversation](harness%20for%20autonomy/Agentic%20Engineering%20-%20voice%20conversation.md)
-		- ✅ [Practical Means](harness%20for%20autonomy/Practical%20Means.md) — general means vs Grok Build, mapped onto the 11 elements
+		- ✅ [2026-09-08 Agent Autonomy - AI voice conversation](Agent%20Autonomy/2026-09-08%20Agent%20Autonomy%20-%20AI%20voice%20conversation.md)
+		- ✅ [Project Harness Playbook In Practice](../Project%20Harness%20Playbook%20In%20Practice.md) — general means vs Grok Build, mapped onto the 11 elements
 		- 🚧 template, exemplary only: [project-harness-template](../../../../cross-platform/ai/project-harness-template) — fill with practice-ready contents in a real project
 - evals / quality gates (deeper dive into this part of the harness)
    - automated quality assessment of agent output

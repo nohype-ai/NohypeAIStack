@@ -1,24 +1,4 @@
-# Autonomous (Background) Coding Agents
-
-## ❗ Main Takeaways
-
-- no magic: use regular CLI coding agent, rely on its built in loop
-- harness: what the agent sees directly. scaffolding: whole machinery in which the agent is employed. harness is essentially text-based context. scaffolding can also include code and infrastructure.
-- long running time per-invocation is a result of mostly just the harness (like spec's scope) – not of the "right" agent or agent config itself
-- one invocation can run for hours but should be limited to one self contained task, like implementing one ticket.
-- a task like mowing through many tickets from a kanban board should be spread across multiple invocations (one per ticket) and requires some kind of wrapper script or dedicated conductor (like literally [Conductor](https://www.conductor.build))
-- ❗key to 100x productivity is having to review very little of the agent's output, which is a result of the output's quality, which is a result of quality gates in the agent-/project harness (well specified QA requirements, unit tests, architecture documentation, code metrics, QA sub-agents, cross validation with multiple models/agents etc.) and **not** of parallelism.
-- ❗quality gates then enable longer runtimes, wich means giving agents more well specified larger-scoped tasks and sufficient other elements in the harness (task execution template, documentation, high-level objectives, etc.)
-- ❗parallelism is a consequence of autonomy - not a precondition for it.
-  - quality gates + large-scope tasks ➡️ short review times + long run times ➡️ parallelism possible
-- parallelism is less important than expected:
-  - human review is the tighter bottle neck for a 24/7 agent until review time is significantly shorter than agent run time (requires optimizing QA loops and tasks/harness)
-  - parallel work on overlapping scope would require merge conflict resolution, so parallelization requires isolation of some kind. low hanging fruit here is to simply start with fully independent work scopes like distinct folders or even projects.
-- 90% of what unlocks autonomous parallel agents is known good practices that apply to managing human dev teams as well
-- the main difference between human and agent engineers is cost structure: agents cost much less to begin with, discarding results becomes viable (for best-of-N, retries etc.), zero cost for onboarding and idle time, nor any social cost or friction.
-  - secondary differences: all knowledge must be explicit, zero initiative unless explicitly engineered, confidently-inconsistent (requires stricter verification gates)
-- in principle, agents can accumulate long-term knowledge similar to humans, since agents can be empowered to evolve a project's knowledge base ([LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)) or even their own scaffolding and harness
-- Obsidian is the right tool for managing the harness and large parts of the scaffolding, since they amount to a "process as docs" philosophy anyway
+# Autonomous Coding Agents - Conversation with AI around Q2 2026
 
 ## Initial Question with Integrated Answers to Follow Up Questions
 
@@ -29,9 +9,9 @@
 >
 >3) also i am very sceptical that such an autonomous software engineering system would actually produce code that is up to my standard. i experience time and again that even claude opus 4.7 misunderstands, overlooks or confuses simple things. i am an experienced software engineer and i feel that the more the user actually understands about coding, the more he will see the need to correct and steer the agent and the less scope he will let the agent deal with at a time. i can only imagine that a product built by highly autonomous agents will at some point crumble under its own complexity, inconsistency, rigidity, opaqueness etc.
 >
->write me an overview of this topic into [@autonomous coding agents.md](autonomous%20coding%20agents.md) and also address my 3 main lines of thought.
+>write me an overview of this topic into [@autonomous coding agents.md](../../Agent%20Autonomy.md) and also address my 3 main lines of thought.
 
-Research notes, not decisions. Decisions will move into [General AI Stack](../../README.md) once tested.
+Research notes, not decisions. Decisions will move into [General AI Stack](../../AI%20Stack%20Layers.md) once tested.
 
 ### Why this is the central topic
 
@@ -175,7 +155,7 @@ The interesting question is what's *actually* different, because that's the part
 Practical consequences for the stack:
 
 * **The principles transfer; the dials don't.** "Small PRs" and "definition of done" stay; the right value of "small" is *smaller* for agents, because review of an agent PR is harder than review of a colleague's PR (no shared context, no in-person clarification, see [The reviewer bottleneck](#the-reviewer-bottleneck)).
-* **Documentation becomes load-bearing.** With humans, undocumented knowledge survives in heads. With agents it does not exist. This is exactly why [agent customization](../agent%20customization/coding%20agent%20customization.md) concludes the win is essentially "do classical good documentation, finally".
+* **Documentation becomes load-bearing.** With humans, undocumented knowledge survives in heads. With agents it does not exist. This is exactly why [agent customization](../../Agent%20Customization%20Levels.md) concludes the win is essentially "do classical good documentation, finally".
 * **Throwing away work is a feature, not a failure.** Best-of-N, restart-from-scratch, "delete the branch and try again with a tighter spec" are first-class tactics with agents and almost taboo with humans.
 * **Initiative must be engineered.** A human reports "this spec is ambiguous". An agent has to be given a "user-as-MCP-tool" channel (see [README](../README.md) item 4) or it will guess.
 * **Coordination overhead inverts.** With humans, parallelism is expensive and coherence is cheap. With agents, parallelism is cheap and coherence is expensive — coherence comes from docs/specs/types/tests, not from people talking.
@@ -241,7 +221,7 @@ When parallelism is *not* worth it:
 Useful as a checklist of what to expect when starting before the rest of the [README](../README.md) is in place:
 
 * **No evals / weak tests** → silent quality drift. PRs look fine, regressions accumulate. The exact failure mode that produces the "AI codebase that crumbles" mentioned in the third concern.
-* **No `AGENTS.md` / weak `README.md`s** → each agent reinvents conventions. Inconsistency compounds across PRs. (Mitigation principles already collected in [coding agent customization](../agent%20customization/coding%20agent%20customization.md).)
+* **No `AGENTS.md` / weak `README.md`s** → each agent reinvents conventions. Inconsistency compounds across PRs. (Mitigation principles already collected in [Agent Customization Levels](../../Agent%20Customization%20Levels.md).)
 * **No RAG / no decision log** → agents repeat decisions you already rejected, reintroduce dead patterns.
 * **No observability** → when something goes wrong across N parallel runs you cannot tell which agent did what or why. Debugging time eats the throughput gain.
 * **No isolation (worktrees / containers)** → parallel runs corrupt each other.
@@ -256,7 +236,7 @@ Smallest thing that exercises the whole stack and exposes its weaknesses:
 1. **One frontier coding agent** (Claude Code or Amp), driven from the terminal. CLI not IDE. (See [coding stack](../../../../../cross-platform/ai/README.md).)
 2. **Worktrees** as the isolation primitive: `git worktree add ../proj-task-N`.
 3. **Plan files in Obsidian** as the task source. One markdown file per task, with acceptance criteria explicit.
-4. **`AGENTS.md` + good `README.md`s** as the standing context. (Already covered in [agent customization](../agent%20customization/coding%20agent%20customization.md).)
+4. **`AGENTS.md` + good `README.md`s** as the standing context. (Already covered in [agent customization](../../Agent%20Customization%20Levels.md).)
 5. **Verification gate**: typecheck + lint + existing tests must pass before merge. No exceptions.
 6. **Start sequential, not parallel.** One agent, one task, one project at a time. Per [When parallelism actually pays off](#when-parallelism-actually-pays-off), 24/7 sequential is most of the available win for a solo operator. Add parallelism only across projects (lowest conflict surface) or for clearly independent fan-out work, and only after the verification gate has proven it catches mistakes.
 7. **Manual orchestration first**: `tmux` panes plus a small shell script invoking the agent headlessly per task. Don't adopt Conductor / Background Agents / Devin until the manual version reveals what they'd actually solve.
@@ -347,7 +327,7 @@ The interesting 20% — where naive analogies to managing humans break — is wh
 The practical consequences I think actually matter:
 
 - **The principles transfer; the dials don't.** "Small PR" for a colleague might be 500 lines; for an agent it's smaller, because review is harder (no shared context, no in-person clarification).
-- **Documentation becomes load-bearing.** Undocumented knowledge survives in human heads. With agents it doesn't exist. This is why the [agent customization](../agent%20customization/coding%20agent%20customization.md) doc concludes the win is essentially "do classical good documentation, finally".
+- **Documentation becomes load-bearing.** Undocumented knowledge survives in human heads. With agents it doesn't exist. This is why the [agent customization](../../Agent%20Customization%20Levels.md) doc concludes the win is essentially "do classical good documentation, finally".
 - **Throwing away work is a feature, not a failure.** Best-of-N, restart-from-scratch, "delete the branch and try again with a tighter spec" — first-class with agents, taboo with humans.
 - **Initiative must be engineered.** A human asks "this spec is ambiguous, what do you mean?". An agent has to be *given* a question channel (a "user-as-MCP-tool") or it will just guess.
 - **Coordination overhead inverts.** With humans, parallelism is expensive and coherence is cheap (people talk). With agents, parallelism is cheap and coherence is expensive — coherence comes from docs/specs/types/tests, not from talking.

@@ -1,6 +1,6 @@
 # Practical Means
 
-Overview of the repo-checked means that can carry a [Dev Harness Playbook](Dev%20Harness%20Playbook.md) element. Project level only. User-level agent setup is out of scope. So is an example harness: this page names carriers, not their contents.
+Overview of the repo-checked means that can carry a [Project Harness Playbook](Project%20Harness%20Playbook.md) element. Project level only. User-level agent setup is out of scope. So is an example harness: this page names carriers, not their contents.
 
 An empty cell means an ordinary repo document is enough. `AGENTS.md` may point at that document; the pointer does not make `AGENTS.md` the document.
 
