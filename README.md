@@ -2,7 +2,7 @@
 
 This repo ...
 - defines the Nohype AI tech stack
-- holds some tech knowledge
+- holds notes on general aspects beyond our specific stack
 
 ## Contents
 
@@ -14,5 +14,5 @@ This repo ...
 - Omarchy stack
   - in [Omarchy/](Omarchy/)
   - input to [OmaStack.dev](https://omastack.dev) is in [Omarchy/OmaStack/](Omarchy/OmaStack/)
-- Knowledge base
-  -  in [knowledge/](knowledge/)
+- Notes
+  -  in [notes/](notes/)
