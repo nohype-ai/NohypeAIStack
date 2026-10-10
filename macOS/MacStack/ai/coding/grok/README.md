@@ -7,7 +7,6 @@
 | `AGENTS.md` | `~/.grok/AGENTS.md` |
 | `config.toml` | `~/.grok/config.toml` |
 | `pager.toml` | `~/.grok/pager.toml` |
-| `sandbox.toml` | `~/.grok/sandbox.toml` |
 | `rules/` | `~/.grok/rules/` |
 | `hooks/` | `~/.grok/hooks/` |
 | `skills/` | `~/.grok/skills/` |
@@ -17,6 +16,6 @@
 | `agents/` | `~/.grok/agents/` |
 | `personas/` | `~/.grok/personas/` |
 
-User-level: always-approve, sandbox profile `cwd` (extends `strict` — FS confined to launch directory). Named path denies go in each repo's `.grok/config.toml`.
+User-level: always-approve, sandbox profile `strict`. Named path denies for every tree are in `config.toml`. Extra names for one repo go in that repo's `.grok/config.toml`.
 
 Empty folders are placeholders. This README is not copied.
