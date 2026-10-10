@@ -1,6 +1,8 @@
 # Grok Build Permission System
 
-- **Hard enforced permission settings** for what Grok Build can read, write, run, and send
+## Scope
+
+- This is a bout **Hard enforced permission settings** for what Grok Build can read, write, run, and send
 - Based on user guide shipped with Grok Build 1.0.50
 - What does not count as hard enforced settings:
 	- Launch arguments. The next session does not keep them. Confidentiality and integrity cannot depend on remembering to use some flag.
@@ -9,6 +11,7 @@
 	- Admin pins / requiremnt files
 	- Custom sandbox profiles
 	- Claude Code compatability locations
+	- Launch arguments, prompt-based customizations
 - Related:
 	- [Agent Customization Levels](Agent%20Customization%20Levels.md)
 	- [confidentiality and integrity - initial conversation](confidentiality%20and%20integrity%20-%20initial%20conversation.md)
@@ -89,6 +92,8 @@ Where:
 3. Permission deny rules then block named sensitive files that may sit inside that launch directory. Permission rules cannot allow anything the sandbox (`strict`) already blocks.
 	- The names that show up in any tree go in `~/.grok/config.toml`
 	- Extra names for one repo go in `<repo>/.grok/config.toml`
+
+### Example Files
 
 ```toml
 # ~/.grok/config.toml
