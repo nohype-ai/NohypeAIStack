@@ -14,7 +14,7 @@
 	- Launch arguments, prompt-based customizations
 - Related:
 	- [Agent Customization Levels](Agent%20Customization%20Levels.md)
-	- [confidentiality and integrity - initial conversation](confidentiality%20and%20integrity%20-%20initial%20conversation.md)
+	- [confidentiality and integrity - including initial conversation](research/confidentiality%20and%20integrity/confidentiality%20and%20integrity%20-%20including%20initial%20conversation.md)
 	- [Agent Isolation](Agent%20Isolation.md)
 	- Grok Build config docs are extracted on launch to `~/.grok/docs/user-guide/`
 		- [26-config-reference.md](~/.grok/docs/user-guide/26-config-reference.md) lists every field of `config.toml`

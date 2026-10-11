@@ -9,9 +9,9 @@ Next research topics are prioritized to scale up productivity quickly, even at t
 - ✅ [Agent Customization Levels](../Agent%20Customization%20Levels.md)
 	- ✅ customization of Grok Build, storing its config in stack, automate via MacStack
 - ✅ [Agent Autonomy](../Agent%20Autonomy.md)
-- ✅ [confidentiality and integrity - initial conversation](confidentiality%20and%20integrity/confidentiality%20and%20integrity%20-%20initial%20conversation.md)
+- ✅ [confidentiality and integrity - including initial conversation](confidentiality%20and%20integrity/confidentiality%20and%20integrity%20-%20including%20initial%20conversation.md)
 	- ✅ Repo encryption: [Encrypting Repos](../../../../cross-platform/git/Encrypting%20Repos.md)
-	- ✅ Agent isolation: [Agent Isolation](confidentiality%20and%20integrity/Agent%20Isolation.md)
+	- ✅ Agent isolation: [Agent Isolation](../Agent%20Isolation.md)
 	- ✅ Agent customization (here grok build): [Grok Build Permission System](../Grok%20Build%20Permission%20System.md)
 	- "Sandbox" and "Permissions" settings in Zed (IDE level) ... what can they do?
 - 🚧 harness + scaffolding for coding and knowledge work

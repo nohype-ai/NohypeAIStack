@@ -1,46 +1,4 @@
-# Agent Isolation
-
-## Takeaway
-
-True isolation is:
-- **Locked (encrypted) repo clone for the agent** (never run transcrypt there) keeps the encryption password out of the agent’s `.git/config`.
-- **Dedicated unix user for the agent** helps if it has nothing worth stealing: anything it can read, it can send to the model. But it's a great baseline, it can't read anything from the actual human user (SSH keys for example), only what was set up in the agent user.
-	- Zed/ACP can launch the agent process as that agent user. The editor/IDE stays as the human user.
-- [Optional] **Dedicated scoped GitHub PAT for the agent**
-
-Docker was rejected as too much.
-
-### Implications for GitHub
-
-Two modes:
-
-1. **Agent never talks to GitHub.** Zero credentials on the agent user. You pull/push. This is the only way to not leak any GH credential.
-2. **Agent uses GitHub, commits appear as you.** Fine-grained PAT on your account, scoped to the repos you want.
-
-Discarded:
-
-- Account SSH keys — unscoped; a key on your GitHub account reaches every repo that account can.
-- Deploy keys — scoped, but one per repo.
-- Separate GitHub user — scopes SSH to the repos you add it to, but commit author is that user.
-
-The PAT is still exfiltratable. Scoping limits blast radius; it does not stop the leak.
-
-### Remaining risk
-
-The unix user puts your home, SSH keys, transcrypt password, and other repos out of reach. That is the win. It does not make a remote model safe. It just stops the agent from reaching *you*.
-
-What is still exposed:
-- Plaintext of the repos it can read, with or without PAT. Repo content is going to the model anyway — that is inherent in using a remote coding agent.
-- The PAT itself if used. Same leak as with SSH keys and transcrypt passwords, but smaller blast radius. A stolen PAT acts as you on those repos until you revoke it.
-
-### Evaluation of Remaining Risk
-
-**Acceptable** when those repos are ones you would send to a remote model anyway, and the PAT is treated as disposable: least privilege, short expiry, easy to revoke.
-
-**Not acceptable** for unrekeyable secrets or data that must not leave the machine. That must stay encrypted or out of the PAT scope.
-
----
-## Original Conversation
+# Agent Isolation - Original Conversation
 
 **Date:** 2026-05-05 06:42:31
 **ID:** 00cbe425-3d29-4f75-a41b-254a12fd90b4

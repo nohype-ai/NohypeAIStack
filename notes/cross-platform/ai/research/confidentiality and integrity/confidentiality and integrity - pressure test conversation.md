@@ -35,7 +35,7 @@ Constraints:
 My prompt:
 
 Some past research as context:
-[@confidentiality and integrity.md](confidentiality%20and%20integrity%20-%20initial%20conversation.md) 
+[@confidentiality and integrity.md](confidentiality%20and%20integrity%20-%20including%20initial%20conversation.md) 
 [@Encrypting Repos.md](../../../../../cross-platform/git/Encrypting%20Repos.md) 
 [@coding agent customization.md](../../Agent%20Customization%20Levels.md) 
 
