@@ -15,6 +15,7 @@ A full index of all entry points follows below.
 * Ongoing research in [ai/research/](cross-platform/ai/research/)
 
 ### Coding
+* [Swift CLI Development](cross-platform/Swift%20CLI%20Development.md)
 * [Z Shell Cheat Sheet.md](cross-platform/Z%20Shell%20Cheat%20Sheet.md)
 * [Python Cheat Sheet.md](cross-platform/Python%20Cheat%20Sheet.md)
 * [Flutter/flutter and android development setup.md](cross-platform/Flutter/flutter%20and%20android%20development%20setup.md)
