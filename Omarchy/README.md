@@ -19,6 +19,7 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 | WeasyPrint | `omarchy pkg add python-weasyprint` |
 | Flea | `omarchy pkg aur add flea-bin` ([flea.md](flea.md)) |
 | OmaMail | `omarchy plugin add https://github.com/huacnlee/omamail.git --enable` |
+| Workspace Layout | `omarchy plugin add https://github.com/bjarneo/omarchy-workspace-layout --enable` |
 | Teams | Web app: https://teams.microsoft.com/v2/ |
 | Telegram | Web app: https://web.telegram.org/k/ |
 | ePost | Web app: https://app.epost.ch/ |

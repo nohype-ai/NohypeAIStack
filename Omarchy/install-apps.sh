@@ -31,6 +31,10 @@ systemctl --user restart xdg-desktop-portal
 omarchy plugin update omamail || \
   omarchy plugin add https://github.com/huacnlee/omamail.git --enable --yes
 
+# Workspace Layout
+omarchy plugin update bjarneo.workspace-layout || \
+  omarchy plugin add https://github.com/bjarneo/omarchy-workspace-layout --enable --yes
+
 # MEGA Desktop
 if pacman -Q megasync >/dev/null 2>&1; then
   echo "megasync already installed"
