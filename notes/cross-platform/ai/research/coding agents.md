@@ -108,3 +108,61 @@ Mainly for the combinations that showed technical issues in Zed. But the OpenCod
 | xAI | API key |  |  |
 | OpenRouter | paid models (+5.5% fee) |  |  |
 | OpenCode Zen | paid models (+6.15% fee) |  |  |
+
+## Customization locations
+
+Detail for the Locations table in [Agent Customization](../Agent%20Customization.md). The table keeps the shared surface and the extra path per agent. This section is the file list and the precedence that matter in practice.
+
+User instructions, team rules, and tool-level policy stay in each agent's own column. `AGENTS.md` is the shared always-on file at the project root and in subfolders. Skills are the shared on-demand layer.
+
+### Shared
+
+* `AGENTS.md` is plain markdown. [agents.md](https://agents.md) says the closest file wins a conflict. Whether parent files still load depends on the agent:
+  * **Gemini CLI** loads `AGENTS.md` only when `context.fileName` includes it. The default context name is `GEMINI.md`. Setting the name adds to that default (it does not drop `GEMINI.md`). Check with `/memory show`.
+  * **OpenCode** combines `AGENTS.md` from the workspace up to the project root. Files below the workspace load when that area is read. Global file is `~/.config/opencode/AGENTS.md`.
+  * **Cursor** reads the root and subdirectories. The closer file wins.
+  * **Claude Code** (v2.1.277+) treats `AGENTS.md` as a fallback. It loads when no `CLAUDE.md`, `.claude/CLAUDE.md`, or `CLAUDE.local.md` is in scope. A personal `CLAUDE.local.md` counts, so it silently turns the fallback off. `/config` → Project instructions → `claude-md-and-agents-md` loads both. `~/.claude/CLAUDE.md` does not count as "the project has a CLAUDE.md".
+  * **Grok** loads a chain from `~/.grok/` through the repo root down to cwd. A deeper file wins. Names, in load order: `Agents.md`, `Claude.md`, `CLAUDE.md`, `CLAUDE.local.md`, `AGENT.md`, `AGENTS.md`.
+* Skills are a folder with `SKILL.md`. Portable frontmatter is `name` and `description`. Anything else is vendor-specific.
+  * `~/.agents/skills/<name>/SKILL.md` and `.agents/skills/<name>/SKILL.md` are read by Gemini CLI, OpenCode, Cursor, and Grok.
+  * Claude Code's documented skill paths are `~/.claude/skills/` and `.claude/skills/` (nested `.claude/skills/` loads once that directory is in scope).
+  * OpenCode, Cursor, and Grok also read Claude's skill folders. Cursor also reads Codex's.
+  * A skill folder nested under a package is not a shared convention. Put cross-agent skills at the repo root and in the home directory.
+
+### Gemini CLI
+
+* Context files, default name `GEMINI.md`: `~/.gemini/GEMINI.md`, then the workspace and its parents, then again when a tool touches a directory.
+* `context.fileName` in `~/.gemini/settings.json` or `.gemini/settings.json`.
+* Permissions in `settings.json` are being phased out. Use `policies/*.toml`. `~/.gemini/policies/` overrules project policies, so it is the tool-level safeguard.
+* `GEMINI_SYSTEM_MD` replaces the agent system prompt. Any user can set it.
+* Skills: `~/.gemini/skills/` and `.gemini/skills/`. In the same tier, `.agents/skills/` wins over `.gemini/skills/`.
+
+### OpenCode
+
+* Instructions: `~/.config/opencode/AGENTS.md`, project `AGENTS.md` (walk up, and below the workspace on read). `CLAUDE.md` and `~/.claude/CLAUDE.md` are fallbacks and lose to an `AGENTS.md` at the same scope.
+* Turn the Claude fallback off: `OPENCODE_DISABLE_CLAUDE_CODE=1`. Narrower switches: `OPENCODE_DISABLE_CLAUDE_CODE_PROMPT` and `OPENCODE_DISABLE_CLAUDE_CODE_SKILLS`.
+* Config: `opencode.json` and `~/.config/opencode/opencode.json`. Extra instruction files go in `instructions` (globs and URLs allowed).
+* Skills: `.opencode/skills/`, `~/.config/opencode/skills/`, plus `.agents/skills/` and the Claude skill folders.
+
+### Cursor CLI
+
+* Rules: `~/.cursor/rules/*.md` or `*.mdc`, and `.cursor/rules/`. Also root and nested `AGENTS.md`, and a root `CLAUDE.md`.
+* `~/.cursor/cli-config.json` holds CLI settings and is semi-sensitive. Do not commit it. Project `.cursor/cli.json` is permissions only.
+* Team Rules can be soft defaults (team level) or enforced guardrails (tool level).
+* Skills: `.cursor/skills/`, `~/.cursor/skills/`, `.agents/skills/`, `~/.agents/skills/`, plus `.claude/skills/`, `~/.claude/skills/`, `.codex/skills/`, and `~/.codex/skills/`. A nested `.agents/skills/` or `.cursor/skills/` is scoped to that directory.
+
+### Claude Code
+
+* Instructions: `~/.claude/CLAUDE.md`, project `CLAUDE.md`, `.claude/CLAUDE.md`, `CLAUDE.local.md`, `.claude/rules/`. `AGENTS.md` only as in the shared section above.
+* Settings: `~/.claude/settings.json`, `.claude/settings.json`.
+* Skills: `~/.claude/skills/<name>/SKILL.md` and `.claude/skills/`. The docs do not list `.agents/skills/`.
+
+### Grok Build
+
+* No native team prompt or rules distribution. Enterprise stand-ins are `/etc/grok/managed_config.toml`, `/etc/grok/requirements.toml`, MDM, and `GROK_DEPLOYMENT_KEY`. Those are org-pushed, not user-authored.
+* User dir `~/.grok/`: `config.toml` (settings, `[permission]`, `[mcp_servers]`, `[plugins]`, `[skills]`, marketplace, inline personas), `pager.toml`, `sandbox.toml`, `AGENTS.md`, `rules/`, `hooks/`, `skills/`, `commands/`, `plugins/`, `workflows/`, `agents/`, `personas/`.
+* Project: `AGENTS.md` variants at the repo root; `.grok/` with the same kinds of files; plus `.mcp.json`. A project `.grok/config.toml` (repo root and each folder down to cwd) only contributes `[mcp_servers]`, `[plugins]`, `[permission]`, and `[mcp] max_output_bytes`.
+* From the repo root down to cwd, Grok also applies `.grok/rules/`, `.grok/skills/`, and `commands/`.
+* Project hooks, plugins, and skills need folder trust. Project hooks specifically need `/hooks-trust`.
+* `--sandbox` selects a profile from `sandbox.toml` (global or per-project). Enforcement is a kernel sandbox (Seatbelt on macOS, Landlock on Linux) and is irreversible once applied. `--rules`, `--allow`, and `--deny` are invocation overrides. A `PreToolUse` hook can deny a tool call, including a read, and that denial overrules the other layers.
+* Skills: native `.grok/skills/` and `~/.grok/skills/` outrank `.agents/skills/` at the same tier. Claude and Cursor skill dirs are scanned while those compat switches are on, which is the default. User-level compat paths include `~/.agents/skills/` and `~/.agents/commands/`.

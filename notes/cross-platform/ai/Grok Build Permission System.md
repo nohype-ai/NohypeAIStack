@@ -13,9 +13,9 @@
 	- Claude Code compatability locations
 	- Launch arguments, prompt-based customizations
 - Related:
-	- [Agent Customization Levels](Agent%20Customization%20Levels.md)
+	- [Agent Customization](Agent%20Customization.md)
 	- [confidentiality and integrity - including initial conversation](research/confidentiality%20and%20integrity/confidentiality%20and%20integrity%20-%20including%20initial%20conversation.md)
-	- [Agent Isolation](Agent%20Isolation.md)
+	- [Agent Isolation For Data Protection](Agent%20Isolation%20For%20Data%20Protection.md)
 	- Grok Build config docs are extracted on launch to `~/.grok/docs/user-guide/`
 		- [26-config-reference.md](~/.grok/docs/user-guide/26-config-reference.md) lists every field of `config.toml`
 		- [05-configuration.md](~/.grok/docs/user-guide/05-configuration.md) says which files are read, and in what order

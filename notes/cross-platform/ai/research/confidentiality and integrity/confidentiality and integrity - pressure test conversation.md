@@ -37,7 +37,7 @@ My prompt:
 Some past research as context:
 [@confidentiality and integrity.md](confidentiality%20and%20integrity%20-%20including%20initial%20conversation.md) 
 [@Encrypting Repos.md](../../../../../cross-platform/git/Encrypting%20Repos.md) 
-[@coding agent customization.md](../../Agent%20Customization%20Levels.md) 
+[@coding agent customization.md](../../Agent%20Customization.md) 
 
 Some think differently about the confidentiality issue in some ways. here are 2 common working assumptions:
 1. agents do actually NOT read files outside the project folder.

@@ -1,4 +1,4 @@
-# Practical Means
+# Project Harness Playbook in Practice
 
 Overview of the repo-checked means that can carry a [Project Harness Playbook](Project%20Harness%20Playbook.md) element. Project level only. User-level agent setup is out of scope. So is an example harness: this page names carriers, not their contents.
 

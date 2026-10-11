@@ -155,7 +155,7 @@ The interesting question is what's *actually* different, because that's the part
 Practical consequences for the stack:
 
 * **The principles transfer; the dials don't.** "Small PRs" and "definition of done" stay; the right value of "small" is *smaller* for agents, because review of an agent PR is harder than review of a colleague's PR (no shared context, no in-person clarification, see [The reviewer bottleneck](#the-reviewer-bottleneck)).
-* **Documentation becomes load-bearing.** With humans, undocumented knowledge survives in heads. With agents it does not exist. This is exactly why [agent customization](../../Agent%20Customization%20Levels.md) concludes the win is essentially "do classical good documentation, finally".
+* **Documentation becomes load-bearing.** With humans, undocumented knowledge survives in heads. With agents it does not exist. This is exactly why [agent customization](../../Agent%20Customization.md) concludes the win is essentially "do classical good documentation, finally".
 * **Throwing away work is a feature, not a failure.** Best-of-N, restart-from-scratch, "delete the branch and try again with a tighter spec" are first-class tactics with agents and almost taboo with humans.
 * **Initiative must be engineered.** A human reports "this spec is ambiguous". An agent has to be given a "user-as-MCP-tool" channel (see [README](../README.md) item 4) or it will guess.
 * **Coordination overhead inverts.** With humans, parallelism is expensive and coherence is cheap. With agents, parallelism is cheap and coherence is expensive — coherence comes from docs/specs/types/tests, not from people talking.
@@ -221,7 +221,7 @@ When parallelism is *not* worth it:
 Useful as a checklist of what to expect when starting before the rest of the [README](../README.md) is in place:
 
 * **No evals / weak tests** → silent quality drift. PRs look fine, regressions accumulate. The exact failure mode that produces the "AI codebase that crumbles" mentioned in the third concern.
-* **No `AGENTS.md` / weak `README.md`s** → each agent reinvents conventions. Inconsistency compounds across PRs. (Mitigation principles already collected in [Agent Customization Levels](../../Agent%20Customization%20Levels.md).)
+* **No `AGENTS.md` / weak `README.md`s** → each agent reinvents conventions. Inconsistency compounds across PRs. (Mitigation principles already collected in [Agent Customization](../../Agent%20Customization.md).)
 * **No RAG / no decision log** → agents repeat decisions you already rejected, reintroduce dead patterns.
 * **No observability** → when something goes wrong across N parallel runs you cannot tell which agent did what or why. Debugging time eats the throughput gain.
 * **No isolation (worktrees / containers)** → parallel runs corrupt each other.
@@ -236,7 +236,7 @@ Smallest thing that exercises the whole stack and exposes its weaknesses:
 1. **One frontier coding agent** (Claude Code or Amp), driven from the terminal. CLI not IDE. (See [coding stack](../../../../../cross-platform/ai/README.md).)
 2. **Worktrees** as the isolation primitive: `git worktree add ../proj-task-N`.
 3. **Plan files in Obsidian** as the task source. One markdown file per task, with acceptance criteria explicit.
-4. **`AGENTS.md` + good `README.md`s** as the standing context. (Already covered in [agent customization](../../Agent%20Customization%20Levels.md).)
+4. **`AGENTS.md` + good `README.md`s** as the standing context. (Already covered in [agent customization](../../Agent%20Customization.md).)
 5. **Verification gate**: typecheck + lint + existing tests must pass before merge. No exceptions.
 6. **Start sequential, not parallel.** One agent, one task, one project at a time. Per [When parallelism actually pays off](#when-parallelism-actually-pays-off), 24/7 sequential is most of the available win for a solo operator. Add parallelism only across projects (lowest conflict surface) or for clearly independent fan-out work, and only after the verification gate has proven it catches mistakes.
 7. **Manual orchestration first**: `tmux` panes plus a small shell script invoking the agent headlessly per task. Don't adopt Conductor / Background Agents / Devin until the manual version reveals what they'd actually solve.
@@ -327,7 +327,7 @@ The interesting 20% — where naive analogies to managing humans break — is wh
 The practical consequences I think actually matter:
 
 - **The principles transfer; the dials don't.** "Small PR" for a colleague might be 500 lines; for an agent it's smaller, because review is harder (no shared context, no in-person clarification).
-- **Documentation becomes load-bearing.** Undocumented knowledge survives in human heads. With agents it doesn't exist. This is why the [agent customization](../../Agent%20Customization%20Levels.md) doc concludes the win is essentially "do classical good documentation, finally".
+- **Documentation becomes load-bearing.** Undocumented knowledge survives in human heads. With agents it doesn't exist. This is why the [agent customization](../../Agent%20Customization.md) doc concludes the win is essentially "do classical good documentation, finally".
 - **Throwing away work is a feature, not a failure.** Best-of-N, restart-from-scratch, "delete the branch and try again with a tighter spec" — first-class with agents, taboo with humans.
 - **Initiative must be engineered.** A human asks "this spec is ambiguous, what do you mean?". An agent has to be *given* a question channel (a "user-as-MCP-tool") or it will just guess.
 - **Coordination overhead inverts.** With humans, parallelism is expensive and coherence is cheap (people talk). With agents, parallelism is cheap and coherence is expensive — coherence comes from docs/specs/types/tests, not from talking.

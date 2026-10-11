@@ -1,4 +1,4 @@
-# Agent Customization Levels
+# Agent Customization
 
 ## Levels
 
@@ -35,25 +35,20 @@ Custom instructions, rules and configurations can be injected into an agentic co
 
 ## Locations
 
-| Level | Gemini CLI | OpenCode | Cursor CLI | Claude Code | **Grok Build** |
-| --- | --- | --- | --- | --- | --- |
-| **Team** | ❌ | ❌ | Team Rules (if logged in) | ❌ | ❌ (⚠️5) |
-| **User** | `~/.gemini/settings.json` (⚠️4)<br>`~/.gemini/GEMINI.md`<br>`AGENTS.md` (⚠️1) | `~/.config/opencode/opencode.json`<br>`~/.config/opencode/AGENTS.md`<br>`~/.claude/CLAUDE.md` (⚠️2) | `~/.cursor/cli-config.json` (⚠️3)<br>`~/.cursor/rules/*.md[c]` | `~/.claude/settings.json`<br>`~/.claude/CLAUDE.md` | `~/.grok/` (⚠️6) |
-| **Project (root)** | `.gemini/settings.json` (⚠️4)<br>`.gemini/policies/*.toml`<br>`GEMINI.md`<br>`AGENTS.md` (⚠️1) | `opencode.json`<br>`.opencode/AGENTS.md`<br>`AGENTS.md`<br>`CLAUDE.md` (⚠️2) | `.cursor/cli.json` (only permissions)<br>`.cursor/rules/*.md[c]`<br>`AGENTS.md`<br>`CLAUDE.md` | `.claude/settings.json`<br>`.claude/rules/`<br>`.claude/CLAUDE.md`<br>`CLAUDE.md`<br>`AGENTS.md` | `.grok/` (⚠️7) |
-| **Folder (any)** | `GEMINI.md`<br>`AGENTS.md` (⚠️1) | `AGENTS.md`<br>`CLAUDE.md` (⚠️2) | `AGENTS.md` | `.claude/CLAUDE.md`<br>`CLAUDE.md`<br>`AGENTS.md` | `AGENTS.md` (and variants) (⚠️10) |
-| **Tool** | `~/.gemini/policies/*.toml`<br>`GEMINI_SYSTEM_MD` (agent system prompt override) | ❌ | Team Rules (enforced) | ❌ | `--sandbox` (⚠️8)<br>`--rules`, `--allow`, `--deny`<br>`PreToolUse` hooks (⚠️9) |
+**All Agents** is the shared surface. Other columns are only what that agent adds. Per-agent file lists and precedence: [Customization locations](research/coding%20agents.md#customization-locations).
 
-* ⚠️1)  `AGENTS.md` should work if configured (`context.fileName` in respective `settings.json`), but currently buggy: https://github.com/google-gemini/gemini-cli/issues/19872
-* ⚠️2) Loading of Claude customizations can be deactivated and probably should
-* ⚠️3) contains semi sensitive information and cannot be backed up into a repo as is.
-* ⚠️4) permissions in `settings.json` are being phased out in favor of recommended fine-granular policy engine in `policies/*.toml`
-* ⚠️5) Grok Build has no native team-level prompt/rules distribution. Enterprise stand-ins are `/etc/grok/managed_config.toml`, `/etc/grok/requirements.toml`, MDM, and `GROK_DEPLOYMENT_KEY` — org-pushed, not user-authored.
-* ⚠️6) User-authored files in `~/.grok/`: `config.toml` (settings, `[permission]`, `[mcp_servers]`, `[plugins]`, `[skills]`, marketplace, inline personas), `pager.toml`, `sandbox.toml`, `AGENTS.md`, `rules/`, `hooks/`, `skills/`, `commands/`, `plugins/`, `workflows/`, `agents/`, `personas/`. Also scans Claude/Cursor/`.agents` sources when those compat switches are on.
-* ⚠️7) User-authored project files: `AGENTS.md` (and variants) at repo root; `.grok/config.toml`, `sandbox.toml`, `rules/`, `hooks/`, `skills/`, `commands/`, `plugins/`, `workflows/`, `agents/`, `personas/`; plus `.mcp.json`. Project `.grok/config.toml` (repo root and each folder down to cwd) only contributes `[mcp_servers]`, `[plugins]`, `[permission]`, and `[mcp] max_output_bytes`. Project hooks/plugins/skills need folder trust.
-* ⚠️8) Sandbox profiles are defined in `sandbox.toml` (global or per-project) and selected at runtime with `--sandbox`. Enforcement uses kernel primitives (Seatbelt on macOS / Landlock on Linux) and is irreversible once applied.
-* ⚠️9) `PreToolUse` hooks can deny tool calls (including reads) as a final safeguard that overrules other customizations. Project hooks require explicit trust (`/hooks-trust`).
-* ⚠️10) `AGENTS.md` variants, in load order: `Agents.md`, `Claude.md`, `CLAUDE.md`, `CLAUDE.local.md`, `AGENT.md`, `AGENTS.md`. They load hierarchically from global → repo root → subfolders; deeper files take precedence. Per-folder `.grok/rules/`, `.grok/config.toml`, and `.grok/skills/` (plus `commands/`) also apply from repo root down to cwd.
-* [Amp's customization options](research/amp%20customization.md) are arguably richer than for other agents. But importantly, Amp supports `AGENTS.md` at user- (`~/.config/amp/AGENTS.md`), project- and folder level.
+| Level | **All Agents** | **Grok Build** | Claude Code | Cursor CLI | OpenCode | Gemini CLI |
+| --- | --- | --- | --- | --- | --- | --- |
+| **Team** | ❌ | ❌ | ❌ | Team Rules (if logged in) | ❌ | ❌ |
+| **User** | `~/.agents/skills/` (⚠️1) | `~/.grok/` | `~/.claude/CLAUDE.md`<br>`~/.claude/settings.json`<br>`~/.claude/skills/` | `~/.cursor/rules/`<br>`~/.cursor/cli-config.json` (local only) | `~/.config/opencode/AGENTS.md`<br>`~/.config/opencode/opencode.json` | `~/.gemini/GEMINI.md`<br>`~/.gemini/settings.json` |
+| **Project (root)** | `AGENTS.md` (⚠️2)<br>`.agents/skills/` (⚠️1) | `.grok/` | `CLAUDE.md`<br>`.claude/` | `.cursor/rules/`<br>`.cursor/cli.json` (permissions)<br>`CLAUDE.md` | `opencode.json`<br>`.opencode/` | `GEMINI.md`<br>`.gemini/` |
+| **Folder (any)** | `AGENTS.md` (⚠️2) | `.grok/` | `CLAUDE.md` | ❌ | ❌ | `GEMINI.md` |
+| **Tool** | ❌ | `--sandbox`<br>`--rules`, `--allow`, `--deny`<br>`PreToolUse` hooks | ❌ | Team Rules (enforced) | ❌ | `~/.gemini/policies/`<br>`GEMINI_SYSTEM_MD` |
+
+* ⚠️1) On-demand procedures: `.agents/skills/<name>/SKILL.md`. Read by Gemini CLI, OpenCode, Cursor, and Grok. Claude Code reads `~/.claude/skills/` and `.claude/skills/`.
+* ⚠️2) Always-on instructions. Gemini CLI loads `AGENTS.md` when `context.fileName` includes it; its default context file is `GEMINI.md`. Claude Code (v2.1.277+) loads it when no `CLAUDE.md`, `.claude/CLAUDE.md`, or `CLAUDE.local.md` is in scope. `/config` → Project instructions can load both.
+* OpenCode also reads `CLAUDE.md` and `~/.claude/` as fallbacks. Turn that off with `OPENCODE_DISABLE_CLAUDE_CODE=1`.
+* Amp reads `AGENTS.md` at `~/.config/amp/AGENTS.md`, in the project, and in folders, plus `.agents/skills/`. Detail: [Amp customization](research/amp%20customization.md).
 
 ## Conclusions
 

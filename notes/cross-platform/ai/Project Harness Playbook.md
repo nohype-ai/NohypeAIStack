@@ -13,19 +13,19 @@
 
 **Order is intentional** (also the TOC). Each row = one essential element.
 
-| #                                         | Input                               | Role                                                                                      |
-| ----------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------- |
-| [1](#1-repo-local-constitution)           | Constitution                        | Privileged standing instructions (root + nested walk-up)                                  |
-| [2](#2-comprehensive-documentation)       | Documentation                       | What the system *is* (as-is)—navigated as needed                                          |
-| [3](#3-hierarchical-objectives)           | High-level objectives               | Where we are *going* (to-be / why)—goals, vision, target arch, epics; parents tasks       |
-| [4](#4-task-management)                   | Task management                     | Leaf workflow: what exists, state, what is in progress                                    |
-| [5](#5-task-template-dor)                 | Task template (DoR)                 | Schema + readiness bar for a card before work                                             |
-| [6](#6-task-execution-template)           | Task execution template             | How to *execute* any ready task (incl. DoD)                                               |
-| [7](#7-toolbox)                           | Toolbox                             | Repo-checked means for implementation—skills, tool config, vendored tech docs            |
-| [8](#8-specialized-task-templates)        | Specialized template                | How to execute *this kind* of work or role pass                                           |
-| [9](#9-specific-task-card)                | Specific task card                  | This run’s goal, scope, acceptance                                                        |
-| [10](#10-work-log--durable-record)        | Work log / durable record           | Progress mid-task + how completion is filed                                               |
-| [11](#11-harness-improvement-policy-meta) | Harness evolution policy            | *(meta)*: **Friction → harness upgrade** as habit; explicit paths so high-leverage change is normal |
+| #                                         | Input                     | Role                                                                                                |
+| ----------------------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------- |
+| [1](#1-repo-local-constitution)           | Constitution              | Privileged standing instructions (root + nested walk-up)                                            |
+| [2](#2-comprehensive-documentation)       | Documentation             | What the system *is* (as-is)—navigated as needed                                                    |
+| [3](#3-hierarchical-objectives)           | High-level objectives     | Where we are *going* (to-be / why)—goals, vision, target arch, epics; parents tasks                 |
+| [4](#4-task-management)                   | Task management           | Leaf workflow: what exists, state, what is in progress                                              |
+| [5](#5-task-template-dor)                 | Task template (DoR)       | Schema + readiness bar for a card before work                                                       |
+| [6](#6-task-execution-template)           | Task execution template   | How to *execute* any ready task (incl. DoD)                                                         |
+| [7](#7-toolbox)                           | Toolbox                   | Overview of available means for implementation: skills, tool config, vendored tech docs, CLIs ...   |
+| [8](#8-specialized-task-templates)        | Specialized template      | How to execute *this kind* of (recurring) work or role pass                                         |
+| [9](#9-specific-task-card)                | Specific task card        | This run’s goal, scope, acceptance                                                                  |
+| [10](#10-work-log--durable-record)        | Work log / durable record | Progress mid-task + how completion is filed                                                         |
+| [11](#11-harness-improvement-policy-meta) | Harness evolution policy  | *(meta)*: **Friction → harness upgrade** as habit; explicit paths so high-leverage change is normal |
 
 **Session minimums**
 
