@@ -6,7 +6,7 @@ Personal Omarchy / Hyprland setup notes. Goal: capture each system tweak here so
 
 ### Overview
 
-Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](install-apps.sh) (sudo for Typora, Qutebrowser, Flea, GNOME Podcasts, WeasyPrint, and MEGA). Do not run that script until you mean to install.
+Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](Apps/install-apps.sh) (sudo for Typora, Qutebrowser, Flea, GNOME Podcasts, WeasyPrint, and MEGA). Do not run that script until you mean to install.
 
 | Component | Install |
 | --- | --- |
@@ -17,7 +17,7 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 | Typora | `omarchy pkg add typora` |
 | GNOME Podcasts | `omarchy pkg add gnome-podcasts` |
 | WeasyPrint | `omarchy pkg add python-weasyprint` |
-| Flea | `omarchy pkg aur add flea-bin` ([flea.md](flea.md)) |
+| Flea | `omarchy pkg aur add flea-bin` ([flea.md](Apps/flea.md)) |
 | OmaMail | `omarchy plugin add https://github.com/huacnlee/omamail.git --enable` |
 | Workspace Layout | `omarchy plugin add https://github.com/bjarneo/omarchy-workspace-layout --enable` |
 | Teams | Web app: https://teams.microsoft.com/v2/ |
@@ -25,8 +25,8 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 | ePost | Web app: https://app.epost.ch/ |
 | Grokipedia | Web app: https://grokipedia.com/ |
 | Steam | `omarchy install gaming steam` |
-| MEGA Desktop | official `megasync` Arch package ([mega.md](mega.md)) |
-| MEGA CMD | official `megacmd` Arch package ([mega.md](mega.md)) |
+| MEGA Desktop | official `megasync` Arch package ([mega.md](Apps/mega.md)) |
+| MEGA CMD | official `megacmd` Arch package ([mega.md](Apps/mega.md)) |
 
 ### App Defaults
 
@@ -45,16 +45,16 @@ Qutebrowser is installed as well. The default browser stays Brave Origin.
 
 ### App Specifics
 
-- Typora is the writing app on Super+Shift+W, and the opener for a single Markdown file (`*.md`, `*.mkd`, `*.markdown`). Those names are `text/markdown`, with alias `text/x-markdown`. Both are set to `typora.desktop` in `~/.config/mimeapps.list`. `text/plain` stays Neovim. Typora keeps its own themes, so an Omarchy theme switch does not recolor it. A license is a one-time purchase for three devices, with a 15-day trial; activate it from Help → My License…. Linux counts as its own device beside the Mac copy. The license dialog stays inside its frame on this display: [typora.md](typora.md). OmaWrite stays installed.
-- File manager Flae: [flea.md](flea.md)
-- Cloud drive MEGA: [mega.md](mega.md)
+- Typora is the writing app on Super+Shift+W, and the opener for a single Markdown file (`*.md`, `*.mkd`, `*.markdown`). Those names are `text/markdown`, with alias `text/x-markdown`. Both are set to `typora.desktop` in `~/.config/mimeapps.list`. `text/plain` stays Neovim. Typora keeps its own themes, so an Omarchy theme switch does not recolor it. A license is a one-time purchase for three devices, with a 15-day trial; activate it from Help → My License…. Linux counts as its own device beside the Mac copy. The license dialog stays inside its frame on this display: [typora.md](Apps/typora.md). OmaWrite stays installed.
+- File manager Flae: [flea.md](Apps/flea.md)
+- Cloud drive MEGA: [mega.md](Apps/mega.md)
 - Steam is installed again. Closing its window only hides the client, which keeps `steam` and the `steamwebhelper` processes resident. `steam -shutdown` unloads them. Steam → Exit does the same. `omarchy remove gaming steam` removes the package and `~/.local/share/Steam`.
-- Qutebrowser: [qutebrowser/README.md](qutebrowser/README.md)
+- Qutebrowser: [qutebrowser/README.md](Apps/qutebrowser/README.md)
 
 ## Uninstalled
 
 - Stock software this setup removes
-- [`install-apps.sh`](install-apps.sh) does not do the uninstalls
+- [`install-apps.sh`](Apps/install-apps.sh) does not do the uninstalls
 - `omarchy pkg drop` skips a name that is already gone, then runs `sudo pacman -Rns --noconfirm`
 - `omarchy reinstall pkgs` installs the stock list again
 
@@ -78,9 +78,9 @@ sudo snapper -c root delete 1-5
 
 Personal overrides live in `~/.config/hypr/bindings.lua` (loaded after Omarchy defaults). Check current bindings with `omarchy menu keybindings --print`. If a key already has a default, `hl.unbind(...)` it before the new `o.bind(...)`.
 
-Super+Shift+F and Super+Alt+Shift+F belong to Flea ([flea.md](flea.md)). `flea --default` writes them between the `flea --default` marker lines, and `flea --default off` removes that block whole. Leave the marker block alone when editing other bindings.
+Super+Shift+F and Super+Alt+Shift+F belong to Flea ([flea.md](Apps/flea.md)). `flea --default` writes them between the `flea --default` marker lines, and `flea --default off` removes that block whole. Leave the marker block alone when editing other bindings.
 
-Super + Shift + G → Lazygit (cwd of the open terminal): [lazygit.md](lazygit.md)
+Super + Shift + G → Lazygit (cwd of the open terminal): [lazygit.md](Apps/lazygit.md)
 
 Super+Shift+W was OmaWrite. It is unbound, then bound to Typora:
 
@@ -132,9 +132,9 @@ Hyprland reloads on save. Force apply with `hyprctl reload`, then check `hyprctl
 
 ## Other
 
-- CPU Smart Fan (quiet curve): [fan.md](fan.md)
-- Brightness Control: [brightness.md](brightness.md)
-- Obsidian Manage vaults dialog: [obsidian.md](obsidian.md)
-- Typora license dialog: [typora.md](typora.md)
-- git authentication via `gh`: [git-auth.md](git-auth.md)
-- Known issues (hardware failures, alternative PCs, and verdict): [known-issues.md](known-issues.md)
+- CPU Smart Fan (quiet curve): [fan.md](System%20Setup/fan.md)
+- Brightness Control: [brightness.md](System%20Setup/brightness.md)
+- Obsidian Manage vaults dialog: [obsidian.md](Apps/obsidian.md)
+- Typora license dialog: [typora.md](Apps/typora.md)
+- git authentication via `gh`: [git-auth.md](System%20Setup/git-auth.md)
+- Known issues (hardware failures, alternative PCs, and verdict): [known-issues.md](System%20Setup/known-issues.md)

@@ -19,7 +19,7 @@ Value `overlay` still permanently showed the scrollbar which was ugly and too us
 
 ## Ctrl+Super+F
 
-Ctrl+Super+F is Omarchy's tiled fullscreen (default binding Super+Ctrl+F, label "Tiled full screen"). The window stays in its tile, and Hyprland marks the client fullscreen. Brave hides its toolbar from that flag. Copy [`qutebrowser/config.py`](qutebrowser/config.py) to `~/.config/qutebrowser/config.py`. While the flag is on, that window's tab bar is hidden. The status bar is hidden in normal mode and shown in command, hint, insert, and the other key modes, so `:` and hints still have a line to draw on. A window that is not in tiled fullscreen keeps both bars. Press Ctrl+Super+F again and the bars come back with the tile.
+Ctrl+Super+F is Omarchy's tiled fullscreen (default binding Super+Ctrl+F, label "Tiled full screen"). The window stays in its tile, and Hyprland marks the client fullscreen. Brave hides its toolbar from that flag. Copy [`qutebrowser/config.py`](config.py) to `~/.config/qutebrowser/config.py`. While the flag is on, that window's tab bar is hidden. The status bar is hidden in normal mode and shown in command, hint, insert, and the other key modes, so `:` and hints still have a line to draw on. A window that is not in tiled fullscreen keeps both bars. Press Ctrl+Super+F again and the bars come back with the tile.
 
 `tabs.show` and `statusbar.show` are process-wide. A `config.bind` cycle of those two settings would change every qutebrowser window at once, so the config follows each window's fullscreen flag instead.
 

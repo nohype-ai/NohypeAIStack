@@ -1,6 +1,6 @@
 # hyprctl for scripted layouts
 
-`hyprctl` talks to the running Hyprland compositor. Restoration here means: **launch apps onto workspaces, then nudge focus / splits**. It does not snapshot RAM or reopen unsaved buffers. That is still hibernate, and on this machine loaded S4 is a [known issue](../README.md#desktop-frozen-after-hibernate-resume-amdgpu-ttm) — use a layout script after a normal boot, not as a substitute for resume.
+`hyprctl` talks to the running Hyprland compositor. Restoration here means: **launch apps onto workspaces, then nudge focus / splits**. It does not snapshot RAM or reopen unsaved buffers. That is still hibernate, and on this machine loaded S4 is a [known issue](../../README.md#desktop-frozen-after-hibernate-resume-amdgpu-ttm) — use a layout script after a normal boot, not as a substitute for resume.
 
 Omarchy’s Hyprland is Lua. `hyprctl dispatch` is a shorthand for `hl.dispatch(...)`, so the argument has to be a Lua dispatcher (`hl.dsp.*`), not the old `exec [workspace 1 silent] …` text.
 
