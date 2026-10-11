@@ -1,19 +1,19 @@
 # Project Harness Playbook in Practice
 
-Overview of the repo-checked means that can carry a [Project Harness Playbook](Project%20Harness%20Playbook.md) element. Project level only. User-level agent setup is out of scope. So is an example harness: this page names carriers, not their contents.
+This document describes:
+- The repo-checked artifacts that can implement [Project Harness Playbook](Project%20Harness%20Playbook.md) elements
+	- Agent-agnostic artifacts + Grok Build-specific artifacts
+- A mapping: What artifacts can be used to implement each project harness element
 
-An empty cell means an ordinary repo document is enough. `AGENTS.md` may point at that document; the pointer does not make `AGENTS.md` the document.
+Out of scope:
+- User-level agent setup. This document is only about project-level.
+- Example harness. This document names specific carriers - not their contents.
+	- Example harness is being developed here: [Project Harness Template - Main README](../../../cross-platform/ai/project-harness-template/README.md)
+- Ordinary markdown documents. Those can be used for everything and are implied not listed. 
 
-Two adoption facts from the process notes:
+## Agent-Agnostic Artifacts
 
-- Facts that are true on every task go in `AGENTS.md`. Procedures go in skills, so they load when the task matches.
-- A skill or a plain markdown file can say the same thing. The harness-native file wins on reliability, because the agent discovers it without someone remembering to link it.
-
-When both files do the same job, use the shared one: Grok already reads it, and the other agents do too. When the Grok file does something the shared file cannot, the choice is portability against effectiveness. A skill can tell every agent to spawn a fresh reviewer. A `.grok/agents/` definition is what gives that reviewer its own context, model, and tools, and only Grok will run it. Hooks that block a call or block "done" are the same kind of choice. The sections below stay the full menu.
-
-## General
-
-Cross-harness. These are the only repo conventions with real adoption beyond one product.
+These are the only repo conventions with real adoption across agent-products.
 
 | Means | What it is | Repo shape |
 | --- | --- | --- |
@@ -27,7 +27,7 @@ Custom agents (a specialist with its own prompt, and sometimes its own tools or 
 
 ## Grok Build
 
-Repo paths only. Grok also reads `AGENTS.md` (and the compat names `AGENT.md`, `CLAUDE.md`, `CLAUDE.local.md`) and `.agents/skills/`. Grok loads every `AGENTS.md` from the repo root down to the working directory. They accumulate. A deeper file is placed later and wins when two files conflict. Files outside that initial set are picked up when the agent reads or edits there.
+Grok loads every `AGENTS.md` from the repo root down to the working directory. They accumulate. A deeper file is placed later and wins when two files conflict. Files outside that initial set are picked up when the agent reads or edits there.
 
 | Means | What it is | Repo shape |
 | --- | --- | --- |
@@ -64,6 +64,9 @@ Permission rules and hooks need folder trust before they run. A plugin in `.grok
 | 10 | Work log / durable record | | A hook on tool or session events can append an audit trail. |
 | 11 | Harness evolution policy | The standing rule in `AGENTS.md` (friction → harness task → upgrade) | The same rule in `.grok/rules/` |
 
+An agent-native- or agent-agnostic file can say the same thing. The agent-native file wins on reliability, because the agent discovers it without someone remembering to link it.
+
+When both files do the same job, use the shared (agent-agnostic) one: Grok already reads it, and the other agents do too. When the Grok file does something the shared file cannot, the choice is portability against effectiveness.
 Plugins stay off the element rows. A project plugin is how a repo ships the skill (§5, §6, §8), the agent (§6, §7, §8), the hooks (§1, §6, §10), and the MCP servers (§7) together.
 
 A workflow can also walk a task board across invocations. That is outer scaffolding around §4, so the board cell stays empty.
