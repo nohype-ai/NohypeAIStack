@@ -2,6 +2,27 @@
 
 Personal Omarchy / Hyprland setup notes. Goal: capture each system tweak here so the machine can be reproduced later and via OmaStack.dev
 
+## Updates
+
+`omarchy update` is the system updater. It snapshots, refreshes the keyring, upgrades Omarchy and Arch packages, runs migrations, then AUR and mise. Built-in plugins (`omarchy.bar` and the rest) ride in the `omarchy` package. Third-party plugins do not.
+
+Those live as git checkouts in `~/.config/omarchy/plugins/`. Update them separately:
+
+```bash
+omarchy plugin update omamail --yes
+omarchy plugin update --yes
+```
+
+`--yes` skips the diff pager and the confirm prompt. Without it, `omarchy plugin update` walks every git-managed plugin, dumps a full `git diff` into `less` (Enter advances one line, Space pages, `q` quits), then asks before applying. The menu has no plugin-update entry, so plugins go stale until this command runs.
+
+A successful plugin update rescans the shell. Restart it when the UI is still wrong:
+
+```bash
+omarchy restart shell
+```
+
+Do not use `pacman -Syu` or `yay -Syu` for the system. Omarchy stops those so the snapshot and migrations stay in the same run.
+
 ## Installed
 
 ### Overview
@@ -24,7 +45,6 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 | Telegram | Web app: https://web.telegram.org/k/ |
 | ePost | Web app: https://app.epost.ch/ |
 | Grokipedia | Web app: https://grokipedia.com/ |
-| Steam | `omarchy install gaming steam` |
 | MEGA Desktop | official `megasync` Arch package ([mega.md](Apps/mega.md)) |
 | MEGA CMD | official `megacmd` Arch package ([mega.md](Apps/mega.md)) |
 
@@ -48,7 +68,6 @@ Qutebrowser is installed as well. The default browser stays Brave Origin.
 - Typora is the writing app on Super+Shift+W, and the opener for a single Markdown file (`*.md`, `*.mkd`, `*.markdown`). Those names are `text/markdown`, with alias `text/x-markdown`. Both are set to `typora.desktop` in `~/.config/mimeapps.list`. `text/plain` stays Neovim. Typora keeps its own themes, so an Omarchy theme switch does not recolor it. A license is a one-time purchase for three devices, with a 15-day trial; activate it from Help → My License…. Linux counts as its own device beside the Mac copy. The license dialog stays inside its frame on this display: [typora.md](Apps/typora.md). OmaWrite stays installed.
 - File manager Flae: [flea.md](Apps/flea.md)
 - Cloud drive MEGA: [mega.md](Apps/mega.md)
-- Steam is installed again. Closing its window only hides the client, which keeps `steam` and the `steamwebhelper` processes resident. `steam -shutdown` unloads them. Steam → Exit does the same. `omarchy remove gaming steam` removes the package and `~/.local/share/Steam`.
 - Qutebrowser: [qutebrowser/README.md](Apps/qutebrowser/README.md)
 
 ## Uninstalled
