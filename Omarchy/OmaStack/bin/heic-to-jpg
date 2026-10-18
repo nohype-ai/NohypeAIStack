@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+# Convert HEIC/HEIF files in the current directory to JPEG.
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: heic-to-jpg [-f] [-q QUALITY] [-d] [DIR]
+
+Convert .heic/.heif files in DIR (default: current directory) to .jpg.
+
+  -f          overwrite existing .jpg files
+  -q QUALITY  JPEG quality 1-100 (default: 90)
+  -d          delete originals after a successful conversion
+  -h          show this help
+EOF
+}
+
+force=0
+quality=90
+delete_originals=0
+dir="."
+
+while getopts ":fq:dh" opt; do
+  case "$opt" in
+    f) force=1 ;;
+    q) quality="$OPTARG" ;;
+    d) delete_originals=1 ;;
+    h) usage; exit 0 ;;
+    :) echo "heic-to-jpg: -$OPTARG requires an argument" >&2; exit 2 ;;
+    \?) echo "heic-to-jpg: unknown option -$OPTARG" >&2; usage >&2; exit 2 ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+if [[ $# -gt 1 ]]; then
+  echo "heic-to-jpg: extra arguments" >&2
+  usage >&2
+  exit 2
+fi
+
+if [[ $# -eq 1 ]]; then
+  dir="$1"
+fi
+
+if [[ ! -d "$dir" ]]; then
+  echo "heic-to-jpg: not a directory: $dir" >&2
+  exit 1
+fi
+
+if ! [[ "$quality" =~ ^[0-9]+$ ]] || (( quality < 1 || quality > 100 )); then
+  echo "heic-to-jpg: quality must be an integer 1-100" >&2
+  exit 2
+fi
+
+convert_one() {
+  local src="$1"
+  local dest="$2"
+
+  if command -v magick >/dev/null 2>&1; then
+    magick "$src" -auto-orient -quality "$quality" "$dest"
+  elif command -v heif-convert >/dev/null 2>&1; then
+    heif-convert --quiet --quality "$quality" "$src" "$dest"
+  else
+    echo "heic-to-jpg: need magick or heif-convert on PATH" >&2
+    return 127
+  fi
+}
+
+shopt -s nullglob nocaseglob
+
+files=("$dir"/*.heic "$dir"/*.heif)
+count=${#files[@]}
+
+if (( count == 0 )); then
+  echo "heic-to-jpg: no HEIC/HEIF files in $dir"
+  exit 0
+fi
+
+converted=0
+skipped=0
+failed=0
+
+for src in "${files[@]}"; do
+  base="${src%.*}"
+  dest="${base}.jpg"
+
+  if [[ -e "$dest" && $force -eq 0 ]]; then
+    echo "skip  $(basename "$src") (exists: $(basename "$dest"))"
+    skipped=$((skipped + 1))
+    continue
+  fi
+
+  if convert_one "$src" "$dest"; then
+    echo "ok    $(basename "$src") -> $(basename "$dest")"
+    converted=$((converted + 1))
+    if [[ $delete_originals -eq 1 ]]; then
+      rm -f "$src"
+    fi
+  else
+    echo "fail  $(basename "$src")" >&2
+    failed=$((failed + 1))
+    rm -f "$dest"
+  fi
+done
+
+echo "converted=$converted skipped=$skipped failed=$failed"
+
+if (( failed > 0 )); then
+  exit 1
+fi
