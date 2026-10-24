@@ -42,6 +42,7 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 | OmaMail | `omarchy plugin add https://github.com/huacnlee/omamail.git --enable` |
 | Workspace Layout | `omarchy plugin add https://github.com/bjarneo/omarchy-workspace-layout --enable` |
 | Teams | Web app: https://teams.microsoft.com/v2/ |
+| Outlook | Web app: https://outlook.office.com/mail/ |
 | Telegram | Web app: https://web.telegram.org/k/ |
 | ePost | Web app: https://app.epost.ch/ |
 | Grokipedia | Web app: https://grokipedia.com/ |
