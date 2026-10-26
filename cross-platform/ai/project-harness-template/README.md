@@ -1,6 +1,6 @@
-# <Project Name>
+# `<Project Name>`
 
-<One sentence summary of what this project is.>
+`<One sentence summary of what this project is.>`
 
 ## Essential Documentation
 
