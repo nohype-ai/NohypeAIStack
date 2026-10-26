@@ -1,4 +1,4 @@
-# Goals
+# Vision
 
 High-level goals. These change rarely.
 

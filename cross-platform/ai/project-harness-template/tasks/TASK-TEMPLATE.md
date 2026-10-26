@@ -31,7 +31,7 @@ Required. What is true of this change, beyond the checks and the final review th
 Required for every card.
 
 1. The main agent reviews with the [review](../.agents/skills/review/SKILL.md) skill.
-2. Then the [final-review](../.grok/agents/final-review.md) subagent reviews. It starts fresh and does not edit.
+2. Then a fresh agent reviews with the [final-review](../.agents/skills/final-review/SKILL.md) skill. It does not edit.
 
 ## Log
 

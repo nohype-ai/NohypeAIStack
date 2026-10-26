@@ -7,7 +7,7 @@ How to execute a card that links this file. A prompt with no task document does 
 3. Stay inside **Scope** and non-goals. Stop and ask, and do not implement around it, when the change would land outside those files, folders, or types, a file is past the limit below, or a new concern would be stuffed into an existing type. The next card introduces the type this one was not allowed to invent inline.
 4. Implement. Use a toolbox means when the card or this file links one.
 5. Review with the [review](../.agents/skills/review/SKILL.md) skill. This is the main agent's review.
-6. Spawn [final-review](../.grok/agents/final-review.md). It is the final review.
+6. Run [final-review](../.agents/skills/final-review/SKILL.md) in a fresh agent. It does not edit.
 7. Run the checks named in [README.md](../README.md).
 
 **File limit:** 200 lines. A file already past that must not grow.
