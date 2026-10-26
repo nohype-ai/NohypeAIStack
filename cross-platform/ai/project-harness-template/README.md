@@ -24,6 +24,6 @@ Where the project is currently going, and how to bring it forward.
 
 - [tasks/README.md](tasks/README.md) (Tasks entry point)
 - [tasks/BOARD.md](tasks/BOARD.md) (Task board)
-- [tasks/TASK-TEMPLATE.md](tasks/TASK-TEMPLATE.md)
+- [tasks/TASK-TEMPLATE.md](tasks/TASK-TEMPLATE.md) (How to specify any task)
 - [tasks/TASK-EXECUTION.md](tasks/TASK-EXECUTION.md) (Task execution rules)
 - [tasks/TOOLBOX.md](tasks/TOOLBOX.md) (Tools for executing tasks)
