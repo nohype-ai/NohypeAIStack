@@ -67,7 +67,7 @@ The `=2` after the jar is the scale factor. The `sed` runs every start because a
 On `premain` it:
 
 1. Reads the scale from the agent args (default 2).
-2. Listens for `WINDOW_OPENED` / `WINDOW_ACTIVATED` and `SHOWING_CHANGED`.
+2. Listens for `WINDOW_OPENED` / `WINDOW_ACTIVATED` only. No `HIERARCHY_EVENT_MASK`: a toolkit hierarchy listener makes `Dialog.show` walk children by `descendantsCount`, and the Wertschriften editor then throws `IndexOutOfBoundsException: Index 2 out of bounds for length 2` in `Container.createHierarchyEvents`.
 3. Polls the component tree for 30 s at 250 ms, then every 2 s (late dialogs, combo popups).
 
 Per component (once, originals in client properties):
