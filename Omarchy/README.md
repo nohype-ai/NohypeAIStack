@@ -23,11 +23,13 @@ omarchy restart shell
 
 Do not use `pacman -Syu` or `yay -Syu` for the system. Omarchy stops those so the snapshot and migrations stay in the same run.
 
+Preamp is a GitHub `.pkg.tar.zst`. `omarchy update` and `omarchy plugin update` leave it at the installed version. Grab a newer release from [bjarneo/preamp](https://github.com/bjarneo/preamp/releases), `sudo pacman -U` the package, then `systemctl --user restart preamp.service`. When the notes say the bar widget changed, run `preamp shell install` again.
+
 ## Installed
 
 ### Overview
 
-Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](Apps/install-apps.sh) (sudo for Typora, Qutebrowser, Flea, GNOME Podcasts, WeasyPrint, and MEGA). Do not run that script until you mean to install.
+Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](Apps/install-apps.sh) (sudo for Typora, Qutebrowser, Flea, GNOME Podcasts, WeasyPrint, and MEGA). Do not run that script until you mean to install. Preamp is a GitHub package, not in that script; install it by hand (App Specifics).
 
 | Component | Install |
 | --- | --- |
@@ -41,6 +43,7 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 | Flea | `omarchy pkg aur add flea-bin` ([flea.md](Apps/flea.md)) |
 | OmaMail | `omarchy plugin add https://github.com/huacnlee/omamail.git --enable` |
 | Workspace Layout | `omarchy plugin add https://github.com/bjarneo/omarchy-workspace-layout --enable` |
+| Preamp | GitHub `preamp` package, then `systemctl --user enable --now preamp.service` and `preamp shell install` |
 | Teams | Web app: https://teams.microsoft.com/v2/ |
 | Outlook | Web app: https://outlook.office.com/mail/ |
 | Telegram | Web app: https://web.telegram.org/k/ |
@@ -70,6 +73,16 @@ Qutebrowser is installed as well. The default browser stays Brave Origin.
 - File manager Flae: [flea.md](Apps/flea.md)
 - Cloud drive MEGA: [mega.md](Apps/mega.md)
 - Qutebrowser: [qutebrowser/README.md](Apps/qutebrowser/README.md)
+- Preamp is the system audio equalizer: every app plays through it into speakers or headphones. It is not an Omarchy plugin. `omarchy plugin add https://github.com/bjarneo/preamp` fails (no `manifest.json` at the repo root). Not in the AUR or the Omarchy package repo. Install the x86_64 release, start the user service, then put the widget on the bar:
+
+```bash
+curl -LO https://github.com/bjarneo/preamp/releases/download/v0.1.3/preamp-0.1.3-1-x86_64.pkg.tar.zst
+sudo pacman -U preamp-0.1.3-1-x86_64.pkg.tar.zst
+systemctl --user enable --now preamp.service
+preamp shell install
+```
+
+  Open it from the app launcher or the bar widget (next to audio). `preamp status` shows the preset and output. The widget in `~/.config/omarchy/plugins/preamp/` is copied files, not a git checkout, so `omarchy plugin update` does not upgrade it. Headphone correction: `preamp autoeq "hd 650"` with the model name. If audio breaks up when the machine is busy, `sudo pacman -S rtkit` and log out and in.
 
 ## Uninstalled
 

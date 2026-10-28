@@ -1,6 +1,6 @@
 # `<Project Name>`
 
-`<One sentence summary of what this project is.>`
+`<One paragraph summary of what this project is>`
 
 ## Essential Documentation
 
@@ -16,14 +16,12 @@ What the project is, and its stable high-level vision.
 
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - [docs/VISION.md](docs/VISION.md)
-- [docs/PHILOSOPHY.md](docs/PHILOSOPHY.md)
 
 ### Working On the Project
 
 Where the project is currently going, and how to bring it forward.
 
-- [tasks/README.md](tasks/README.md) (Tasks entry point)
 - [tasks/BOARD.md](tasks/BOARD.md) (Task board)
 - [tasks/TASK-TEMPLATE.md](tasks/TASK-TEMPLATE.md) (How to specify any task)
-- [tasks/TASK-EXECUTION.md](tasks/TASK-EXECUTION.md) (Task execution rules)
+- [tasks/TASK-EXECUTION.md](tasks/TASK-EXECUTION.md) (How to execute any task)
 - [tasks/TOOLBOX.md](tasks/TOOLBOX.md) (Tools for executing tasks)
