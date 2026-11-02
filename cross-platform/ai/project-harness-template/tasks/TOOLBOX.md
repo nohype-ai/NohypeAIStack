@@ -1,12 +1,18 @@
 # Toolbox
 
-Means checked into this repo. Linked means are required. The rest are here to be found.
+Some tools that should be available and are encouraged to be used for working on this project.
 
-| Means | Use when |
+## Skills
+
+- project-specific skills `.agents/skills/`
+- skills on this machine: `~/.agents/skills/`
+
+## Shell Commands
+
+| Command | When |
 | --- | --- |
-| [review](../.agents/skills/review/SKILL.md) | Every card. The main agent's review in the quality gate. |
-| [final-review](../.agents/skills/final-review/SKILL.md) | Every card. The final review, after the main agent. A fresh agent runs it. |
-| [architecture](../.agents/skills/architecture/SKILL.md) | The task changes code structure. Required on that card. |
-| [swift](../.agents/skills/swift/SKILL.md) | The task writes or reviews Swift. Required on that card. |
+| `<insert command here>` | command description |
 
-Add a root `.mcp.json` when the project gains a tool server. Downloaded framework docs go in [docs/](../docs/README.md). A skill points at the ones it needs.
+## Other
+
+- `.mcp.json` — tool servers, when the project has them
