@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "EyeSaver",
+  "version": "1.8",
+  "description": "In dark mode, invert bright backgrounds and dark text.",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ]
+}
