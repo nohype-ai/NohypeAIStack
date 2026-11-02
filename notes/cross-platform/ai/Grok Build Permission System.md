@@ -2,7 +2,7 @@
 
 ## Scope
 
-- This is a bout **Hard enforced permission settings** for what Grok Build can read, write, run, and send
+- This is about **Hard enforced permission settings** for what Grok Build can read, write, run, and send
 - Based on user guide shipped with Grok Build 1.0.50
 - What does not count as hard enforced settings:
 	- Launch arguments. The next session does not keep them. Confidentiality and integrity cannot depend on remembering to use some flag.
@@ -20,6 +20,18 @@
 		- [26-config-reference.md](~/.grok/docs/user-guide/26-config-reference.md) lists every field of `config.toml`
 		- [05-configuration.md](~/.grok/docs/user-guide/05-configuration.md) says which files are read, and in what order
 
+## ACP stdio
+
+Daily Grok use here is ACP. Zed and Obsidian Agent Client launch `grok agent stdio`. In that mode Grok applies `[sandbox]` from `~/.grok/config.toml` before managed account config loads. `profile = "strict"` in that file blocks every ACP client.
+
+The stored user config therefore omits `[sandbox]`. Built-in default is `off`. The process then has the unix user's files and network. The kernel fence is unused: no launch-directory limit on reads or writes, and no Linux child-network block (`curl`, `npm`).
+
+Permission deny rules still run. They are Grok's scan of tool-call paths and of some shell operands (`cat`, `sed`). A matching deny fails that call. A program that builds the path in code gets past that scan. That is a named-path filter.
+
+Isolation for ACP Grok is the other levels in [Agent Isolation For Data Protection](Agent%20Isolation%20For%20Data%20Protection.md): locked clone, scoped PAT, dedicated unix user.
+
+The three knobs below still exist in the product. Only deny rules and always-approve are in force in the stored config.
+
 ## Three Knobs
 
 On a tool call the three are consulted in this order.
@@ -29,6 +41,8 @@ On a tool call the three are consulted in this order.
 3. **Sandbox**, if the call then runs. The kernel allows or rejects the file open, the write, or a child process's network.
 
 A permission rule cannot grant an exception to the sandbox. `allow` only skips a dialog for a path or command the sandbox already allows. `deny` and `ask` add barriers inside what the sandbox allows. An approval from a rule or from the mode still fails when the sandbox blocks the path.
+
+With sandbox `off`, step 3 grants every path the unix user can open. Deny rules are then the only remaining stop, and only for matching tool calls.
 
 ### 1. Permission rules
 
@@ -61,10 +75,10 @@ Where:
 
 ### 3. Sandbox
 
-A sanbox profile is a named grant of paths and network.
+A sandbox profile is a named grant of paths and network.
 - active profile is the value of `[sandbox] profile` for this session.
 	- The choice is fixed for the session, including resume.
-- A path it does not grant fails, in file tools and in bash. No approval dialog. You see a tool error. 
+- A path it does not grant fails, in file tools and in bash. No approval dialog. You see a tool error.
 - Built-in profiles are `off`, `workspace`, `read-only`, `strict`, and `devbox`.
 	- `off` is the default and grants every path you can open, so nothing fails.
 	- Any other name is a custom profile defined in `sandbox.toml`.
@@ -74,6 +88,7 @@ Where:
 - `~/.grok/config.toml` selects the profile
 	- Example: `[sandbox] profile = "strict"`
 	- No `[sandbox]` key means `off`
+	- The stored user config omits the key, because ACP stdio applies it before managed account config
 - `~/.grok/sandbox.toml` defines a custom profile
 	- only when the built-in grant is not enough
 	- Example: `[profiles.mine] extends = "strict"`.
@@ -83,15 +98,26 @@ Where:
 		- repo file cannot turn itself on, so cloning a repo cannot change your sandbox
 	- The same name in `~/.grok/sandbox.toml` wins
 
+`strict` grant when that profile is on:
+
+|         | Allowed                                                                                                                                     |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Read    | Launch directory, essential system paths, `~/.grok` (credentials, memory, other sessions)                                                   |
+| Write   | Launch directory, `~/.grok/sessions`, `/tmp`, and `/var/tmp`. macOS also grants its own temp directories.                                   |
+| Network | Model API, `web_search`, and `web_fetch`, always, in-process. `bash` network (`curl`, `npm`) blocked on Linux only. On macOS it stays open. |
+
+That grant is unused in the stored config. ACP clients would not start under it.
+
 ## How to Protect Sensitive Data
 
 ### Overview
 
-1. Permission mode is not part of the fence. We set always-approve as the default and always assume that's active.
-2. Our basic fence is the `strict` sandbox profile shipped with Grok Build. It limits reads to the launch directory, plus essential system paths and `~/.grok`.
-3. Permission deny rules then block named sensitive files that may sit inside that launch directory. Permission rules cannot allow anything the sandbox (`strict`) already blocks.
+1. Permission mode is not a fence. We set always-approve as the default and always assume that's active.
+2. Sandbox stays off so ACP clients can start. The process has the unix user's filesystem and network: any path that user can open, any host that user can reach, including sibling repos and credentials in the same home.
+3. Deny rules name files Grok must not read or edit. They filter matching tool calls. The session can still open any other path the unix user can.
 	- The names that show up in any tree go in `~/.grok/config.toml`
 	- Extra names for one repo go in `<repo>/.grok/config.toml`
+4. Isolation is the unix user, the locked clone, and the scoped PAT. See [Agent Isolation For Data Protection](Agent%20Isolation%20For%20Data%20Protection.md).
 
 ### Example Files
 
@@ -99,9 +125,6 @@ Where:
 # ~/.grok/config.toml
 [ui]
 permission_mode = "always-approve"
-
-[sandbox]
-profile = "strict"
 
 [permission]
 deny = [
@@ -130,19 +153,13 @@ deny = [
 ]
 ```
 
-### What `strict` still allows
+### Important Notes
 
-|         | Allowed                                                                                                                                     |
-| ------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| Read    | Launch directory, essential system paths, `~/.grok` (credentials, memory, other sessions)                                                   |
-| Write   | Launch directory, `~/.grok/sessions`, `/tmp`, and `/var/tmp`. macOS also grants its own temp directories.                                   |
-| Network | Model API, `web_search`, and `web_fetch`, always, in-process. `bash` network (`curl`, `npm`) blocked on Linux only. On macOS it stays open. |
-
-### Important Notes 
-  
+- **ACP stdio:** `[sandbox]` in `~/.grok/config.toml` is applied before managed account config. That is why the stored profile is off. Isolation for ACP Grok is the unix user, the locked clone, and the scoped PAT.
+- **Deny without sandbox:** A deny still fails the matching tool call. The rest of the filesystem and network stay those of the unix user. A program that builds the path in code gets past the scan.
 - **Repo Level Config:** A repo cannot turn the sandbox on. `<repo>/.grok/config.toml` is not read for `[sandbox]` or `[ui]`. It is read for `[permission]`, which is how step 3 adds names for that repo.
-- **Launch Directory:** The fence is the launch directory, not the git root. Starting in `$HOME` or a parent of several repos widens the fence to that tree.
-- **Rule Patterns:** `~` in a pattern is literal. `**/.ssh/**` matches any home. `/Users/…` does not match `/home`. `*` does not cross `/`. `**` does. `Write` is the edit class, so an `Edit` rule covers it. A `Read` deny also stops `cat` and `sed` on that path. A program that builds the path in code gets past that scan.
+- **Launch Directory:** When `strict` is on, the fence is the launch directory, not the git root. Starting in `$HOME` or a parent of several repos widens the fence to that tree. With sandbox off, launch directory is the session cwd. The process can open any path the unix user can.
+- **Rule Patterns:** `~` in a pattern is literal. `**/.ssh/**` matches any home. `/Users/…` does not match `/home`. `*` does not cross `/`. `**` does. `Write` is the edit class, so an `Edit` rule covers it. A `Read` deny also stops `cat` and `sed` on that path.
 - **Always-approve mode:** Always-approve still honors `deny` rules, hooks, and shell `ask` rules. It does not prompt for an `ask` on a read or an edit, and it ignores remembered grants, including a saved "never allow." `[ui] yolo = false` beside `permission_mode = "always-approve"` leaves always-approve on.
 - **Folder Trust:** A deny in `<repo>/.grok/config.toml` applies after `/hooks-trust`, and that same trust also loads the repo's hooks, instructions, skills, and MCP.
 - **Sandbox Lifetime:** The sandbox profile is fixed for the life of the session. Resuming a session will not pick up a new sandbox profile.

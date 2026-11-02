@@ -14,9 +14,6 @@ compact_mode = false
 permission_mode = "always-approve"
 theme = "auto"
 
-[sandbox]
-profile = "strict"
-
 [permission]
 deny = [
   "Read(**/.ssh/**)",

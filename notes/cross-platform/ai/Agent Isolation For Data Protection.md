@@ -5,7 +5,8 @@ This document describes how to protect sensitive data when working with agents.
 ## Levels of True Isolation
 
 - **The agent's own system of hard-enforced permissions**
-	- Example: [Grok Build Permission System](Grok%20Build%20Permission%20System.md)
+	- Documented for Grok in [Grok Build Permission System](Grok%20Build%20Permission%20System.md)
+	- Grok's kernel sandbox is that hard layer. ACP stdio applies `[sandbox]` before managed account config, which blocks every ACP client. The stored config therefore leaves the sandbox off. Remaining deny rules are a named-path filter on matching tool calls. Isolation for Grok is the three levels below.
 - **Locked (partially encrypted) repo clone for the agent**
 	- just never run transcrypt there
 	- keeps the encryption password out of the agent’s `.git/config`
@@ -35,7 +36,7 @@ The PAT is still exfiltratable. Scoping limits blast radius; it does not stop th
 
 ## Remaining risk
 
-The unix user puts your home, SSH keys, transcrypt password, and other repos out of reach. That is the win. It does not make a remote model safe. It just stops the agent from reaching *you*.
+The unix user puts your home, SSH keys, transcrypt password, and other repos out of reach. That is the win. It does not make a remote model safe. It just stops the agent from reaching *you*. ACP Grok sessions run as that unix user, so this boundary is the process-level stop.
 
 What is still exposed:
 - Plaintext of the repos it can read, with or without PAT. Repo content is going to the model anyway — that is inherent in using a remote coding agent.
@@ -62,9 +63,9 @@ The kernel limits one process below what its unix account allows. Files use Land
 
 If the agent user only holds repos you would send to the model anyway, the file limit adds nothing against leaks. The process can still send what that user is allowed to read. A sandbox can still add two things the unix user does not: blocking that process's network, and keeping one session out of other repos or credentials in the same home.
 
-Grok Build is one example. Its sandbox profile is off unless you turn it on. `strict` blocks network in commands such as `curl` on Linux. On macOS that block does nothing. It limits the session to the launch directory, plus `~/.grok`.
+Grok Build is one example. `strict` limits the session to the launch directory plus `~/.grok`, and on Linux it blocks child-process network (`curl`). On macOS the network block does nothing. `grok agent stdio` applies `[sandbox]` from `~/.grok/config.toml` before managed account config loads. Putting `strict` there blocks ACP clients (Zed, Obsidian Agent Client). Daily Grok use here is ACP, so the stored config omits `[sandbox]` and the kernel fence is unused. Permission deny rules still scan matching tool calls.
 
-- ❌ Per process, so the setup is complex to maintain and easy to forget. Those two extras are not worth that on top of a unix user.
+- ❌ ACP stdio is how Grok is launched, and that path leaves the sandbox off. A TUI-only `strict` profile would still be per process, complex to keep, and not worth those two extras on top of a unix user.
 
 ### Local inference
 

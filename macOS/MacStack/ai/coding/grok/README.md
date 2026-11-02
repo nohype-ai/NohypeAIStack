@@ -16,6 +16,6 @@
 | `agents/` | `~/.grok/agents/` |
 | `personas/` | `~/.grok/personas/` |
 
-User-level: always-approve, sandbox profile `strict`. Named path denies for every tree are in `config.toml`. Extra names for one repo go in that repo's `.grok/config.toml`.
+User-level: always-approve. Sandbox stays off (`[sandbox]` omitted). `grok agent stdio` applies the sandbox before managed account config loads, so `strict` blocks ACP clients (Zed, Obsidian Agent Client, and others). Named path denies for every tree are in `config.toml`. Extra names for one repo go in that repo's `.grok/config.toml`.
 
 Empty folders are placeholders. This README is not copied.
