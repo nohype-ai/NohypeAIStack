@@ -4,11 +4,9 @@ kanban-plugin: board
 
 ---
 
-## concept
+## backlog
 
-- [ ] [Example task](example-epic/example-task.md)
-
-## ready to implement
+- [ ] [Example task](backlog/example-epic/example-task.md)
 
 ## in progress
 
