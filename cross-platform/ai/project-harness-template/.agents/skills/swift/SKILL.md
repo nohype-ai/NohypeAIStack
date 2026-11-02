@@ -1,6 +1,6 @@
 ---
 name: swift
-description: How to write and review Swift in this project. Use when a task writes or reviews Swift. Stand-in — replace with one skill per language this repo uses.
+description: How to write and review Swift in this project. Use when a task writes or reviews Swift.
 ---
 
 - Fit the change into the existing type. Do not start a second way of doing the same thing.

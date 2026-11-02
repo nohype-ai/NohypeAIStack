@@ -6,8 +6,6 @@ kanban-plugin: board
 
 ## backlog
 
-- [ ] [Example task](backlog/example-epic/example-task.md)
-
 ## in progress
 
 ## done
