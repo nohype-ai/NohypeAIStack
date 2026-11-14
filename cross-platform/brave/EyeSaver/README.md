@@ -2,9 +2,9 @@
 
 A Brave extension to enfore a simple dark mode on websites.
 
-In OS dark mode, inverts OKLab lightness of backgrounds above luminance 0.65 and text below 0.35. Hue and chroma stay. Light mode is left alone.
+In OS dark mode, measure OKLab lightness `L` (0..1). Invert is `1 - L`. Backgrounds with `L > 0.65` and text with `L < 0.35` are inverted. Hue and chroma stay. Light mode is left alone.
 
-Thresholds: `BG_BRIGHTNESS` / `FG_BRIGHTNESS` in `content.js`.
+Same `L` for the check and the flip, so 0.35 text becomes 0.65. Thresholds: `BG_L` / `FG_L` in `content.js`.
 
 ## Install
 

@@ -1,7 +1,9 @@
 (() => {
   const mq = window.matchMedia('(prefers-color-scheme: dark)');
-  const BG_BRIGHTNESS = 0.65;
-  const FG_BRIGHTNESS = 0.35;
+  // One number: OKLab L in 0..1. Invert is 1 - L.
+  // Text below 0.35 becomes above 0.65. Backgrounds above 0.65 become below 0.35.
+  const BG_L = 0.65;
+  const FG_L = 0.35;
   const originals = new WeakMap();
   const touched = [];
   let done = new WeakSet();
@@ -51,47 +53,22 @@
     return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
   }
 
-  function brightness(rgb) {
-    return (
-      0.2126 * srgbToLinear(rgb.r) +
-      0.7152 * srgbToLinear(rgb.g) +
-      0.0722 * srgbToLinear(rgb.b)
-    );
-  }
-
   function linearToSrgb(c) {
     const x = c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055;
     return Math.round(Math.min(1, Math.max(0, x)) * 255);
   }
 
-  function srgbToOklab(r8, g8, b8) {
-    const r = srgbToLinear(r8);
-    const g = srgbToLinear(g8);
-    const b = srgbToLinear(b8);
-    const l = 0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b;
-    const m = 0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b;
-    const s = 0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b;
-    const l_ = Math.cbrt(l);
-    const m_ = Math.cbrt(m);
-    const s_ = Math.cbrt(s);
+  function lab(rgb) {
+    const r = srgbToLinear(rgb.r);
+    const g = srgbToLinear(rgb.g);
+    const b = srgbToLinear(rgb.b);
+    const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+    const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+    const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
     return {
-      L: 0.2104542553 * l_ + 0.793617785 * m_ - 0.0040720468 * s_,
-      a: 1.9779984951 * l_ - 2.428592205 * m_ + 0.4505937099 * s_,
-      b: 0.0259040371 * l_ + 0.7827717662 * m_ - 0.808675766 * s_,
-    };
-  }
-
-  function oklabToLinearSrgb(L, a, b) {
-    const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
-    const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
-    const s_ = L - 0.0897298708 * a - 1.291485548 * b;
-    const l = l_ * l_ * l_;
-    const m = m_ * m_ * m_;
-    const s = s_ * s_ * s_;
-    return {
-      r: 4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
-      g: -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
-      b: -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s,
+      L: 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s,
+      a: 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s,
+      b: 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s,
     };
   }
 
@@ -100,24 +77,38 @@
     return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${rgb.a})`;
   }
 
-  function invert(rgb) {
-    const lab = srgbToOklab(rgb.r, rgb.g, rgb.b);
-    const L = 1 - lab.L;
-    let a = lab.a;
-    let b = lab.b;
-    let lin = oklabToLinearSrgb(L, a, b);
+  // Keep hue/chroma (a, b). Only L flips. Shrink chroma if 1-L falls out of sRGB.
+  function fromLab(L, a, b, alpha) {
+    let lin;
     for (let i = 0; i < 16; i++) {
+      const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
+      const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
+      const s_ = L - 0.0897298708 * a - 1.291485548 * b;
+      const l = l_ * l_ * l_;
+      const m = m_ * m_ * m_;
+      const s = s_ * s_ * s_;
+      lin = {
+        r: 4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+        g: -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+        b: -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s,
+      };
       if (lin.r >= 0 && lin.r <= 1 && lin.g >= 0 && lin.g <= 1 && lin.b >= 0 && lin.b <= 1) break;
       a *= 0.85;
       b *= 0.85;
-      lin = oklabToLinearSrgb(L, a, b);
     }
     return format({
       r: linearToSrgb(lin.r),
       g: linearToSrgb(lin.g),
       b: linearToSrgb(lin.b),
-      a: rgb.a,
+      a: alpha,
     });
+  }
+
+  function flip(rgb, prop, el, jobs, should) {
+    if (!rgb || rgb.a === 0) return;
+    const { L, a, b } = lab(rgb);
+    if (!should(L)) return;
+    jobs.push([el, prop, fromLab(1 - L, a, b, rgb.a)]);
   }
 
   function remember(el, prop) {
@@ -144,14 +135,8 @@
     }
 
     const cs = getComputedStyle(el);
-    const bg = parseRgb(cs.getPropertyValue('background-color'));
-    if (bg && bg.a !== 0 && brightness(bg) > BG_BRIGHTNESS) {
-      jobs.push([el, 'background-color', invert(bg)]);
-    }
-    const fg = parseRgb(cs.getPropertyValue('color'));
-    if (fg && fg.a !== 0 && brightness(fg) < FG_BRIGHTNESS) {
-      jobs.push([el, 'color', invert(fg)]);
-    }
+    flip(parseRgb(cs.getPropertyValue('background-color')), 'background-color', el, jobs, (L) => L > BG_L);
+    flip(parseRgb(cs.getPropertyValue('color')), 'color', el, jobs, (L) => L < FG_L);
     done.add(el);
 
     if (el.shadowRoot) tweak(el.shadowRoot);

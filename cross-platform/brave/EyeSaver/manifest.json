@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "EyeSaver",
-  "version": "1.8",
-  "description": "In dark mode, invert bright backgrounds and dark text.",
+  "version": "1.9",
+  "description": "In dark mode, invert the brightness of bright backgrounds and dark foregrounds.",
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
