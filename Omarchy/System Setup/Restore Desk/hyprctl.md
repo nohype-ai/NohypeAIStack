@@ -63,7 +63,7 @@ Those rules attach to the spawned process. Brave, Zed, and OmaMail ignore them, 
 ### Folders
 
 ```bash
-hyprctl dispatch "hl.dsp.exec_cmd('flea --gui $HOME/Projects', { workspace = '1 silent' })"
+hyprctl dispatch "hl.dsp.exec_cmd('folio $HOME/Projects', { workspace = '1 silent' })"
 hyprctl dispatch "hl.dsp.exec_cmd('ghostty --working-directory=$HOME/Projects', { workspace = '2 silent' })"
 hyprctl dispatch "hl.dsp.exec_cmd('zeditor $HOME/Projects', { workspace = '3 silent' })"
 ```
@@ -177,7 +177,7 @@ The checked-in script is [`restore-desk.sh`](restore-desk.sh). Workspaces are as
 | Workspace | Apps |
 |---|---|
 | 1 | Obsidian |
-| 2 | Ghostty + Flea on `.../company/nohype-ai` |
+| 2 | Ghostty + Files on `.../company/nohype-ai` |
 | 3 | Brave Origin: grok.com, google.com |
 | 4 | Brave Origin: YouTube Music, YouTube subscriptions; Ghostty running cliamp |
 | 5 | OmaMail (`gtk-launch omamail.desktop`, same as Super+Space) and the Telegram web app (`gtk-launch Telegram.desktop`) |

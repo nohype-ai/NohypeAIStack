@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Extra Omarchy apps from README.md (Installed apps). Sudo for Typora, Qutebrowser, Flea, GNOME Podcasts, WeasyPrint, and MEGA.
+# Extra Omarchy apps from README.md (Installed apps). Sudo for Typora, Qutebrowser, GNOME Podcasts, WeasyPrint, and MEGA.
 set -euo pipefail
 
 # Omarchy package installs
@@ -21,9 +21,22 @@ omarchy pkg add python-weasyprint
 omarchy pkg add typora
 xdg-mime default typora.desktop text/markdown text/x-markdown
 
-# Flea
-omarchy pkg aur add flea-bin
-flea --default
+# Files (folio). The binary is installed from the local checkout, not here.
+xdg-mime default folio.desktop inode/directory
+mkdir -p "$HOME/.local/share/dbus-1/services"
+cat > "$HOME/.local/share/dbus-1/services/org.freedesktop.FileManager1.service" <<'EOF'
+[D-BUS Service]
+Name=org.freedesktop.FileManager1
+Exec=/usr/bin/folio
+EOF
+mkdir -p "$HOME/.config/xdg-desktop-portal"
+if [[ -f "$HOME/.config/xdg-desktop-portal/portals.conf" ]]; then
+  sed -i 's/^org.freedesktop.impl.portal.FileChooser=.*/org.freedesktop.impl.portal.FileChooser=gtk/' \
+    "$HOME/.config/xdg-desktop-portal/portals.conf"
+else
+  printf '%s\n' '[preferred]' 'org.freedesktop.impl.portal.FileChooser=gtk' \
+    > "$HOME/.config/xdg-desktop-portal/portals.conf"
+fi
 systemctl --user restart xdg-desktop-portal
 
 # Omarchy plugin installs

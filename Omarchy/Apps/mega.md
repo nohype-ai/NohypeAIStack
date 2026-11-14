@@ -43,7 +43,7 @@ grep -n DEB_Arch_Extra /etc/pacman.conf || echo "no MEGA repo"
 
 An upgrade of a package that is already installed goes through `post_upgrade`. With MEGA’s key already in the keyring, that does not append the block again. If `DEB_Arch_Extra` shows up in `pacman.conf`, delete it with the same `sed` as the install. Update the desktop app and the CLI together. `omarchy update` does not upgrade these two.
 
-Stock Omarchy’s file manager is Nautilus. This machine uses Flea and removes Nautilus (see [Uninstalled](README.md#uninstalled)). `nautilus-megasync` from the same directory stays uninstalled.
+Stock Omarchy’s file manager is Nautilus. This machine uses Files (`folio`) and removes Nautilus (see [Uninstalled](../README.md#uninstalled)). `nautilus-megasync` from the same directory stays uninstalled.
 
 ## MEGAsync UI on the Studio Display
 

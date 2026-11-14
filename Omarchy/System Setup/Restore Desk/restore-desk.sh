@@ -42,7 +42,7 @@ open_on 1 md.obsidian.Obsidian obsidian
 
 # workspace 2
 open_on 2 com.mitchellh.ghostty ghostty --working-directory=$nohype_ai
-open_on 2 com.thisisgm.flea flea --gui $nohype_ai
+open_on 2 folio folio $nohype_ai
 
 # workspace 3
 open_on 3 brave brave-origin --new-window https://grok.com

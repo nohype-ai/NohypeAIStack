@@ -27,7 +27,7 @@ Do not use `pacman -Syu` or `yay -Syu` for the system. Omarchy stops those so th
 
 ### Overview
 
-Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](Apps/install-apps.sh) (sudo for Typora, Qutebrowser, Flea, GNOME Podcasts, WeasyPrint, and MEGA). Do not run that script until you mean to install.
+Extra apps on top of the Omarchy stock install. Reproduce them with [`install-apps.sh`](Apps/install-apps.sh) (sudo for Typora, Qutebrowser, GNOME Podcasts, WeasyPrint, and MEGA). Do not run that script until you mean to install.
 
 | Component | Install |
 | --- | --- |
@@ -38,7 +38,7 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 | Typora | `omarchy pkg add typora` |
 | GNOME Podcasts | `omarchy pkg add gnome-podcasts` |
 | WeasyPrint | `omarchy pkg add python-weasyprint` |
-| Flea | `omarchy pkg aur add flea-bin` ([flea.md](Apps/flea.md)) |
+| Files | local `folio` package ([folio.md](Apps/folio.md)) |
 | OmaMail | `omarchy plugin add https://github.com/huacnlee/omamail.git --enable` |
 | Workspace Layout | `omarchy plugin add https://github.com/bjarneo/omarchy-workspace-layout --enable` |
 | Teams | Web app: https://teams.microsoft.com/v2/ |
@@ -51,7 +51,7 @@ Extra apps on top of the Omarchy stock install. Reproduce them with [`install-ap
 
 ### App Defaults
 
-The Omarchy `install` commands set the terminal, browser, and editor. Flea sets the file manager with its own command. There is no text-editor role. `omarchy default editor` is the coding editor used by `omarchy-launch-editor` (Super+Shift+N), and Typora is not one of its choices, so that role stays Zed.
+The Omarchy `install` commands set the terminal, browser, and editor. There is no file-manager or text-editor role in `omarchy default`. `omarchy default editor` is the coding editor used by `omarchy-launch-editor` (Super+Shift+N), and Typora is not one of its choices, so that role stays Zed.
 
 | Role | Choice | Set with |
 | --- | --- | --- |
@@ -59,7 +59,7 @@ The Omarchy `install` commands set the terminal, browser, and editor. Flea sets 
 | Browser | Brave Origin | `omarchy default browser brave-origin` |
 | Editor | Zed | `omarchy default editor zed` |
 | Agent | Grok | `omarchy default agent grok` |
-| File manager | Flea | `flea --default` |
+| File manager | Files | `xdg-mime default folio.desktop inode/directory` ([folio.md](Apps/folio.md)) |
 | Markdown files | Typora | `xdg-mime default typora.desktop text/markdown text/x-markdown` |
 
 Qutebrowser is installed as well. The default browser stays Brave Origin.
@@ -67,7 +67,7 @@ Qutebrowser is installed as well. The default browser stays Brave Origin.
 ### App Specifics
 
 - Typora is the writing app on Super+Shift+W, and the opener for a single Markdown file (`*.md`, `*.mkd`, `*.markdown`). Those names are `text/markdown`, with alias `text/x-markdown`. Both are set to `typora.desktop` in `~/.config/mimeapps.list`. `text/plain` stays Neovim. Typora keeps its own themes, so an Omarchy theme switch does not recolor it. A license is a one-time purchase for three devices, with a 15-day trial; activate it from Help → My License…. Linux counts as its own device beside the Mac copy. The license dialog stays inside its frame on this display: [typora.md](Apps/typora.md). OmaWrite stays installed.
-- File manager Flae: [flea.md](Apps/flea.md)
+- File manager Files: [folio.md](Apps/folio.md)
 - Cloud drive MEGA: [mega.md](Apps/mega.md)
 - Qutebrowser: [qutebrowser/README.md](Apps/qutebrowser/README.md)
 
@@ -86,7 +86,7 @@ Qutebrowser is installed as well. The default browser stays Brave Origin.
 | RetroArch database | 0.33 | `omarchy pkg drop libretro-database-git` |
 | Nautilus | 0.03 | `omarchy pkg drop nautilus nautilus-python` |
 
-Drop Nautilus after `flea --default`. `nautilus-python` depends on `nautilus`, and both are explicit stock installs, so the command names both.
+Drop Nautilus after Files is the folder handler. `nautilus-python` depends on `nautilus`, and both are explicit stock installs, so the command names both.
 
 To free up that space on disk, you may want to delete system snapshots also, using `snapper`:
 ```bash
@@ -98,7 +98,14 @@ sudo snapper -c root delete 1-5
 
 Personal overrides live in `~/.config/hypr/bindings.lua` (loaded after Omarchy defaults). Check current bindings with `omarchy menu keybindings --print`. If a key already has a default, `hl.unbind(...)` it before the new `o.bind(...)`.
 
-Super+Shift+F and Super+Alt+Shift+F belong to Flea ([flea.md](Apps/flea.md)). `flea --default` writes them between the `flea --default` marker lines, and `flea --default off` removes that block whole. Leave the marker block alone when editing other bindings.
+Super+Shift+F and Super+Alt+Shift+F open Files ([folio.md](Apps/folio.md)):
+
+```lua
+hl.unbind("SUPER + SHIFT + F")
+o.bind("SUPER + SHIFT + F", "File manager", { launch = "folio" })
+hl.unbind("SUPER + ALT + SHIFT + F")
+o.bind("SUPER + ALT + SHIFT + F", "File manager (cwd)", { launch = 'folio "$(omarchy-cmd-terminal-cwd)"' })
+```
 
 Super + Shift + G → Lazygit (cwd of the open terminal): [lazygit.md](Apps/lazygit.md)
 
